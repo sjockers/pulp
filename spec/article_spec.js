@@ -34,35 +34,40 @@ describe("pulp.Article", function() {
 
 
 	describe("fetch article content", function() {
-
-  	var request;
-  	var successArgs;
-	  var onSuccess, onFailure;
+		var server;
+		var successCallback
 		
 		beforeEach(function() {
+			server = sinon.fakeServer.create();
+			server.respondWith("GET", "./article.html", ArticlesResponse.success);			
+			successCallback = sinon.spy();			
+		});
+		
+		afterEach(function() {
+			server.restore();
+		});	
 
-	    jasmine.Ajax.useMock();
-
-	    onSuccess = jasmine.createSpy('onSuccess');
-	    onFailure = jasmine.createSpy('onFailure');
-
-	    article.fetch({
-	      onSuccess: onSuccess,
-				onFailure: onFailure
-	    });
-
-	    request = mostRecentAjaxRequest();
-	    request.response(TOCResponse.success);
-	    successArgs = onSuccess.mostRecentCall.args[0];
-
-	  });
-
-	  it("should return a content string", function() {	
-			expect(onSuccess).toHaveBeenCalledWith(jasmine.any(String));
+	  it("should return a string", function() {	
+			article.fetch(successCallback);
+			server.respond();
+			
+			expect( successCallback.args[0][0] ).toEqual( jasmine.any(String) );		
 		});
 		
 	  it("should store the content string after it's fetched from the server", function() {	
-			expect(successArgs).toEqual(article.content);
+			article.fetch(successCallback);			
+			server.respond();
+
+			expect( article.content ).toEqual( successCallback.args[0][0] );			
+		});
+	
+	  it("should notify observers once the content was downloaded", function() {	
+			
+			article.observe( pulp.events.CONTENT_LOADED, successCallback );
+			article.fetch();			
+			server.respond();
+
+			expect( successCallback ).toHaveBeenCalled();			
 		});
 	
 	});

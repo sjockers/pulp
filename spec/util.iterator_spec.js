@@ -2,6 +2,7 @@
 describe("util.iterator", function() {
 
 	var articles;
+	var iterator;
 
 	beforeEach(function() {
 			
@@ -12,26 +13,27 @@ describe("util.iterator", function() {
 			new pulp.Article ({ title : "Article 3", url : "/path/to/article3" }),
 		];
 		
-		pulp.model.articles.clear();
+		iterator = new pulp.util.Iterator();
 	
 	});
 
 	describe("add", function() {
 
 		it("should store instances of pulp.Article", function() {
-			pulp.model.articles.add( articles[0] );
+			iterator.add( articles[0] );
 			
-			expect( pulp.model.articles.current() ).toBe( articles[0] );			
+			expect( iterator.current() ).toBe( articles[0] );			
 		});
 	
 		it("should store arbitrary objects", function() {
-			pulp.model.articles.add( new pulp.Article() );
-			pulp.model.articles.add( "hello" );
-			pulp.model.articles.add( [3,7,1,5,3] );
 		
-			expect( pulp.model.articles.current() ).toEqual( jasmine.any(pulp.Article) );
-			expect( pulp.model.articles.next() ).toEqual( jasmine.any(String) );
-			expect( pulp.model.articles.next() ).toEqual( jasmine.any(Array) );
+			iterator.add( new pulp.Article() );
+			iterator.add( "hello" );
+			iterator.add( [3,7,1,5,3] );	
+			
+			expect( iterator.current() ).toEqual( jasmine.any(pulp.Article) );
+			expect( iterator.next() ).toEqual( jasmine.any(String) );
+			expect( iterator.next() ).toEqual( jasmine.any(Array) );
 		});
 	
 	});
@@ -39,12 +41,12 @@ describe("util.iterator", function() {
 	describe("init", function() {
 
 		it("should initialize with an array", function() {
-			pulp.model.articles.init( articles );
+			iterator.init( articles );
 		
-			expect( pulp.model.articles.current() ).toBe( articles[0] );
-			expect( pulp.model.articles.next() ).toBe( articles[1] );
-			expect( pulp.model.articles.next() ).toBe( articles[2] );
-			expect( pulp.model.articles.next() ).toBe( articles[3] );
+			expect( iterator.current() ).toBe( articles[0] );
+			expect( iterator.next() ).toBe( articles[1] );
+			expect( iterator.next() ).toBe( articles[2] );
+			expect( iterator.next() ).toBe( articles[3] );
 		});
 		
 	});
@@ -52,19 +54,19 @@ describe("util.iterator", function() {
 	describe("get", function() {
 			
 		it("should return the specified article for #get", function() {
-			pulp.model.articles.init( articles );	
+			iterator.init( articles );	
 						
-			expect( pulp.model.articles.get("url", articles[3].url) ).toBe( articles[3] );				
-			expect( pulp.model.articles.get("url", articles[2].url) ).toBe( articles[2] );				
-			expect( pulp.model.articles.get("url", articles[1].url) ).toBe( articles[1] );				
-			expect( pulp.model.articles.get("url", articles[0].url) ).toBe( articles[0] );
+			expect( iterator.get("url", articles[3].url) ).toBe( articles[3] );				
+			expect( iterator.get("url", articles[2].url) ).toBe( articles[2] );				
+			expect( iterator.get("url", articles[1].url) ).toBe( articles[1] );				
+			expect( iterator.get("url", articles[0].url) ).toBe( articles[0] );
 							
 		});	
 		
 		it("should return null for #get if there is no item for that property/key combination", function() {
-			pulp.model.articles.init( articles );	
+			iterator.init( articles );	
 			
-			expect( pulp.model.articles.get("url", "bla bla bla" ) ).toBe( null );							
+			expect( iterator.get("url", "bla bla bla" ) ).toBe( null );							
 		});	
 		
 	});	
@@ -72,18 +74,18 @@ describe("util.iterator", function() {
 	describe("next", function() {
 	
 		it("should return the next item", function() {
-			pulp.model.articles.init( articles );	
+			iterator.init( articles );	
 
-			expect( pulp.model.articles.next() ).toBe( articles[1] );
-			expect( pulp.model.articles.next() ).toBe( articles[2] );
+			expect( iterator.next() ).toBe( articles[1] );
+			expect( iterator.next() ).toBe( articles[2] );
 		});
 	
 		it("should return null when are no articles left", function() {
-			pulp.model.articles.add( articles[0] );
-			pulp.model.articles.add( articles[1] );
-			pulp.model.articles.next();
+			iterator.add( articles[0] );
+			iterator.add( articles[1] );
+			iterator.next();
 		
-			expect( pulp.model.articles.next() ).toBe( null );
+			expect( iterator.next() ).toBe( null );
 		});
 
 	});
@@ -91,19 +93,19 @@ describe("util.iterator", function() {
 	describe("previous", function() {
 	
 		it("should return the previous item when #previous is called", function() {
-			pulp.model.articles.init( articles );	
-			pulp.model.articles.next();
-			pulp.model.articles.next();
+			iterator.init( articles );	
+			iterator.next();
+			iterator.next();
 
-			expect( pulp.model.articles.previous() ).toBe( articles[1] );
-			expect( pulp.model.articles.previous() ).toBe( articles[0] );
+			expect( iterator.previous() ).toBe( articles[1] );
+			expect( iterator.previous() ).toBe( articles[0] );
 		});
 	
 		it("should return null when #previous is called and there are no articles left", function() {
-			pulp.model.articles.add( articles[0] );
-			pulp.model.articles.previous();
+			iterator.add( articles[0] );
+			iterator.previous();
 		
-			expect( pulp.model.articles.previous() ).toBe( null );
+			expect( iterator.previous() ).toBe( null );
 		});
 	
 	});
@@ -111,10 +113,10 @@ describe("util.iterator", function() {
 	describe("rewind", function() {
 		
 		it("should jump back to the first item", function() {
-			pulp.model.articles.init( articles );	
+			iterator.init( articles );	
 							
-			expect( pulp.model.articles.current() ).toBe( articles[0] );
-			pulp.model.articles.next();				
+			expect( iterator.current() ).toBe( articles[0] );
+			iterator.next();				
 		});
 
 	})
@@ -122,15 +124,15 @@ describe("util.iterator", function() {
 	describe("current", function() {
 		
 		it("should return the current item", function() {
-			pulp.model.articles.init( articles );	
+			iterator.init( articles );	
 							
-			expect( pulp.model.articles.current() ).toBe( articles[0] );
-			pulp.model.articles.next();				
-			expect( pulp.model.articles.current() ).toBe( articles[1] );
+			expect( iterator.current() ).toBe( articles[0] );
+			iterator.next();				
+			expect( iterator.current() ).toBe( articles[1] );
 		});
 		
 		it("should return null if empty", function() {
-			expect( pulp.model.articles.current() ).toBe( null );
+			expect( iterator.current() ).toBe( null );
 		});
 		
 	})
