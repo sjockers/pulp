@@ -2,9 +2,9 @@
 
 !function( pulp, $ ) {
 
-	var model = Object.create(pulp.util.observable);
-		
-	model.articles = new pulp.util.Collection();
+	var model = new pulp.util.Module;
+	model.extend(pulp.util.observable);	
+	model.articles = new pulp.util.Collection;
 						
 	model.getToc = function(pathToToc) {
 		fetchTocFromServer( pathToToc, function(data) {
@@ -14,7 +14,7 @@
 		});
 	}
 			
-	var fetchTocFromServer = function( url, successCallback, failureCallback ) {												
+	function fetchTocFromServer( url, successCallback, failureCallback ) {												
 		$.ajax({
 			type: "GET",
 			url: url,
@@ -27,7 +27,7 @@
 		});			
 	}	
 
-	var parseArticleItems = function(htmlFragment) {
+	function parseArticleItems(htmlFragment) {
 		var items = $(htmlFragment).find("[itemscope]");				
 		var articles = $.map( items, function(item) {
 			var i = $(item);
@@ -40,9 +40,7 @@
 		return articles;			
 	}
 
-	// expose model (module pattern)
-	pulp.model = pulp.model || function() {
-	 	return model;
-	}();
+	// expose to namespace
+	pulp.model = pulp.model || model;
 	   
 }( window.pulp = window.pulp || {}, jQuery );

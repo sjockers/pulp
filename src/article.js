@@ -3,7 +3,7 @@
 !function( pulp, $ ) {
 		
 		// costructor function		
-		pulp.Article = function(ressource) {
+		pulp.Article =	function(ressource) {
 		  ressource = ressource || {};
 			
 			this.url = ressource.url;
