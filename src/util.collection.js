@@ -4,7 +4,7 @@
 	pulp.util = pulp.util || {};
 	
 	// expose public functions:
-	pulp.util.Iterator = function() {
+	pulp.util.Collection = function() {
 		
 		var index = 0;
 		var data = [];

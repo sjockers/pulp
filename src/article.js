@@ -1,6 +1,6 @@
 "use strict"
 
-!function( pulp, $, undefined ) {
+!function( pulp, $ ) {
 		
 		// costructor function		
 		pulp.Article = function(ressource) {

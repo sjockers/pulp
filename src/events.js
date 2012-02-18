@@ -1,6 +1,6 @@
 "use strict"
 
-!function( pulp, $, undefined ) {
+!function( pulp, $ ) {
 
 	pulp.events = {
 		TOC_LOADED : "TOC loaded!",

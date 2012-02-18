@@ -1,10 +1,10 @@
 "use strict"
 
-!function( pulp, $, undefined ) {
+!function( pulp, $ ) {
 
 	var model = Object.create(pulp.util.observable);
 		
-	model.articles = new pulp.util.Iterator();
+	model.articles = new pulp.util.Collection();
 						
 	model.getToc = function(pathToToc) {
 		fetchTocFromServer( pathToToc, function(data) {

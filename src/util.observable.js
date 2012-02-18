@@ -1,4 +1,6 @@
-!function( pulp, $, undefined ) {
+"use strict"
+
+!function( pulp, $ ) {
 
 	function _observers(observable, event) {
 		if (!observable.observers) {
@@ -19,6 +21,10 @@
 		
 		if (typeof observer != "function") {
 			throw new TypeError("not a function"); 
+		}
+		
+		if (typeof event != "string") {
+			throw new TypeError("not a valid event identifier"); 
 		}
 		
 		_observers(this, event).push(observer);
