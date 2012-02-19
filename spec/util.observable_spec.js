@@ -60,8 +60,6 @@ describe("pulp.util.observer", function() {
 			
 			it("should not fail if no observers are present", function() {
 				var notifyObservers = function(test) {
-					console.log(this);
-
 					observable.notify("event");
 				};
 				

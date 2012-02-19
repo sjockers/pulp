@@ -17,6 +17,8 @@
 			  this.title = ressource.title;
 			  this.thumbnail = ressource.thumbnail;
 			  this.byline = ressource.byline;
+			  this.content = ressource.content;
+
 			},
 			
 			fetch: function(successCallback) {												

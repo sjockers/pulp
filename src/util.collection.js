@@ -20,11 +20,12 @@
 				data.push(item);
 			},
 
-			get: function (property, key) {
+			find: function (property, key) {
 				var i=data.length;
 				while (i > 0) {
 					i--;
 					if (data[i][property] == key) {
+						index = i;
 						return data[i];
 					}
 				}

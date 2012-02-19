@@ -2,58 +2,58 @@
 
 !function( pulp, $ ) {
 
-	var module = function(parent){  
-	  var result = function(){
+	var closure = function(parent){  
+	  var Module = function(){
 	    this.init.apply(this, arguments);
 	  };
 
-	  result.prototype.init  = function(){};
+	  Module.prototype.init = function(){};
 
 	  if (parent){
 	    for(var i in parent){
-	      result[i] = SuperClass.clone(parent[i]);
+	      Module[i] = SuperClass.clone(parent[i]);
 	    }
 	    for(var i in parent.prototype){
-	      result.prototype[i] = SuperClass.clone(parent.prototype[i]);
+	      Module.prototype[i] = SuperClass.clone(parent.prototype[i]);
 	    }
-	    result._super = parent;
-	    result.prototype._super = parent.prototype;
+	    Module._super = parent;
+	    Module.prototype._super = parent.prototype;
 	  }
 
-	  result.extend = function(obj){
+	  Module.extend = function(obj){
 	    var extended = obj.extended;
 	    for(var i in obj){
-	      result[i] = obj[i];
+	      Module[i] = obj[i];
 	    }
-	    if (extended) extended(result)
+	    if (extended) extended(Module)
 	  };
 
-	  result.include = function(obj){
+	  Module.include = function(obj){
 	    var included = obj.included;
 	    for(var i in obj){
-	      result.prototype[i] = obj[i];
+	      Module.prototype[i] = obj[i];
 	    }
-	    if (included) included(result)
+	    if (included) included(Module)
 	  };
 
-	  result.proxy = function(func){
+	  Module.proxy = function(func){
 	    var thisObject = this;
 	    return(function(){ 
 	      return func.apply(thisObject, arguments); 
 	    });
 	  }
 	
-	  result.prototype.proxy = result.proxy;
+	  Module.prototype.proxy = Module.proxy;
 
-	  result.prototype._class = result;
+	  Module.prototype._class = Module;
 
-	  return result;
+	  return Module;
 	};
 
 	// namespace declaration
 	pulp.util = pulp.util || {};
 	
 	// expose to namespace
-	pulp.util.Module = module;
+	pulp.util.Module = closure;
 
 }( window.pulp = window.pulp || {}, jQuery );

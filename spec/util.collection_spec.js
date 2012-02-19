@@ -51,22 +51,22 @@ describe("util.collection", function() {
 		
 	});
 
-	describe("get", function() {
+	describe("find", function() {
 			
 		it("should return the specified article for #get", function() {
 			collection.init( articles );	
 						
-			expect( collection.get("url", articles[3].url) ).toBe( articles[3] );				
-			expect( collection.get("url", articles[2].url) ).toBe( articles[2] );				
-			expect( collection.get("url", articles[1].url) ).toBe( articles[1] );				
-			expect( collection.get("url", articles[0].url) ).toBe( articles[0] );
+			expect( collection.find("url", articles[3].url) ).toBe( articles[3] );				
+			expect( collection.find("url", articles[2].url) ).toBe( articles[2] );				
+			expect( collection.find("url", articles[1].url) ).toBe( articles[1] );				
+			expect( collection.find("url", articles[0].url) ).toBe( articles[0] );
 							
 		});	
 		
 		it("should return null for #get if there is no item for that property/key combination", function() {
 			collection.init( articles );	
 			
-			expect( collection.get("url", "bla bla bla" ) ).toBe( null );							
+			expect( collection.find("url", "bla bla bla" ) ).toBe( null );							
 		});	
 		
 	});	
