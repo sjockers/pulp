@@ -3,34 +3,39 @@
 !function( pulp, $ ) {
 		
 		// costructor function		
-		pulp.Article = function(ressource) {
-		  ressource = ressource || {};
-			
-			this.url = ressource.url;
-		  this.title = ressource.title;
-		  this.thumbnail = ressource.thumbnail;
-		  this.byline = ressource.byline;
-		};
-		
+		pulp.Article = new pulp.util.Module; 
+
 		// make instances observable: 
-		pulp.Article.prototype = new pulp.util.Module;		
-		pulp.Article.prototype.extend(pulp.util.observable);
+		pulp.Article.include(pulp.util.observable);
 		
-		pulp.Article.prototype.fetch = function( successCallback ) {												
-			var self = this;				
+		pulp.Article.include({
 			
-			function onSuccess(data){
-				self.content = extractContent(data);
-				self.notify(pulp.events.CONTENT_LOADED);
-				typeof successCallback == "function" && successCallback(self.content);				
+			init: function(ressource) {
+			  ressource = ressource || {};
+
+				this.url = ressource.url;
+			  this.title = ressource.title;
+			  this.thumbnail = ressource.thumbnail;
+			  this.byline = ressource.byline;
+			},
+			
+			fetch: function(successCallback) {												
+				var self = this;				
+
+				function onSuccess(data){
+					self.content = extractContent(data);
+					self.notify(pulp.events.CONTENT_LOADED);
+					typeof successCallback == "function" && successCallback(self.content);				
+				}
+
+				$.ajax({
+					type: "GET",
+					url: this.url,
+				  success: onSuccess
+				});			
 			}
 			
-			$.ajax({
-				type: "GET",
-				url: this.url,
-			  success: onSuccess
-			});			
-		}
+		});
 		
 		function extractContent( htmlString ) {
 			// extract the content from the body-element using reg-ex
