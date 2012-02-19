@@ -36,8 +36,12 @@
 	};
 	
 	function notify(event) {
-		var args = Array.prototype.slice.call(arguments, 1);
+		if (typeof event != "string") {
+			throw new TypeError("not a valid event identifier"); 
+		}
+		
 		var observers  = _observers(this, event);
+		var args = Array.prototype.slice.call(arguments, 1);
 
 		$.each(observers, function() {			
 			try {
