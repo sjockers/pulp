@@ -3,7 +3,7 @@
 !function( pulp, $ ) {
 		
 		// costructor function		
-		pulp.Article =	function(ressource) {
+		pulp.Article = function(ressource) {
 		  ressource = ressource || {};
 			
 			this.url = ressource.url;
@@ -13,19 +13,22 @@
 		};
 		
 		// make instances observable: 
-		pulp.Article.prototype = Object.create(pulp.util.observable);
+		pulp.Article.prototype = new pulp.util.Module;		
+		pulp.Article.prototype.extend(pulp.util.observable);
 		
 		pulp.Article.prototype.fetch = function( successCallback ) {												
 			var self = this;				
 			
+			function onSuccess(data){
+				self.content = extractContent(data);
+				self.notify(pulp.events.CONTENT_LOADED);
+				typeof successCallback == "function" && successCallback(self.content);				
+			}
+			
 			$.ajax({
 				type: "GET",
 				url: this.url,
-			  success: function(data) {
-					self.content = extractContent(data);
-					self.notify(pulp.events.CONTENT_LOADED);
-					typeof successCallback == "function" && successCallback(self.content);
-				}
+			  success: onSuccess
 			});			
 		}
 		
