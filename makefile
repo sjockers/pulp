@@ -24,4 +24,4 @@ pulp-dev.js: ${files}
 
 # Compress pulp-dev.js into spark.js
 pulp.js: pulp-dev.js
-	java -jar closure-compiler/compiler.jar --js $^ --js_output_file $@
+	java -jar closure-compiler/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js $^ --js_output_file $@
