@@ -29,11 +29,9 @@ describe("util.collection", function() {
 		
 			collection.add( new pulp.Article() );
 			collection.add( "hello" );
-			collection.add( [3,7,1,5,3] );	
 			
 			expect( collection.current() ).toEqual( jasmine.any(pulp.Article) );
 			expect( collection.next() ).toEqual( jasmine.any(String) );
-			expect( collection.next() ).toEqual( jasmine.any(Array) );
 		});
 	
 	});
@@ -44,16 +42,16 @@ describe("util.collection", function() {
 			collection.init( articles );
 		
 			expect( collection.current() ).toBe( articles[0] );
-			expect( collection.next() ).toBe( articles[1] );
-			expect( collection.next() ).toBe( articles[2] );
-			expect( collection.next() ).toBe( articles[3] );
+			expect( collection.find("url", articles[1].url) ).toBe( articles[1] );
+			expect( collection.find("url", articles[2].url) ).toBe( articles[2] );
+			expect( collection.find("url", articles[3].url) ).toBe( articles[3] );
 		});
 		
 	});
 
 	describe("find", function() {
 			
-		it("should return the specified article for #get", function() {
+		it("should return the specified article for #find", function() {
 			collection.init( articles );	
 						
 			expect( collection.find("url", articles[3].url) ).toBe( articles[3] );				
@@ -63,7 +61,7 @@ describe("util.collection", function() {
 							
 		});	
 		
-		it("should return null for #get if there is no item for that property/key combination", function() {
+		it("should return null for #find if there is no item for that property/key combination", function() {
 			collection.init( articles );	
 			
 			expect( collection.find("url", "bla bla bla" ) ).toBe( null );							
@@ -77,13 +75,10 @@ describe("util.collection", function() {
 			collection.init( articles );	
 
 			expect( collection.next() ).toBe( articles[1] );
-			expect( collection.next() ).toBe( articles[2] );
 		});
 	
 		it("should return null when are no articles left", function() {
 			collection.add( articles[0] );
-			collection.add( articles[1] );
-			collection.next();
 		
 			expect( collection.next() ).toBe( null );
 		});
@@ -94,16 +89,13 @@ describe("util.collection", function() {
 	
 		it("should return the previous item when #previous is called", function() {
 			collection.init( articles );	
-			collection.next();
-			collection.next();
-
-			expect( collection.previous() ).toBe( articles[1] );
+			collection.find("url", articles[1].url);
+			
 			expect( collection.previous() ).toBe( articles[0] );
 		});
 	
 		it("should return null when #previous is called and there are no articles left", function() {
 			collection.add( articles[0] );
-			collection.previous();
 		
 			expect( collection.previous() ).toBe( null );
 		});
@@ -114,9 +106,9 @@ describe("util.collection", function() {
 		
 		it("should jump back to the first item", function() {
 			collection.init( articles );	
+			collection.rewind();				
 							
 			expect( collection.current() ).toBe( articles[0] );
-			collection.next();				
 		});
 
 	})
@@ -127,8 +119,6 @@ describe("util.collection", function() {
 			collection.init( articles );	
 							
 			expect( collection.current() ).toBe( articles[0] );
-			collection.next();				
-			expect( collection.current() ).toBe( articles[1] );
 		});
 		
 		it("should return null if empty", function() {

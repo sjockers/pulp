@@ -1,4 +1,4 @@
-describe("pulp.app", function() {
+xdescribe("pulp.app", function() {
 
 	var tocReference = $("<link rel='toc' href='/toc.html' />");
 
@@ -17,16 +17,5 @@ describe("pulp.app", function() {
 		expect( pulp.model.getToc ).toHaveBeenCalledWith( tocReference.attr("href") );
   });
 
-  it("should add an article view to the current page", function() {
-		pulp.app.init();
-		pulp.model.articles.add(new pulp.Article({
-			title :  "Lorem Ipsum",
-			url :    "./lorem/ipsum/"		
-		}))
-		pulp.app.showArticle("./lorem/ipsum/");
-		
-		expect( pulp.model.articles.current().url ).toEqual( "./lorem/ipsum/")
-		expect( $("body").find("Lorem Ipsum") ).toBeTruthy();
-  });
 
 });

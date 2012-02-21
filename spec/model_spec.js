@@ -39,14 +39,8 @@ describe("pulp.model", function() {
 	describe("articles", function() {
 		
 		it("should contain instances of pulp.Article", function() {
-		//	expect(pulp.model.articles.current()).toEqual(jasmine.any(pulp.Article));
+			expect( pulp.model.articles.current() ).toEqual( jasmine.any(pulp.Article) );
 		});
-				
-		// it("should contain pulp.Article", function() {
-		// 	var article = pulp.model.articles.current();
-		// 	
-		// 	expect(article.content).toEqual(jasmine.any(String));
-		// });
 		
 	});	
 	

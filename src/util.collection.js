@@ -40,19 +40,17 @@
 			},
 			
 			next: function () {
-				index++;
 				if (!this.hasNext()) {
 					return null;
 				}
-				return data[index];					
+				return data[index+1];					
 			},
 
 			previous: function () {
-				index--;
 				if (!this.hasPrevious()) {
 					return null;
 				}						 
-				return data[index];
+				return data[index-1];
 			},
 
 			rewind: function () {
@@ -69,11 +67,11 @@
 			},
 
 			hasNext: function () {
-				return index < data.length;
+				return index+1 < data.length;
 			},
 
 			hasPrevious: function () {
-				return index >= 0;
+				return index > 0;
 			}
 	
 		}

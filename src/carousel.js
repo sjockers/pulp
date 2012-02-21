@@ -4,12 +4,29 @@
 
 	var carousel = new pulp.util.Module;
 	
-	app.init = function(){
-		var url = $("link[rel='toc']").attr("href");
-		pulp.model.getToc(url);
-	};
+	var articles = pulp.model.articles;
+	
+	carousel.extend({
+
+		views: {
+			previous: null,
+			current: null,
+			next: null
+		},
+		
+		display: function(path) {	
+			articles.find("url", path);
+
+			articles.current().observe( pulp.events.CONTENT_LOADED, function(){
+				carousel.views.previous = new pulp.View(articles.previous());
+				carousel.views.next = new pulp.View(articles.next());
+			})
+
+			this.views.current =  new pulp.View(articles.current());
+		},		
+	});
 	
 	// expose to namespace
-	pulp.app = pulp.app || app;
+	pulp.carousel = pulp.carousel || carousel;
 
 }( window.pulp = window.pulp || {}, jQuery );
