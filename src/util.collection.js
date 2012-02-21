@@ -1,4 +1,5 @@
-!function( pulp, $, undefined ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	// namespace declaration
 	pulp.util = pulp.util || {};
@@ -77,4 +78,4 @@
 		}
 	}	
 
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

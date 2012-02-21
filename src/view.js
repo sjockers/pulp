@@ -1,7 +1,6 @@
-"use strict"
+(function( pulp, $ ) {
+	"use strict"
 
-!function( pulp, $ ) {
-		
 	var View = new pulp.util.Module; 
 
 	// make instances observable: 
@@ -27,4 +26,4 @@
 	// expose to namespace
 	pulp.View = pulp.View || View;		
 		   
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

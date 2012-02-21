@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	var controller = new pulp.util.Module;
 	controller.extend(pulp.util.observable);
@@ -34,4 +33,4 @@
 	// expose to namespace
 	pulp.controller = pulp.controller || controller;
 
-}( window.pulp = window.pulp || {}, jQuery );	
+})( window.pulp = window.pulp || {}, jQuery );

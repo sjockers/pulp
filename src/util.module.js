@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	var closure = function(parent){  
 	  var Module = function(){
@@ -56,4 +55,4 @@
 	// expose to namespace
 	pulp.util.Module = closure;
 
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	var carousel = new pulp.util.Module;
 	
@@ -29,4 +28,4 @@
 	// expose to namespace
 	pulp.carousel = pulp.carousel || carousel;
 
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

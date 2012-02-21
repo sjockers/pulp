@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	var app = new pulp.util.Module;
 	
@@ -12,4 +11,4 @@
 	// expose to namespace
 	pulp.app = pulp.app || app;
 
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

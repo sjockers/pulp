@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	function _observers(observable, event) {
 		if (!observable.observers) {
@@ -60,4 +59,4 @@
 		notify: notify
 	}
 	   
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );

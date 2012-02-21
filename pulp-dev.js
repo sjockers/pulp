@@ -1,6 +1,5 @@
-"use strict"
-
-!function( pulp, $ ) {
+(function( pulp, $ ) {
+	"use strict"
 
 	var app = new pulp.util.Module;
 	
@@ -12,10 +11,9 @@
 	// expose to namespace
 	pulp.app = pulp.app || app;
 
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
-!function( pulp, $ ) {
-		
 	var Article = new pulp.util.Module; 
 
 	// make instances observable: 
@@ -64,9 +62,8 @@
 	// expose to namespace
 	pulp.Article = pulp.Article || Article;		
 		   
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	var carousel = new pulp.util.Module;
 	
@@ -95,9 +92,8 @@
 	// expose to namespace
 	pulp.carousel = pulp.carousel || carousel;
 
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	var controller = new pulp.util.Module;
 	controller.extend(pulp.util.observable);
@@ -131,18 +127,16 @@
 	// expose to namespace
 	pulp.controller = pulp.controller || controller;
 
-}( window.pulp = window.pulp || {}, jQuery );	"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	pulp.events = {
 		TOC_LOADED : "TOC loaded!",
 		CONTENT_LOADED : "Content loaded!"
 	}
 
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	var model = new pulp.util.Module;
 	model.extend(pulp.util.observable);	
@@ -185,7 +179,8 @@
 	// expose to namespace
 	pulp.model = pulp.model || model;
 	   
-}( window.pulp = window.pulp || {}, jQuery );!function( pulp, $, undefined ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	// namespace declaration
 	pulp.util = pulp.util || {};
@@ -264,9 +259,8 @@
 		}
 	}	
 
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	var closure = function(parent){  
 	  var Module = function(){
@@ -322,9 +316,8 @@
 	// expose to namespace
 	pulp.util.Module = closure;
 
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
-
-!function( pulp, $ ) {
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
 	function _observers(observable, event) {
 		if (!observable.observers) {
@@ -384,10 +377,9 @@
 		notify: notify
 	}
 	   
-}( window.pulp = window.pulp || {}, jQuery );"use strict"
+})( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
+	"use strict"
 
-!function( pulp, $ ) {
-		
 	var View = new pulp.util.Module; 
 
 	// make instances observable: 
@@ -413,4 +405,4 @@
 	// expose to namespace
 	pulp.View = pulp.View || View;		
 		   
-}( window.pulp = window.pulp || {}, jQuery );
+})( window.pulp = window.pulp || {}, jQuery );
