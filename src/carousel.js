@@ -23,7 +23,7 @@
 			})
 
 			this.views.current =  new pulp.View(articles.current());
-		},		
+		}
 	});
 	
 	// expose to namespace
