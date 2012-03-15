@@ -6,11 +6,18 @@
 	model.articles = new pulp.util.Collection;
 						
 	model.getToc = function(pathToToc) {
-		fetchTocFromServer( pathToToc, function(data) {
+		
+		function success (data) {
 			var articleArray = parseArticleItems(data);
 			model.articles.init(articleArray);
 			model.notify(pulp.events.TOC_LOADED);
-		});
+		}
+		
+		function failure (error) {
+			pulp.log("Table of contents could not be loaded!", error)
+		}
+		
+		fetchTocFromServer( pathToToc, success, failure );
 	}
 			
 	function fetchTocFromServer( url, successCallback, failureCallback ) {												
@@ -21,7 +28,7 @@
 				typeof successCallback == "function" && successCallback(data);
 			},
 			error: function (xhr, status, exception) {
-				typeof failureCallback == "function" && failureCallback(status);
+				typeof failureCallback == "function" && failureCallback(exception);
 			}				
 		});			
 	}	
