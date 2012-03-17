@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Article 3</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- /ht Andy Clarke - http://front.ie/lkCwyf -->
+	<meta http-equiv="cleartype" content="on">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" href="/link/to/favicon.ico">
+	<link rel="apple-touch-icon" href="/link/to/apple-touch-icon.png">
+
+	<!-- /ht Jeremy Keith - http://front.ie/mLXiaS -->
+	<link rel="stylesheet" href="../css/global.css" media="all">
+	<link rel="stylesheet" href="../css/layout.css" media="all and (min-width: 33.236em)">
+	<!-- 30em + (1.618em * 2) = 33.236em / Eliminates potential of horizontal scrolling in most cases -->
+
+	<!--[if (lt IE 9) & (!IEMobile)]>
+	<link rel="stylesheet" href="css/example/layout.css" media="all">
+	<![endif]-->
+
+
+	<!-- external libs -->
+	<script src="../lib/modernizr-1.7.min.js"></script>
+	<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
+
+	<!-- include source files here... -->
+	<script type="text/javascript" src="../src/util.module.js"></script>
+	<script type="text/javascript" src="../src/util.observable.js"></script>
+	<script type="text/javascript" src="../src/util.collection.js"></script>
+	<script type="text/javascript" src="../src/util.renderable.js"></script>
+	<script type="text/javascript" src="../src/util.log.js"></script>
+	<script type="text/javascript" src="../src/events.js"></script>
+	<script type="text/javascript" src="../src/article.js"></script>
+	<script type="text/javascript" src="../src/model.js"></script>
+	<script type="text/javascript" src="../src/view.js"></script>
+	<script type="text/javascript" src="../src/controller.js"></script>
+	<script type="text/javascript" src="../src/carousel.js"></script>
+	<script type="text/javascript" src="../src/app.js"></script>
+
+	<!-- custom initialization -->
+	<script type="text/javascript" src="script.js"></script>
+
+</head>
+
+<body>
+	
+<section class="main">	
+			
+	<article id="pulp">
+
+		<h1>Lorem Ipsum 3</h1>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	
+	</article>
+	
+</section>
+	
+<!-- UI Templates -->
+<script type="text/html" id="item_tmpl">
+  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
+    <div class="grid_1 alpha right">
+      <img class="righted" src="<%=profile_image_url%>"/>
+    </div>
+    <div class="grid_6 omega contents">
+      <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="carousel_tmpl">
+  <ul id="carousel">
+  	<li class="article-container" id="container-0"></li>
+  	<li class="article-container" id="container-1"></li>
+    <li class="article-container" id="container-2"></li>
+  </div>
+</script>
+
+<script type="text/html" id="view_tmp">
+  <div class="wrapper">
+		<%=content%>
+	</div>
+</script>
+
+<script type="text/html" id="original_tmp">
+  <div id="pulp-original"></div>
+</script>
+
+</body>
+</html>
