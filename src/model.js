@@ -43,6 +43,7 @@
 				byline : i.find("[itemprop='byline']").text()
 			}); 
 		});
+		
 		return articles;			
 	}
 

@@ -30,6 +30,7 @@
 
 			$.ajax({
 				type: "GET",
+				dataType: "html",
 				url: this.url,
 			  success: onSuccess
 			});			
@@ -40,8 +41,10 @@
 	Article.extend({
 		
 		extractContent: function(htmlString) {
-			// extract the content from the body-element using reg-ex
-			return htmlString.split(/<\/?body[^>]*>/)[1];			
+			// remove arbitrary line breaks and extract the content from the body-element using reg-ex
+			var temp = htmlString.replace(/\s*\n\s*/g,' ');			
+			temp = temp.split(/<\/?body[^>]*>/)[1];	
+			return $(temp).find("#pulp").html();		
 		}
 		
 	});

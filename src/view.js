@@ -1,22 +1,25 @@
 (function( pulp, $ ) {
-	"use strict"
 
 	var View = new pulp.util.Module; 
-
-	// make instances observable: 
 	View.include(pulp.util.observable);
+	View.include(pulp.util.renderable);
 	
 	View.include({
 		
-		init: function(article) {
-			this.article = article;
-			this.article.observe( pulp.events.CONTENT_LOADED, this.create );
-			this.article.fetch();
+		article: null,
+				
+		init: function(article, target) {
+			var view = this;
+			view.article = article;
+			
+			view.article.observe( pulp.events.CONTENT_LOADED, function(){
+				view.create("view_tmp", view.article);
+				view.render(target);
+			});
+			
+			view.article.fetch();
 		},
 		
-		create: function() {
-			$("body").append(this.article.content);			
-		}
 	});
 	
 	View.extend({

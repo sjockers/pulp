@@ -45,13 +45,6 @@ describe("pulp.Article", function() {
 		
 		afterEach(function() {
 			server.restore();
-		});	
-
-	  it("should return a string", function() {	
-			article.fetch(successCallback);
-			server.respond();
-			
-			expect( successCallback.args[0][0] ).toEqual( jasmine.any(String) );		
 		});
 		
 	  it("should store the content string after it's fetched from the server", function() {	
