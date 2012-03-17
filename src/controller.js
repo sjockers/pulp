@@ -14,11 +14,22 @@
 			// TODO: Extract content from current page
 			// var content = pulp.Article.extractContent($(document));			
 			var path = window.location.pathname;
-			controller.navigate(path);			
+			controller.navigate(path);
+			
+			//Controls:
+			pulp.ui.navbar.init();		
 		},
 		
 		route: function(path) {
 			
+		},		
+		
+		nextArticle: function() {
+			pulp.carousel.next();		
+		},
+		
+		previousArticle: function() {
+			pulp.carousel.previous();			
 		},
 		
 		navigate: function (path) {

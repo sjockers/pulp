@@ -42,6 +42,7 @@
 	<script type="text/javascript" src="../src/controller.js"></script>
 	<script type="text/javascript" src="../src/carousel.js"></script>
 	<script type="text/javascript" src="../src/app.js"></script>
+	<script type="text/javascript" src="../src/ui.navbar.js"></script>
 
 	<!-- custom initialization -->
 	<script type="text/javascript" src="script.js"></script>
@@ -83,11 +84,13 @@
 </script>
 
 <script type="text/html" id="carousel_tmpl">
-  <ul id="carousel">
-  	<li class="article-container" id="container-0"></li>
-  	<li class="article-container" id="container-1"></li>
-    <li class="article-container" id="container-2"></li>
-  </div>
+  <div id="pulp-carousel">
+		<ul id="slider">
+	  	<li class="article-container" id="container-0"></li>
+	  	<li class="article-container" id="container-1"></li>
+	    <li class="article-container" id="container-2"></li>
+	  </ul
+	</div>
 </script>
 
 <script type="text/html" id="view_tmp">
@@ -99,6 +102,14 @@
 <script type="text/html" id="original_tmp">
   <div id="pulp-original"></div>
 </script>
+
+<script type="text/html" id="navbar_tmp">
+  <div id="pulp-navbar">
+		<button id="pulp-prev">PREV</button>
+		<button id="pulp-next">NEXT</button>
+	</div>
+</script>
+
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* 8. CUSTOM LAYOUT & TYPOGRAPHY (Daddy bear)
 ----------------------------------------------------------------------------------------*/
-#container {
+.wrapper {
 	padding: 1.618em;
 	margin: 0 auto; 
 	max-width: 60em;
@@ -23,20 +23,74 @@
 
 /* PULP!
 ----------------------------------------------------------------------------------------*/
+
+body {
+
+}
+
 #pulp-original {
 	display: none;
 }
 
-#carousel {
-	width: 100%;
-	max-width: 100%;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#carousel .article-container {
-	width: 33%;
+#pulp-carousel .article-container {
+	width: 33.33333%;
 	float: left;
 }
 
+#pulp-navbar {
+	position: absolute;
+}
+
+#pulp-carousel {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#pulp-carousel #slider {
+	position: absolute;
+	left: -100%;
+	width: 300%;
+	max-width: 300%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+/*	-webkit-transition: -webkit-transform 0.8s;
+	-moz-transition: -moz-transform 0.8s;
+	-o-transition: -o-transform 0.8s;*/
+}
+
+#pulp-carousel .article-container {
+	height: 300px;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+#pulp-carousel #slider.slide-left {
+	left: 0;
+	-webkit-transition: left 0.8s;
+	-moz-transition: left 0.8s;
+	-o-transition: left 0.8s;
+/*
+ -webkit-transform: translateX(33.33333%); 
+ -moz-transform: translateX(33.33333%); 
+ -o-transform: translateX(33.33333%);*/
+}
+
+#pulp-carousel #slider.slide-right {
+	left: -200%;
+	-webkit-transition: left 0.8s;
+	-moz-transition: left 0.8s;
+	-o-transition: left 0.8s;
+/* -webkit-transform: translateX(-33.33333%); 
+ -moz-transform: translateX(-33.33333%); 
+ -o-transform: translateX(-33.33333%);	*/
+}
+
+
+
+
+
+/* Scrollbar for webkit browsers only ******************************************/  @media screen and (-webkit-min-device-pixel-ratio:0) and (min-width: 1024px) { html {overflow-y: auto; background-color: transparent;} body {position: absolute; top: 0; left: 0; bottom: 0; right: 10px; overflow-y: scroll; overflow-x: hidden;} }  ::-webkit-scrollbar { width: 8px; height: 10px; } ::-webkit-scrollbar-button:start:decrement { display: block; width: 5px; height: 5px; background-color: transparent; } ::-webkit-scrollbar-button:end:increment { display: block; width: 5px; height: 5px; background-color: transparent; } ::-webkit-scrollbar-track:enabled { background-color: transparent; } ::-webkit-scrollbar-track-piece { background-color: transparent; border: none; margin: 8px 0 8px 0; } ::-webkit-scrollbar-thumb:vertical { height: 30px; background-color: rgba(0, 0, 0, 0.5); -webkit-border-radius: 5px; -webkit-box-shadow: 0 1px 1px rgba(255,255,255,0.2) } ::-webkit-scrollbar-thumb:horizontal { width: 30px; background-color: rgba(0, 0, 0, 0.5); -webkit-border-radius: 5px; }

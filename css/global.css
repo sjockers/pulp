@@ -55,7 +55,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /* 2. ROOT
 ----------------------------------------------------------------------------------------*/
 html { 
-  overflow-y: scroll;
   background: #FFF;
   }
 
