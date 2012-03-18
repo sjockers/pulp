@@ -54,6 +54,22 @@
 				return data[index-1];
 			},
 
+			backward: function () {
+				if (!this.hasPrevious()) {
+					return null;
+				}						 
+				index-=1;
+				return data[index];
+			},
+
+			forward: function () {
+				if (!this.hasNext()) {
+					return null;
+				}						 
+				index+=1;
+				return data[index];
+			},
+			
 			rewind: function () {
 				index = 0;
 			},

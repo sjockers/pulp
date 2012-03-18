@@ -102,6 +102,58 @@ describe("util.collection", function() {
 	
 	});
 
+
+	describe("backward", function() {
+	
+		it("should return the previous item when #backward is called", function() {
+			collection.init( articles );	
+			collection.find("url", articles[1].url);
+			
+			expect( collection.backward() ).toBe( articles[0] );
+		});
+
+		it("should move the index backward", function() {
+			collection.init( articles );	
+			collection.find("url", articles[1].url);
+			collection.backward()
+			
+			expect( collection.current() ).toBe( articles[0] );
+		});
+	
+		it("should return null when #backward is called and there are no articles left", function() {
+			collection.add( articles[0] );
+		
+			expect( collection.backward() ).toBe( null );
+		});
+	
+	});
+
+
+	describe("forward", function() {
+	
+		it("should return the next item when #forward is called", function() {
+			collection.init( articles );	
+			collection.find("url", articles[1].url);
+			
+			expect( collection.forward() ).toBe( articles[2] );
+		});
+
+		it("should move the index forward", function() {
+			collection.init( articles );	
+			collection.find("url", articles[1].url);
+			collection.forward()
+			
+			expect( collection.current() ).toBe( articles[2] );
+		});
+	
+		it("should return null when #forward is called and there are no articles left", function() {
+			collection.add( articles[0] );
+		
+			expect( collection.forward() ).toBe( null );
+		});
+	
+	});
+
 	describe("rewind", function() {
 		
 		it("should jump back to the first item", function() {

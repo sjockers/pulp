@@ -37,26 +37,34 @@
 
 		if($slider.hasClass(slideRight)) {
 			$slider.removeClass(slideRight);			
-			carousel.views.previous = carousel.views.current;
-			carousel.views.current = carousel.views.next;
-			carousel.views.previous.render($containers[0]);
-			carousel.views.current.render($containers[1]);
-			// TODO: reset the views.
-			
+			stepForward(carousel.views);
 		}
 
 		if($slider.hasClass(slideLeft)) {
 			$slider.removeClass(slideLeft);
-			carousel.views.next = carousel.views.current;
-			carousel.views.current = carousel.views.previous;
-			carousel.views.next.render($containers[2]);
-			carousel.views.current.render($containers[1]);
-			// TODO: reset the views.
-			
+			stepBackward(carousel.views);
 		}
 
 	}	
 	
+	function stepForward(vws) {
+		articles.forward();
+		vws.previous = vws.current;
+		vws.current = vws.next;
+		vws.previous.render($containers[0]);
+		vws.current.render($containers[1]);
+		vws.next = new pulp.View(articles.next(), $containers[2]);		
+	}
+	
+	function stepBackward(vws) {
+		articles.backward();
+		vws.next = vws.current;
+		vws.current = vws.previous;
+		vws.previous = new pulp.View(articles.previous(), $containers[0]);
+		vws.current.render($containers[1]);
+		vws.next.render($containers[2]);
+	}	
+			
 	carousel.extend({
 
 		init: function() {
@@ -88,6 +96,7 @@
 			var views = this.views;
 
 			articles.current().observe( pulp.events.CONTENT_LOADED, function(){
+				console.log("LOADED!")
 				if(articles.hasPrevious()){
 					views.previous = new pulp.View(articles.previous(), $containers[0]);					
 				}				
@@ -97,6 +106,7 @@
 			})
 
 			views.current =  new pulp.View(articles.current(), $containers[1]);
+			
 		}
 	});
 	
