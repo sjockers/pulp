@@ -27,8 +27,42 @@ describe("pulp.util.observer", function() {
 				expect(observable.hasObserver("event", callback)).toBeTruthy();
 			});
 			
-			it("should return false when observer was not registered", function() {				
+			it("should return false for #hasObserver when observer was not registered", function() {				
 				expect(observable.hasObserver("event", function() {})).toBeFalsy();
+			});
+			
+		});
+		
+		describe("removing observers", function() {
+			
+			it("should return false for #hasObserver after observer was un-registered", function() {
+				var callbacks = [function() {}, function() {}, function() {}];
+						
+				observable.observe("event", callbacks[0]);
+				observable.observe("event", callbacks[1]);
+				observable.observe("event", callbacks[2]);
+				expect(observable.hasObserver("event", callbacks[0])).toBeTruthy();
+				expect(observable.hasObserver("event", callbacks[1])).toBeTruthy();
+				expect(observable.hasObserver("event", callbacks[2])).toBeTruthy();
+
+				observable.unObserve("event", callbacks[0]);
+				expect(observable.hasObserver("event", callbacks[0])).toBeFalsy();
+				expect(observable.hasObserver("event", callbacks[1])).toBeTruthy();
+				expect(observable.hasObserver("event", callbacks[2])).toBeTruthy();
+			});
+			
+			it("should not notify a (former) observer after it is removed", function() {
+				var observer1 = function() { observer1.called = true };
+				var observer2 = function() { observer2.called = true };
+
+				observable.observe("event", observer1);
+				observable.observe("event", observer2);
+				
+				observable.unObserve("event", observer1);				
+				observable.notify("event");
+		 	
+				expect(observer1.called).toBeFalsy();
+				expect(observer2.called).toBeTruthy();
 			});
 			
 		});

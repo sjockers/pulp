@@ -29,6 +29,28 @@
 		_observers(this, event).push(observer);
 	}; 
 	
+	
+	function unObserve(event, observer) {
+		
+		if (typeof observer != "function") {
+			throw new TypeError("not a function"); 
+		}
+		
+		if (typeof event != "string") {
+			throw new TypeError("not a valid event identifier"); 
+		}
+		
+		var observers  = _observers(this, event);
+		
+		pulp.log("observers", observers);
+		
+		for(var i=0, l=observers.length; i<l; i++) {
+			if(observers[i] === observer){
+				observers.splice(i,1);
+			}
+		}
+	};
+	
 	function hasObserver(event, observer) {
 		var observers  = _observers(this, event);
 		return ($.inArray(observer, observers) >= 0);
@@ -54,7 +76,8 @@
 	
 	// expose public functions:
 	pulp.util.observable = {
-		observe: observe,         		
+		observe: observe, 
+		unObserve: unObserve,        		
 		hasObserver: hasObserver,
 		notify: notify
 	}
