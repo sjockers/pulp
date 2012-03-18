@@ -65,7 +65,7 @@
 			forward: function () {
 				if (!this.hasNext()) {
 					return null;
-				}						 
+				}
 				index+=1;
 				return data[index];
 			},

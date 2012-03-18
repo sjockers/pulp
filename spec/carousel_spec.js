@@ -46,8 +46,6 @@ describe("pulp.carousel", function() {
 	describe("rendering cycle", function() {
 
 	  beforeEach(function() {
-		
-			  console.log("before");
 			pulp.carousel.$element = $(pulp.carousel.element);
 			pulp.carousel.element = null;
 
@@ -57,7 +55,6 @@ describe("pulp.carousel", function() {
 	  });
 
 	  afterEach(function() {
-		  console.log("after");
 			pulp.carousel.$element = null;
 			pulp.carousel.hideContent.restore();
 			pulp.carousel.create.restore();

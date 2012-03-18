@@ -42,8 +42,6 @@
 		
 		var observers  = _observers(this, event);
 		
-		pulp.log("observers", observers);
-		
 		for(var i=0, l=observers.length; i<l; i++) {
 			if(observers[i] === observer){
 				observers.splice(i,1);

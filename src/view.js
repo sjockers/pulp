@@ -15,10 +15,17 @@
 			view.article.observe( pulp.events.CONTENT_LOADED, function(){
 				view.create("view_tmp", view.article);
 				view.render(target);
+				view.article.unObserve( pulp.events.CONTENT_LOADED, this);
 			});
 			
 			view.article.fetch();
 		},
+		
+		// insert it into the DOM (overwrites pulp.util.renderable)
+		render: function(target){
+			this.target = target || this.target;		
+			$(this.target).html(this.$element);					
+		}
 		
 	});
 	
