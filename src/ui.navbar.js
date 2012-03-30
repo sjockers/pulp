@@ -4,11 +4,11 @@
 	navbar.extend(pulp.util.renderable);
 
 	function nextClicked(event){
-		pulp.controller.nextArticle();
+		pulp.app.nextArticle();
 	}
 	
 	function prevClicked(event){
-		pulp.controller.previousArticle();
+		pulp.app.previousArticle();
 	}
 	
 	navbar.extend({

@@ -1,1 +1,1 @@
-pulp.controller.init( "toc.html" );
+pulp.app.init();

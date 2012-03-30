@@ -5,7 +5,7 @@ srcdir = src/
 files = ${srcdir}app.js\
 					${srcdir}article.js\
 					${srcdir}carousel.js\
-					${srcdir}controller.js\
+					${srcdir}app.js\
 					${srcdir}events.js\
 					${srcdir}model.js\
 					${srcdir}util.collection.js\

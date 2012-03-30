@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>Article 8</title>
+	<title>Article 2</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -14,6 +14,9 @@
 
 	<link rel="shortcut icon" href="/link/to/favicon.ico">
 	<link rel="apple-touch-icon" href="/link/to/apple-touch-icon.png">
+
+	<link rel="toc" href="toc.html">
+	<link rel="templates" href="../templates/ui.html">
 
 	<!-- /ht Jeremy Keith - http://front.ie/mLXiaS -->
 	<link rel="stylesheet" href="../css/global.css" media="all">
@@ -39,7 +42,6 @@
 	<script type="text/javascript" src="../src/article.js"></script>
 	<script type="text/javascript" src="../src/model.js"></script>
 	<script type="text/javascript" src="../src/view.js"></script>
-	<script type="text/javascript" src="../src/controller.js"></script>
 	<script type="text/javascript" src="../src/carousel.js"></script>
 	<script type="text/javascript" src="../src/app.js"></script>
 	<script type="text/javascript" src="../src/ui.navbar.js"></script>
@@ -70,46 +72,6 @@
 	</article>
 	
 </section>
-	
-<!-- UI Templates -->
-<script type="text/html" id="item_tmpl">
-  <div id="<%=id%>" class="<%=(i % 2 == 1 ? " even" : "")%>">
-    <div class="grid_1 alpha right">
-      <img class="righted" src="<%=profile_image_url%>"/>
-    </div>
-    <div class="grid_6 omega contents">
-      <p><b><a href="/<%=from_user%>"><%=from_user%></a>:</b> <%=text%></p>
-    </div>
-  </div>
-</script>
-
-<script type="text/html" id="carousel_tmpl">
-  <div id="pulp-carousel">
-		<ul id="slider">
-	  	<li class="article-container" id="container-0"></li>
-	  	<li class="article-container" id="container-1"></li>
-	    <li class="article-container" id="container-2"></li>
-	  </ul
-	</div>
-</script>
-
-<script type="text/html" id="view_tmp">
-  <div class="wrapper">
-		<%=content%>
-	</div>
-</script>
-
-<script type="text/html" id="original_tmp">
-  <div id="pulp-original"></div>
-</script>
-
-<script type="text/html" id="navbar_tmp">
-  <div id="pulp-navbar">
-		<button id="pulp-prev">PREV</button>
-		<button id="pulp-next">NEXT</button>
-	</div>
-</script>
-
 
 </body>
 </html>

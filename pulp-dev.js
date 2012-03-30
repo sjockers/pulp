@@ -5,7 +5,7 @@
 	
 	app.init = function(){
 		var url = $("link[rel='toc']").attr("href");						
-		pulp.controller.init(url);
+		pulp.app.init(url);
 	};
 	
 	// expose to namespace
@@ -95,10 +95,10 @@
 })( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
 	"use strict"
 
-	var controller = new pulp.util.Module;
-	controller.extend(pulp.util.observable);
+	var app = new pulp.util.Module;
+	app.extend(pulp.util.observable);
 
-	controller.extend({
+	app.extend({
 		init: function (tocUrl) {
 			pulp.model.observe(pulp.events.TOC_LOADED, this.setup);
 			pulp.model.getToc(tocUrl);
@@ -125,7 +125,7 @@
 	});
 	
 	// expose to namespace
-	pulp.controller = pulp.controller || controller;
+	pulp.app = pulp.app || app;
 
 })( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
 	"use strict"
