@@ -23,7 +23,6 @@
 				dataType: "html",
 				url: templatesUrl,
 			  success: function(templates) {
-					pulp.log("up and atom!");
 					$(document.body).append(templates);
 					pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
 					pulp.model.getToc(tocUrl);
@@ -43,14 +42,20 @@
 		
 		route: function(path) {
 			
-		},		
+		},	
 		
 		nextArticle: function() {
 			pulp.carousel.next();
+			var article = pulp.model.articles.current();
+			history.pushState(null, null, article.url);
+			window.document.title = article.title;
 		},
 		
 		previousArticle: function() {
-			pulp.carousel.previous();			
+			pulp.carousel.previous();		
+			var article = pulp.model.articles.current();
+			history.pushState(null, null, article.url);
+			window.document.title = article.title;			
 		},
 		
 		navigate: function (path) {
