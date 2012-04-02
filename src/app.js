@@ -4,6 +4,8 @@
 	var app = new pulp.util.Module;
 	app.extend(pulp.util.observable);
 
+	var articles = pulp.model.articles;
+
 	function getTocUrl() {
 		return $("link[rel='toc']").attr("href");						
 	};
@@ -18,6 +20,8 @@
 			var tocUrl = tocUrl || getTocUrl();
 			var templatesUrl = templatesUrl || getTemplatesUrl();
 
+			window.addEventListener("popstate", app.previousArticle);
+
 			$.ajax({
 				type: "GET",
 				dataType: "html",
@@ -28,7 +32,6 @@
 					pulp.model.getToc(tocUrl);
 				}
 			});
-
 		},
 		
 		setup: function() {
@@ -36,33 +39,40 @@
 			// var content = pulp.Article.extractContent($(document));			
 			var path = window.location.pathname;
 			app.navigate(path);
-			pulp.ui.navbar.init();
-					
+			pulp.ui.navbar.init();					
 		},
 		
-		route: function(path) {
-			
+		historySupported: function() {
+			return !!(window.history && window.history.pushState);
+		},
+		
+		updateHistory: function() {
+			var article = pulp.model.articles.current();
+			window.document.title = article.title;
+			if(this.historySupported()) {
+				history.pushState(null, null, article.url);				
+			}			
 		},	
 		
 		nextArticle: function() {
-			pulp.carousel.next();
-			var article = pulp.model.articles.current();
-			history.pushState(null, null, article.url);
-			window.document.title = article.title;
+			if(articles.hasNext()){				
+				articles.forward();
+				pulp.carousel.next();
+				pulp.app.updateHistory();
+			};
 		},
 		
-		previousArticle: function() {
-			pulp.carousel.previous();		
-			var article = pulp.model.articles.current();
-			history.pushState(null, null, article.url);
-			window.document.title = article.title;			
+		previousArticle: function() {			
+			if(articles.hasPrevious()){	
+				articles.backward();
+				pulp.carousel.previous();							
+				pulp.app.updateHistory();
+			};
 		},
 		
 		navigate: function (path) {
 			// TODO: Check if path is valid
-			pulp.carousel.display(path);
-			
-			this.route(path);
+			pulp.carousel.display(path);			
 		}
 			
 	});

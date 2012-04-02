@@ -2,7 +2,7 @@
 	"use strict"
 
 	var Article = new pulp.util.Module; 
-
+	
 	// make instances observable: 
 	Article.include(pulp.util.observable);
 	
@@ -10,30 +10,44 @@
 		
 		init: function(ressource) {
 		  ressource = ressource || {};
-
 			this.url = ressource.url;
 		  this.title = ressource.title;
 		  this.thumbnail = ressource.thumbnail;
 		  this.byline = ressource.byline;
 		  this.content = ressource.content;
+		},
+		
+		save: function() {
+			localStorage.setItem(this.url, JSON.stringify(this.content));			
+		},
 
+		load: function() {
+			this.content = JSON.parse(localStorage.getItem(this.url));		
 		},
 		
 		fetch: function(successCallback) {												
-			var self = this;				
+			var article = this;				
+			//article.load();
 
 			function onSuccess(data){
-				self.content = Article.extractContent(data);
-				self.notify(pulp.events.CONTENT_LOADED);
+				article.content = Article.extractContent(data);
+				article.save();
+				article.notify(pulp.events.CONTENT_LOADED);
 				typeof successCallback == "function" && successCallback(self.content);				
 			}
 
-			$.ajax({
-				type: "GET",
-				dataType: "html",
-				url: this.url,
-			  success: onSuccess
-			});			
+			if (article.content) {
+			pulp.log("content available!", article.url);  
+			//	article.notify(pulp.events.CONTENT_LOADED);				
+			}
+			// else {
+				$.ajax({
+					type: "GET",
+					dataType: "html",
+					url: this.url,
+				  success: onSuccess
+				});				
+			// } 
 		}
 		
 	});

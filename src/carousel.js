@@ -18,10 +18,9 @@
 		carousel.create("carousel_tmpl");
 		carousel.target = document.body;
 		carousel.hideContent();		
-		carousel.render();
-		
-		carousel.touch("swipeLeft", carousel.next);
-		carousel.touch("swipeRight", carousel.previous);
+		carousel.render();		
+		carousel.touch("swipeLeft", pulp.app.nextArticle);
+		carousel.touch("swipeRight", pulp.app.previousArticle);
 		
 		$containers[0] = carousel.$element.find("#container-0");
 		$containers[1] = carousel.$element.find("#container-1");
@@ -85,17 +84,11 @@
 		},
 		
 		next: function() {
-			if(articles.hasNext()){
-				articles.forward();
-				$slider.addClass(slideRight);
-			};
+			$slider.addClass(slideRight);
 		},
 		
 		previous: function() {
-			if(articles.hasPrevious()){	
-				articles.backward();
-				$slider.addClass(slideLeft);
-			};
+			$slider.addClass(slideLeft);
 		},
 		
 		display: function(path) {	
@@ -107,17 +100,14 @@
 			articles.find("url", path);
 			var views = this.views;
 			
-			articles.current().observe( pulp.events.CONTENT_LOADED, function(){
-				if(articles.hasPrevious()){
-					views.previous = new pulp.View(articles.previous(), $containers[0]);					
-				}					
-				if(articles.hasNext()){
-					views.next = new pulp.View(articles.next(), $containers[2]);
-				}				
-			})
-
 			views.current =  new pulp.View(articles.current(), $containers[1]);
-
+			
+			if(articles.hasPrevious()){
+				views.previous = new pulp.View(articles.previous(), $containers[0]);					
+			}					
+			if(articles.hasNext()){
+				views.next = new pulp.View(articles.next(), $containers[2]);
+			}
 		}
 	});
 	
