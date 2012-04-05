@@ -1,3 +1,10 @@
+/**
+ * pulp.model
+ *
+ * data model for the publication. Home of words.
+ * 
+ */
+
 (function( pulp, $ ) {
 	"use strict"
 

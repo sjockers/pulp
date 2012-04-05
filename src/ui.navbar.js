@@ -1,3 +1,10 @@
+/**
+ * pulp.ui.navbar
+ *
+ * simple ui component for navigating through the publication using button
+ * 
+ */
+
 (function( pulp, $ ) {
 
 	var navbar = new pulp.util.Module; 

@@ -1,3 +1,11 @@
+/**
+ * pulp.util.touchable
+ *
+ * basic touch handler implementation
+ * 
+ */
+
+
 (function( pulp, $ ) {
 	"use strict"
 

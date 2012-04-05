@@ -1,3 +1,11 @@
+/**
+ * pulp.util.collection
+ *
+ * basic implementation for a generic collection of data
+ * used for storing articles in pulp.model
+ * 
+ */
+
 (function( pulp, $ ) {
 	"use strict"
 

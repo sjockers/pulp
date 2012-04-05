@@ -1,3 +1,11 @@
+/**
+ * pulp.ui.carousel
+ *
+ * ui component for displaying articles
+ * also handles touch-screen flipping through articles
+ * 
+ */
+
 (function( pulp, $ ) {
 	"use strict"
 

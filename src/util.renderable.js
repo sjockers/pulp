@@ -1,3 +1,10 @@
+/**
+ * pulp.util.rederable
+ *
+ * implementing this mixin enables modules to render content into the DOM
+ * 
+ */
+
 (function( pulp, $ ) {
 	"use strict"
 

@@ -1,3 +1,11 @@
+/**
+ * pulp.log
+ *
+ * simple wrapper around console.log
+ * 
+ */
+
+
 (function(pulp) {
 	
 	pulp.log = function(){

@@ -1,13 +1,29 @@
+/**
+ * pulp.ArticleView
+ *
+ * visual representation of an article, used for rendering articles in the ui.carousel component
+ * 
+ */
+
 (function( pulp, $ ) {
 
-	var View = new pulp.util.Module; 
-	View.include(pulp.util.observable);
-	View.include(pulp.util.renderable);
-	
-	View.include({
+	var ArticleView = new pulp.util.Module; 
+	ArticleView.include(pulp.util.observable);
+	ArticleView.include(pulp.util.renderable);
+
+	// public methods:
+	ArticleView.include({
 		
 		article: null,
-				
+
+
+    /**
+     * Constructor.
+     *
+     * @method init
+     * @param {pulp.Article} article to be rendered
+     * @param {HTMLElement} target for rendering
+     */				
 		init: function(article, target) {
 			var view = this;
 			view.article = article;
@@ -20,20 +36,21 @@
 			
 			view.article.fetch();
 		},
-		
-		// insert it into the DOM (overwrites pulp.util.renderable)
+
+    /**
+		 * Inserts the view into the DOM (overwrites pulp.util.renderable) 
+		 * 
+     * @method render
+     * @param {HTMLElement} target for rendering
+     */		
 		render: function(target){
 			this.target = target || this.target;		
 			$(this.target).html(this.$element);					
 		}
 		
 	});
-	
-	View.extend({
-
-	});
 			
 	// expose to namespace
-	pulp.ArticleView = pulp.ArticleView || View;		
+	pulp.ArticleView = pulp.ArticleView || ArticleView;		
 		   
 })( window.pulp = window.pulp || {}, jQuery );

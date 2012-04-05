@@ -1,3 +1,10 @@
+/**
+ * pulp.events
+ *
+ * event constants for use with observable component
+ * 
+ */
+
 (function( pulp, $ ) {
 	"use strict"
 

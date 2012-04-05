@@ -1,3 +1,11 @@
+/**
+ * pulp.util.Module
+ *
+ * class-like implementation of the module pattern
+ * 
+ */
+
+
 (function( pulp, $ ) {
 	"use strict"
 

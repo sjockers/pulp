@@ -1,3 +1,11 @@
+/**
+ * pulp.util.observable
+ *
+ * basic pub/sub implementation
+ * 
+ */
+
+
 (function( pulp, $ ) {
 	"use strict"
 
