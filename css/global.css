@@ -1,30 +1,39 @@
 /*
-Goldilocks Approach to Responsive Web Design Boilerplate
 
-Author: Design by Front - @designbyfront
-Version: 0.1
+Pulp Toolkit CSS Framework
+
+----------------------------------------------------------------------------------------
+
+based upon
+The Goldilocks Approach to Responsive Web Design Boilerplate
 URL: http://www.goldilocksapproach.com
+
 ----------------------------------------------------------------------------------------
 
 CONTENTS - GLOBAL.CSS
 -----------------------------------------
-1. RESET
-2. ROOT
-3. CORE TYPOGRAPHY
-4. LINKS
-5. GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
-6. CUSTOM LAYOUT & TYPOGRAPHY (Baby bear)
-7. BROWSER AND NON-SEMANTIC STYLING
+RESET
+ROOT
+CORE TYPOGRAPHY
+LINKS
+GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
+CUSTOM LAYOUT & TYPOGRAPHY (Baby bear)
 
 CONTENTS - LAYOUT.CSS
 -----------------------------------------
-8. CUSTOM LAYOUT & TYPOGRAPHY (Daddy bear)
-9. CUSTOM LAYOUT & TYPOGRAPHY (Mummy bear)
+CUSTOM LAYOUT & TYPOGRAPHY (Desktop)
+CUSTOM LAYOUT & TYPOGRAPHY (Tablet)
+
+CONTENTS - CONTROLS.CSS
+-----------------------------------------
+ORIGINAL CONTENT
+UI.CAROUSEL
+UI.NAVBAR
 
 */
 
 
-/* 1. RESET
+/* RESET
 ----------------------------------------------------------------------------------------*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -35,92 +44,134 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size:100%;
-  font: inherit;
-  vertical-align: baseline;
-  }
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block;
-  }
-  
-  
-/* 2. ROOT
+	display: block;
+}
+
+
+/* ROOT
 ----------------------------------------------------------------------------------------*/
-html { 
-  background: #FFF;
-  }
+html {
+	background: #FFF;
+}
 
 /* /ht Ethan Marcotte - http://front.ie/l8rJaA */
-img, embed, object, video { max-width: 100%; }
-.ie6 img.full, .ie6 object.full, .ie6 embed, .ie6 video { width: 100%; }
+img, embed, object, video {
+	max-width: 100%;
+}
+.ie6 img.full, .ie6 object.full, .ie6 embed, .ie6 video {
+	width: 100%;
+}
 
 
-/* 3. CORE TYPOGRAPHY
+/* CORE TYPOGRAPHY
 ----------------------------------------------------------------------------------------*/
 body {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1em;
-  line-height: 1.618em;
-  color: #333;
-  }
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 1em;
+	line-height: 1.618em;
+	color: #333;
+}
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 0.809em;
-  line-height: 1em;
-  }
+	margin-bottom: 0.809em;
+	line-height: 1em;
+}
 
 p, ul, ol, dl, blockquote {
-    font-size: 1em;
-    line-height: 1.618em;
-    margin-bottom: 1.618em; 
-    max-width: 30em; /* Optimal width for long-form text */
-  }
-    
-ul { list-style-type: disc; margin-left: 1.618em; }
-ol { list-style-type: decimal; margin-left: 1.618em; }
-nav ul, nav ol { list-style: none; margin: 0; padding: 0;}
+	font-size: 1em;
+	line-height: 1.618em;
+	margin-bottom: 1.618em;
+	max-width: 30em; /* Optimal width for long-form text */
+}
 
-b, strong { font-weight: bold; }
-i, em { font-style: italic; }
-small { font-size: 80%; }
+ul {
+	list-style-type: disc;
+	margin-left: 1.618em;
+}
+ol {
+	list-style-type: decimal;
+	margin-left: 1.618em;
+}
+nav ul, nav ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+b, strong {
+	font-weight: bold;
+}
+i, em {
+	font-style: italic;
+}
+small {
+	font-size: 80%;
+}
 
 
-/* 4. LINKS
+/* LINKS
 ----------------------------------------------------------------------------------------*/
-a, a:visited { outline: none; color: #439BBD; text-decoration: underline; }  
-a:hover { outline: none; text-decoration:none; }  
-a:active, a:focus { outline: none; }
+a, a:visited {
+	outline: none;
+	color: #439BBD;
+	text-decoration: underline;
+}
+a:hover {
+	outline: none;
+	text-decoration: none;
+}
+a:active, a:focus {
+	outline: none;
+}
 
 
-/* 5. GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
+/* GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
 ----------------------------------------------------------------------------------------*/
 
 
 
-/* 6. CUSTOM LAYOUT & TYPOGRAPHY (Baby bear)
+/* CUSTOM LAYOUT & TYPOGRAPHY (Mobile)
 ----------------------------------------------------------------------------------------*/
-#container {
-    padding: 0.809em;
-    max-width: 30em;
-    margin: auto;
-  }
+.wrapper {
+	padding: 1em;
+	max-width: 30em;
+	margin: auto;
+}
 
-aside { width: 100%; }
+h1 {
+	font-size: 2em;
+	line-height: 1.2em;
+	margin-bottom: 0.1em;
+}
 
+#pulp-navbar {
+	display: none;
+}
 
-/* 7. BROWSER AND NON-SEMANTIC STYLING
-----------------------------------------------------------------------------------------*/
-.cf:before, .cf:after { content: ""; display: block; }
-.cf:after { clear: both; }
-.ie6 .cf { zoom: 1 }
+p.intro {
+	border-top: 0.4em #333 solid;
+	margin: 1em 0;
+	padding-top: 0.4em;
+	font-size: 1.309em;
+}
+
+aside {
+	width: 100%;
+}
+
 
 
 

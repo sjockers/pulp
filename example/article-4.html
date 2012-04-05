@@ -3,11 +3,11 @@
 <html>
 
 <head>
-	<title>Article 2</title>
+	
+	<title>Article 4</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<!-- /ht Andy Clarke - http://front.ie/lkCwyf -->
 	<meta http-equiv="cleartype" content="on">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,20 +16,14 @@
 	<link rel="apple-touch-icon" href="/link/to/apple-touch-icon.png">
 
 	<link rel="toc" href="toc.html">
-	<link rel="templates" href="../templates/ui.html">
+	<link rel="templates" href="../templates/controls.html">
 
-	<!-- /ht Jeremy Keith - http://front.ie/mLXiaS -->
 	<link rel="stylesheet" href="../css/global.css" media="all">
+	<link rel="stylesheet" href="../css/controls.css" media="all">
 	<link rel="stylesheet" href="../css/layout.css" media="all and (min-width: 33.236em)">
-	<!-- 30em + (1.618em * 2) = 33.236em / Eliminates potential of horizontal scrolling in most cases -->
-
-	<!--[if (lt IE 9) & (!IEMobile)]>
-	<link rel="stylesheet" href="css/example/layout.css" media="all">
-	<![endif]-->
 
 
 	<!-- external libs -->
-	<script src="../lib/modernizr-1.7.min.js"></script>
 	<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
 
 	<!-- include source files here... -->
@@ -37,6 +31,7 @@
 	<script type="text/javascript" src="../src/util.observable.js"></script>
 	<script type="text/javascript" src="../src/util.collection.js"></script>
 	<script type="text/javascript" src="../src/util.renderable.js"></script>
+	<script type="text/javascript" src="../src/util.touchable.js"></script>
 	<script type="text/javascript" src="../src/util.log.js"></script>
 	<script type="text/javascript" src="../src/events.js"></script>
 	<script type="text/javascript" src="../src/article.js"></script>
@@ -57,18 +52,26 @@
 			
 	<article id="pulp">
 
-		<h1>Lorem Ipsum 4</h1>
+      <header>
+        <h1>Lorem Ipsum Article 4</h1>
+      </header>
+      
+      <div id="main" role="main">
+        <p class="intro">
+ 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.       	
+        </p> 
+ 
+        <aside> 
+          <img src="http://placekitten.com/g/500/500" alt="" /> 
+        </aside>
 
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+				
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+		
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>         
 
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
-
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>  
-
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	
+    	
 	</article>
 	
 </section>

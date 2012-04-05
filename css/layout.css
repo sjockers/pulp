@@ -1,16 +1,84 @@
-/* 8. CUSTOM LAYOUT & TYPOGRAPHY (Daddy bear)
+/* CUSTOM LAYOUT & TYPOGRAPHY (Desktop)
 ----------------------------------------------------------------------------------------*/
 .wrapper {
 	padding: 1.618em;
-	margin: 0 auto; 
+	margin: 0 auto;
 	max-width: 60em;
-	}
+}
+
+#pulp-navbar {
+	display: block;
+}
+
+header h2:before, header h2:after {
+	width: 42%;
+}
+
+h1 {
+	font-size: 4.4em;
+	line-height: 1.618em;
+	margin-bottom: 0.1em;
+}
+
+ul {
+	margin-left: 0.4em;
+}
+ol {
+	margin-left: 0.4em;
+}
+
+p.intro {
+	font-size: 1.618em;
+	line-height: 1.4289em;
+	max-width: 20em;
+}
+
+aside {
+	float: right;
+	clear: right;
+	width: 25em;
+	margin-top: -16.5em;
+	height: auto;
+}
+
+footer p {
+	max-width: 17.942em;
+}
 
 
-/* 9. CUSTOM LAYOUT & TYPOGRAPHY (Mummy bear)
+/* CUSTOM LAYOUT & TYPOGRAPHY (Tablet)
 ----------------------------------------------------------------------------------------*/
 @media screen and (min-width: 30em) and (max-width: 63.236em) {
 
-#container { width: 30em; }
-	
+	.wrapper {
+		width: 30em;
+	}
+
+	header h2:before, header h2:after {
+		width: 35%;
+	}
+
+	h1 {
+		font-size: 3.6em;
+		line-height: 1.4em;
+	}
+	h1 span {
+		font-size: 0.5em;
+	}
+	h1 span:before, h1 span:after {
+		width: 10%;
+	}
+
+	p.intro {
+		margin-bottom: 1em;
+		max-width: 33em;
+	}
+
+	aside {
+		float: none;
+		width: auto;
+		height: auto;
+		margin: 0 0 2.2em;
+	}
+
 }
