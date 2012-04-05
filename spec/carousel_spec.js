@@ -14,6 +14,8 @@ describe("pulp.carousel", function() {
 			sinon.stub(article, "fetch");			
 		})
 
+		console.log("pulp.carousel? " + pulp.carousel);
+
 		pulp.carousel.element = '<ul id="carousel">\
 	  	<li class="article-container" id="container-0"></li>\
 	  	<li class="article-container" id="container-1"></li>\

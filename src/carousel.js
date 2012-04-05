@@ -96,7 +96,7 @@
 			// TODO: This doesn't do yet what it is supposed to do. Fix it!
 
 			if(!this.element) initializeScaffold();			
-
+			
 			articles.find("url", path);
 			var views = this.views;
 			

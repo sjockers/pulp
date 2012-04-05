@@ -27,7 +27,7 @@
 		
 		fetch: function(successCallback) {												
 			var article = this;				
-			//article.load();
+			article.load();
 
 			function onSuccess(data){
 				article.content = Article.extractContent(data);
@@ -38,16 +38,16 @@
 
 			if (article.content) {
 			pulp.log("content available!", article.url);  
-			//	article.notify(pulp.events.CONTENT_LOADED);				
+				article.notify(pulp.events.CONTENT_LOADED);				
 			}
-			// else {
+			else {
 				$.ajax({
 					type: "GET",
 					dataType: "html",
 					url: this.url,
 				  success: onSuccess
 				});				
-			// } 
+			} 
 		}
 		
 	});
