@@ -1,4 +1,4 @@
-describe("pulp.carousel", function() {
+describe("pulp.ui.carousel", function() {
 
 	var articles;
 
@@ -14,9 +14,9 @@ describe("pulp.carousel", function() {
 			sinon.stub(article, "fetch");			
 		})
 
-		console.log("pulp.carousel? " + pulp.carousel);
+		console.log("pulp.ui.carousel? " + pulp.ui.carousel);
 
-		pulp.carousel.element = '<ul id="carousel">\
+		pulp.ui.carousel.element = '<ul id="carousel">\
 	  	<li class="article-container" id="container-0"></li>\
 	  	<li class="article-container" id="container-1"></li>\
 	    <li class="article-container" id="container-2"></li>\
@@ -28,17 +28,17 @@ describe("pulp.carousel", function() {
 
   afterEach(function() {
 		pulp.model.articles.clear();
-		pulp.carousel.element = null;
+		pulp.ui.carousel.element = null;
   });
 
   it("should find and display the current article", function() {
-		pulp.carousel.display("/path/to/article1");
+		pulp.ui.carousel.display("/path/to/article1");
 		
 		expect( articles[1].fetch ).toHaveBeenCalled();
   });
 
   it("should preload the previous and next aricles after the current article is loaded", function() {
-		pulp.carousel.display("/path/to/article1");
+		pulp.ui.carousel.display("/path/to/article1");
 		articles[1].notify(pulp.events.CONTENT_LOADED);
 		
 		expect( articles[0].fetch ).toHaveBeenCalled();
@@ -48,40 +48,40 @@ describe("pulp.carousel", function() {
 	describe("rendering cycle", function() {
 
 	  beforeEach(function() {
-			pulp.carousel.$element = $(pulp.carousel.element);
-			pulp.carousel.element = null;
+			pulp.ui.carousel.$element = $(pulp.ui.carousel.element);
+			pulp.ui.carousel.element = null;
 
-			sinon.stub(pulp.carousel, "hideContent");
-			sinon.stub(pulp.carousel, "create");
-			sinon.stub(pulp.carousel, "render");
+			sinon.stub(pulp.ui.carousel, "hideContent");
+			sinon.stub(pulp.ui.carousel, "create");
+			sinon.stub(pulp.ui.carousel, "render");
 	  });
 
 	  afterEach(function() {
-			pulp.carousel.$element = null;
-			pulp.carousel.hideContent.restore();
-			pulp.carousel.create.restore();
-			pulp.carousel.render.restore();
+			pulp.ui.carousel.$element = null;
+			pulp.ui.carousel.hideContent.restore();
+			pulp.ui.carousel.create.restore();
+			pulp.ui.carousel.render.restore();
 	  });
 
 	  it("should hide the initial body content", function() {		
-			pulp.carousel.display("/path/to/article1");
+			pulp.ui.carousel.display("/path/to/article1");
 			articles[1].notify(pulp.events.CONTENT_LOADED);
 			
-			expect( pulp.carousel.hideContent ).toHaveBeenCalled();		
+			expect( pulp.ui.carousel.hideContent ).toHaveBeenCalled();		
 	  });
 
 	  it("should create the carousel control", function() {
-			pulp.carousel.display("/path/to/article1");
+			pulp.ui.carousel.display("/path/to/article1");
 			articles[1].notify(pulp.events.CONTENT_LOADED);
 			
-			expect( pulp.carousel.create ).toHaveBeenCalled();		
+			expect( pulp.ui.carousel.create ).toHaveBeenCalled();		
 	  });
 
 	  it("should render the carousel control", function() {
-			pulp.carousel.display("/path/to/article1");
+			pulp.ui.carousel.display("/path/to/article1");
 			articles[1].notify(pulp.events.CONTENT_LOADED);
 			
-			expect( pulp.carousel.render ).toHaveBeenCalled();		
+			expect( pulp.ui.carousel.render ).toHaveBeenCalled();		
 	  });
   });
 

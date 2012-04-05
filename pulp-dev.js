@@ -81,16 +81,16 @@
 			articles.find("url", path);
 
 			articles.current().observe( pulp.events.CONTENT_LOADED, function(){
-				carousel.views.previous = new pulp.View(articles.previous());
-				carousel.views.next = new pulp.View(articles.next());
+				carousel.views.previous = new pulp.ArticleView(articles.previous());
+				carousel.views.next = new pulp.ArticleView(articles.next());
 			})
 
-			this.views.current =  new pulp.View(articles.current());
+			this.views.current =  new pulp.ArticleView(articles.current());
 		}
 	});
 	
 	// expose to namespace
-	pulp.carousel = pulp.carousel || carousel;
+	pulp.ui.carousel = pulp.ui.carousel || carousel;
 
 })( window.pulp = window.pulp || {}, jQuery );(function( pulp, $ ) {
 	"use strict"
@@ -118,7 +118,7 @@
 		
 		navigate: function (path) {
 			// TODO: Check if path is valid
-			pulp.carousel.display(path);
+			pulp.ui.carousel.display(path);
 			this.route(path);
 		}
 			
@@ -403,6 +403,6 @@
 	});
 			
 	// expose to namespace
-	pulp.View = pulp.View || View;		
+	pulp.ArticleView = pulp.ArticleView || View;		
 		   
 })( window.pulp = window.pulp || {}, jQuery );

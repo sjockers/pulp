@@ -1,5 +1,5 @@
 
-describe("pulp.View", function() {
+describe("pulp.ArticleView", function() {
 
 	var article;
 
@@ -18,13 +18,13 @@ describe("pulp.View", function() {
 	});
 	
 	it("should initialize by fetching the passed article's content", function(){		
-  	var view = new pulp.View(article, "body");
+  	var view = new pulp.ArticleView(article, "body");
 		
 		expect( article.fetch ).toHaveBeenCalled();
 	})
 	
   it("should add an article view to the DOM", function() {
-  	var view = new pulp.View(article, "body");
+  	var view = new pulp.ArticleView(article, "body");
 		
 		expect( $("body").find("#fixture").detach() ).toBeTruthy();
   });

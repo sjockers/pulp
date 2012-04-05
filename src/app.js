@@ -57,7 +57,7 @@
 		nextArticle: function() {
 			if(articles.hasNext()){				
 				articles.forward();
-				pulp.carousel.next();
+				pulp.ui.carousel.next();
 				pulp.app.updateHistory();
 			};
 		},
@@ -65,14 +65,14 @@
 		previousArticle: function() {			
 			if(articles.hasPrevious()){	
 				articles.backward();
-				pulp.carousel.previous();							
+				pulp.ui.carousel.previous();							
 				pulp.app.updateHistory();
 			};
 		},
 		
 		navigate: function (path) {
 			// TODO: Check if path is valid
-			pulp.carousel.display(path);			
+			pulp.ui.carousel.display(path);			
 		}
 			
 	});

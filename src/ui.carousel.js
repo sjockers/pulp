@@ -26,12 +26,10 @@
 		$containers[1] = carousel.$element.find("#container-1");
 		$containers[2] = carousel.$element.find("#container-2");
 		
-		// TODO: Is there a better solution for that?
 		$.each($containers, function() {		
 			this.height($(document).height());	
 		});
 		
-		// TODO: Move to separate function!
 		$slider = carousel.$element.find("#slider");		
 		$slider.bind("webkitTransitionEnd", updateViews)
 	}
@@ -57,7 +55,7 @@
 		vws.current.render($containers[1]);
 
 		if(articles.hasNext()){
-			vws.next = new pulp.View(articles.next(), $containers[2]);		
+			vws.next = new pulp.ArticleView(articles.next(), $containers[2]);		
 		}
 	}
 	
@@ -68,7 +66,7 @@
 		vws.current.render($containers[1]);
 
 		if(articles.hasPrevious()){			
-			vws.previous = new pulp.View(articles.previous(), $containers[0]);
+			vws.previous = new pulp.ArticleView(articles.previous(), $containers[0]);
 		}
 	}	
 			
@@ -93,25 +91,27 @@
 		
 		display: function(path) {	
 
-			// TODO: This doesn't do yet what it is supposed to do. Fix it!
-
 			if(!this.element) initializeScaffold();			
 			
 			articles.find("url", path);
 			var views = this.views;
 			
-			views.current =  new pulp.View(articles.current(), $containers[1]);
+			views.current =  new pulp.ArticleView(articles.current(), $containers[1]);
 			
 			if(articles.hasPrevious()){
-				views.previous = new pulp.View(articles.previous(), $containers[0]);					
+				views.previous = new pulp.ArticleView(articles.previous(), $containers[0]);					
 			}					
 			if(articles.hasNext()){
-				views.next = new pulp.View(articles.next(), $containers[2]);
+				views.next = new pulp.ArticleView(articles.next(), $containers[2]);
 			}
 		}
 	});
 	
+
+	// UI namespace declaration
+	pulp.ui = pulp.ui || {};
+
 	// expose to namespace
-	pulp.carousel = pulp.carousel || carousel;
+	pulp.ui.carousel = pulp.ui.carousel || carousel;
 
 })( window.pulp = window.pulp || {}, jQuery );

@@ -4,14 +4,17 @@ srcdir = src/
 # Create the list of modules
 files = ${srcdir}app.js\
 					${srcdir}article.js\
-					${srcdir}carousel.js\
-					${srcdir}app.js\
+					${srcdir}articleview.js\
 					${srcdir}events.js\
 					${srcdir}model.js\
+					${srcdir}ui.carousel.js\
+					${srcdir}ui.navbar.js\
 					${srcdir}util.collection.js\
+					${srcdir}util.log.js\
 					${srcdir}util.module.js\
 					${srcdir}util.observable.js\
-					${srcdir}view.js
+					${srcdir}util.renderable.js\
+					${srcdir}util.touchable.js
 
 # Compress all of the modules into pulp.js:
 

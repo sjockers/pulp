@@ -34,6 +34,6 @@
 	});
 			
 	// expose to namespace
-	pulp.View = pulp.View || View;		
+	pulp.ArticleView = pulp.ArticleView || View;		
 		   
 })( window.pulp = window.pulp || {}, jQuery );
