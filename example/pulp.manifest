@@ -1,0 +1,21 @@
+CACHE MANIFEST
+# 2012-04-03:v2
+
+# Explicitly cached assets.
+CACHE:
+/src/app.js
+/src/article.js
+/src/articleview.js
+/src/events.js
+/src/model.js
+/src/ui.carousel.js
+/src/ui.navbar.js
+/src/util.collection.js
+/src/util.log.js
+/src/util.module.js
+/src/util.observable.js
+/src/util.renderable.js
+/src/util.touchable.js
+/css/global.css
+/css/layout.css
+/css/controls.css

@@ -1,7 +1,7 @@
 /**
  * pulp.article
  *
- * Represents an article item (VO)
+ * Represents an article item
  * 
  */
 
