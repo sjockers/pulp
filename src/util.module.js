@@ -14,19 +14,6 @@
 	    this.init.apply(this, arguments);
 	  };
 
-	  Module.prototype.init = function(){};
-
-	  if (parent){
-	    for(var i in parent){
-	      Module[i] = SuperClass.clone(parent[i]);
-	    }
-	    for(var i in parent.prototype){
-	      Module.prototype[i] = SuperClass.clone(parent.prototype[i]);
-	    }
-	    Module._super = parent;
-	    Module.prototype._super = parent.prototype;
-	  }
-
 	  Module.extend = function(obj){
 	    var extended = obj.extended;
 	    for(var i in obj){
@@ -48,6 +35,26 @@
 	    return(function(){ 
 	      return func.apply(thisObject, arguments); 
 	    });
+	  };
+		
+		Module.clone = function(obj){
+		  if (typeof obj == "function") return obj;
+		  if (typeof obj != "object") return obj;
+		  if (jQuery.isArray(obj)) return jQuery.extend([], obj);
+		  return jQuery.extend({}, obj);
+		};
+		
+	  Module.prototype.init = function(){};
+
+	  if (parent){
+	    for(var i in parent){
+	      Module[i] = Module.clone(parent[i]);
+	    }
+	    for(var i in parent.prototype){
+	      Module.prototype[i] = Module.clone(parent.prototype[i]);
+	    }
+	    Module._super = parent;
+	    Module.prototype._super = parent.prototype;
 	  }
 	
 	  Module.prototype.proxy = Module.proxy;
@@ -56,6 +63,7 @@
 
 	  return Module;
 	};
+
 
 	// namespace declaration
 	pulp.util = pulp.util || {};

@@ -25,6 +25,11 @@
      * @param {HTMLElement} target for rendering
      */				
 		init: function(article, target) {
+			
+			if(!article || !target) {
+				return
+			};
+			
 			var view = this;
 			view.article = article;
 			

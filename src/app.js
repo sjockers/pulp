@@ -91,8 +91,7 @@
 		nextArticle: function() {
 			if(articles.hasNext()){				
 				articles.forward();
-				pulp.ui.carousel.next();
-				pulp.app.updateHistory();
+				// pulp.app.updateHistory();
 			};
 		},
 		
@@ -105,8 +104,7 @@
 		previousArticle: function() {			
 			if(articles.hasPrevious()){	
 				articles.backward();
-				pulp.ui.carousel.previous();							
-				pulp.app.updateHistory();
+				// pulp.app.updateHistory();
 			};
 		},
 		
