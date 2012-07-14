@@ -16,7 +16,7 @@
 	
 	var articles = pulp.model.articles;
 	var $containers = [];
-	var scrollers = [];
+	var scroller;
 	var slider;
 	
 	function initializeScaffold(){
@@ -29,44 +29,67 @@
 		$containers[0] = carousel.$element.find("#container-0");
 		$containers[1] = carousel.$element.find("#container-1");
 		$containers[2] = carousel.$element.find("#container-2");
-
-		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);				
-
+		
 		slider = new pulp.util.Scroll('pulp-carousel', {
 			snap: true,
 			momentum: false,
 			hScrollbar: false,
 			vScroll: false,
 			onScrollEnd: updateViews,
-			onScrollStart: function(){
-				this.pastPageX = this.currPageX;
+			onBeforeScrollStart: function(){
+				
+				// TODO: Use this to flag if next/previous movement is possible!
+				
+				if(this.dirX > 0 && articles.hasNext()) {
+					pulp.log("HAS NEXT!");
+					//this.pastPageX = this.currPageX;
+					
+				}
+				if(this.dirX < 0 && articles.hasPrevious()) {
+					pulp.log("HAS PREV!");
+					//this.pastPageX = this.currPageX;
+					
+				}
 			}
 		});
+
+		$(window).bind('orientationchange resize', function () {
+			resizeContainers();
+		});
 		
+		resizeContainers();	
+	}
+	
+	function resizeContainers(){
+		$.each($containers, function() {        
+		    this.height($(document).height());  
+		});
+		scroller.refresh();
+		slider.refresh();
 		slider.center();
-		
 	}
 
 	function updateViews(e){
 
 		pulp.log(slider.pastPageX, slider.currPageX);
 		
-		if(slider.pastPageX == slider.currPageX){
-			return;
-		};
+		// TODO: Remove if this proves unnecessary!
+		// if(slider.pastPageX == slider.currPageX){
+		// 	return;
+		// };
 		
-		setTimeout(function(){			
-			if(slider.currPageX > 1) {
-				stepForward(carousel.views);
-			};
-			if(slider.currPageX < 1) {
-				stepBackward(carousel.views);						
-			};			
-		}, 300)
+		if(slider.currPageX > 1) {
+			stepForward(carousel.views);
+		};
+		if(slider.currPageX < 1) {
+			stepBackward(carousel.views);						
+		};			
 
 	}	
 	
 	function stepForward(vws) {
+			
+		console.log(articles.hasNext());	
 			
 		if(articles.hasNext()){
 			slider.center();
@@ -76,7 +99,7 @@
 			vws.previous.render($containers[0]);
 			vws.current.render($containers[1]);
 			
-			new pulp.util.Scroll('container-1');
+			scroller = new pulp.util.Scroll('container-1');
 							
 			pulp.app.nextArticle();
 			vws.next = new pulp.ArticleView(articles.next(), $containers[2]);
@@ -93,7 +116,7 @@
 			vws.next.render($containers[2]);
 			vws.current.render($containers[1]);				
 
-			new pulp.util.Scroll('container-1');
+			scroller = new pulp.util.Scroll('container-1');
 		
 			pulp.app.previousArticle();				
 			vws.previous = new pulp.ArticleView(articles.previous(), $containers[0]);
@@ -114,17 +137,12 @@
 		display: function(path) {	
 
 			if(!this.element) initializeScaffold();			
-			// initializeScaffold();
 			
 			articles.find("url", path);
 			var views = this.views;
 						
 			views.current =  new pulp.ArticleView(articles.current(), $containers[1]);
-			// scrollers[0] = new pulp.util.Scroll('container-1', {
-			// 	onScrollEnd: function(){
-			// 		pulp.log("CONTAINER!"); 
-			// 	}
-			//});
+			scroller = new pulp.util.Scroll('container-1');
 			
 			if(articles.hasPrevious()){
 				views.previous = new pulp.ArticleView(articles.previous(), $containers[0]);					

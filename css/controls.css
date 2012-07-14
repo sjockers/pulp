@@ -48,7 +48,7 @@
 	padding:0;
 }
 
-/*#container-0 {
+#container-0 {
 	background: red;
 }
 
@@ -58,7 +58,7 @@
 
 #container-2 {
 	background: blue;
-}*/
+}
 /*
 #pulp-carousel #slider.slide-left {
 	left: 0;
@@ -78,7 +78,7 @@
 
 /* NAVIGATION BUTTONS
 ---------------------------------------------------------------------*/
-/*#pulp-navbar button {
+#pulp-navbar button {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 5em;
 	height: 2em;
@@ -102,4 +102,4 @@
 	position: fixed;
 	left: 2%;
 	top: 40%;
-}*/
+}
