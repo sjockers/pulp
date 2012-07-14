@@ -145,7 +145,7 @@ a:active, a:focus {
 
 /* CUSTOM LAYOUT & TYPOGRAPHY (Mobile)
 ---------------------------------------------------------------------*/
-.wrapper {
+.main {
 	padding: 1em;
 	max-width: 30em;
 	margin: auto;

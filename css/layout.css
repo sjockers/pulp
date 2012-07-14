@@ -2,7 +2,8 @@
 /* CUSTOM LAYOUT & TYPOGRAPHY (Desktop)
 ---------------------------------------------------------------------*/
 
-.wrapper {
+.main {
+	display: block;
 	padding: 1.618em;
 	margin: 0 auto;
 	max-width: 60em;
@@ -52,7 +53,7 @@ footer p {
 ---------------------------------------------------------------------*/
 @media screen and (min-width: 30em) and (max-width: 63.236em) {
 
-	.wrapper {
+	.main {
 		width: 30em;
 	}
 

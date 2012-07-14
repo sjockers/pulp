@@ -9,10 +9,8 @@
 	
 	iScroll.prototype.center = function(){
 		if (this.pagesX) {
-			var self = this;
-			// setTimeout(function(){
-				self._pos( self.pagesX[1], 0 );
-			// }, 500);			
+			this._pos( this.pagesX[1], 0 );
+			this.currPageX = 1;			
 		}
 	}
 		

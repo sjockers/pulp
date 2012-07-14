@@ -94,6 +94,7 @@
 			// remove arbitrary line breaks and extract the content from the body-element using reg-ex
 			var temp = htmlString.replace(/\s*\n\s*/g,' ');			
 			temp = temp.split(/<\/?body[^>]*>/)[1];	
+			console.log($(temp).find("#pulp").html());
 			return $(temp).find("#pulp").html();		
 		}
 		
