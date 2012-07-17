@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 
-<html manifest="pulp.manifest">
+<!-- <html manifest="pulp.manifest"> -->
+<htm>
 
 <head>
 	
-	<title>Article 7</title>
+	<title>Example Article</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
 	<meta http-equiv="cleartype" content="on">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
 
 	<link rel="shortcut icon" href="/link/to/favicon.ico">
 	<link rel="apple-touch-icon" href="/link/to/apple-touch-icon.png">
 
-	<link rel="toc" href="toc.html">
+	<link rel="toc" href="index.html">
 	<link rel="templates" href="../templates/controls.html">
 
 	<link rel="stylesheet" href="../css/global.css" media="all">
@@ -25,9 +29,11 @@
 
 	<!-- external libs -->
 	<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
+	<script type="text/javascript" src="../lib/iscroll.js"></script>
 
-	<!-- include source files here... -->
+	<!-- include source files here... (for production, use pulp.js!) -->
 	<script type="text/javascript" src="../src/util.module.js"></script>
+	<script type="text/javascript" src="../src/util.scroll.js"></script>
 	<script type="text/javascript" src="../src/util.observable.js"></script>
 	<script type="text/javascript" src="../src/util.collection.js"></script>
 	<script type="text/javascript" src="../src/util.renderable.js"></script>
@@ -48,38 +54,38 @@
 
 <body>
 	
-	<section>
+<section>
+			
+	<div id="pulp">	
+			
+		<article class="main">
 
-		<div id="pulp">	
+	      <header>
+	        <h1>Lorem Ipsum Dolor</h1>
+	      </header>
+      
+	      <div>
+	        <p class="intro">
+	 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.       	
+	        </p> 
+ 
+	        <aside> 
+	          <img src="http://placekitten.com/g/500/500" alt="" /> 
+	        </aside>
 
-			<article class="main">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+				
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+		
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>         
 
-		      <header>
-		        <h1>Lorem Ipsum Dolor 7</h1>
-		      </header>
+    	
+		</article>
 
-		      <div>
-		        <p class="intro">
-		 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.       	
-		        </p> 
+	</div>
+	
+</section>
+	
+</body>
 
-		        <aside> 
-		          <img src="http://placekitten.com/g/500/500" alt="" /> 
-		        </aside>
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>         
-
-
-			</article>
-
-		</div>
-
-	</section>
-
-	</body>
-
-	</html>
+</html>
