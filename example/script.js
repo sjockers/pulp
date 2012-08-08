@@ -1,1 +1,3 @@
-pulp.app.init();
+$(document).ready( function(){ 
+		pulp.app.init();
+});
