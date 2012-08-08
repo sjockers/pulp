@@ -163,7 +163,7 @@ describe("util.collection", function() {
 			expect( collection.current() ).toBe( articles[0] );
 		});
 
-	})
+	});
 
 	describe("current", function() {
 		
@@ -177,7 +177,54 @@ describe("util.collection", function() {
 			expect( collection.current() ).toBe( null );
 		});
 		
-	})
-
+	});
+	
+	describe("hasItems", function() {
+		it("should return false if it is empty", function() {
+			expect( collection.hasItems() ).toBe( false );
+		});	
+		
+		it("should return true if it contains items", function() {
+			collection.init( articles );	
+			
+			expect( collection.hasItems() ).toBe( true );
+		});
+			
+	});
+	
+	describe("hasPrevious", function() {
+		it("should return false if it does not have previous items", function() {
+			collection.init( articles );	
+			collection.rewind();
+			
+			expect( collection.hasPrevious() ).toBe( false );
+		});	
+		
+		it("should return true if it does have previous items", function() {
+			collection.init( articles );	
+			collection.forward();
+			
+			expect( collection.hasPrevious() ).toBe( true );
+		});
+			
+	});
+	
+	describe("hasNext", function() {
+		it("should return false if it does not have subsequent items", function() {
+			collection.init( articles );	
+			collection.rewind();
+			
+			expect( collection.hasNext() ).toBe( true );
+		});	
+		
+		it("should return true if it does have subsequent items", function() {
+			collection.init( articles );	// ... initialized with 4 items
+			collection.forward();
+			collection.forward();
+			collection.forward();			
+			expect( collection.hasNext() ).toBe( false );
+		});
+			
+	});
 });
 
