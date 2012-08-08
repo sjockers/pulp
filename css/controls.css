@@ -78,7 +78,7 @@
 
 /* NAVIGATION BUTTONS
 ---------------------------------------------------------------------*/
-/*#pulp-navbar button {
+#pulp-navbar button {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 5em;
 	height: 2em;
@@ -91,21 +91,22 @@
 	-webkit-border-radius: .2em;
 	border: 1px solid #949494;
 	position: fixed;
-	z-index: 100;
 	cursor: pointer;
 }
 
-#pulp-next {
+.pulp-next {
 	right: 2%;
 	top: 40%;
 }
 
-#pulp-prev {
+.pulp-prev {
 	left: 2%;
 	top: 40%;
 }
-*/
 
+.touch #pulp-navbar {
+	display: none;
+}
 
 /* Table of Contents 
 ---------------------------------------------------------------------*/
@@ -125,4 +126,9 @@
 
 .toc h3 {
 	font-size: 1.309em;		
+}
+
+.toc a {
+	color: #333;
+	text-decoration: none;	
 }
