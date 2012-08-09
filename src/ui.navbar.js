@@ -11,11 +11,12 @@
 	navbar.extend(pulp.util.renderable);
 
 	function nextClicked(event){
-		pulp.app.nextArticle();
+		pulp.ui.carousel.forward();
 	}
 	
 	function prevClicked(event){
-		pulp.app.previousArticle();
+		("BACKWARD CLICKED!!!")
+		pulp.ui.carousel.backward();
 	}
 	
 	navbar.extend({
@@ -23,8 +24,8 @@
 			navbar.create("navbar_tmp");
 			navbar.render("body");
 			
-			$("#pulp-prev").click(prevClicked);
-			$("#pulp-next").click(nextClicked);		
+			$(".pulp-prev").click(prevClicked);
+			$(".pulp-next").click(nextClicked);		
 		}
 	});
 

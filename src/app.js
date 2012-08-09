@@ -36,18 +36,23 @@
 			var tocUrl = tocUrl || getTocUrl();
 			var templatesUrl = templatesUrl || getTemplatesUrl();
 
-			window.addEventListener("popstate", app.previousArticle);
+
+			//TODO: Make History API/popstate work
+			//window.addEventListener("popstate", pulp.ui.carousel.backward);
+
+			console.log("LOAD TOC!");
 
 			$.ajax({
 				type: "GET",
 				dataType: "html",
 				url: templatesUrl,
-			  success: function(templates) {
+			  success: function(templates) {				
 					$(document.body).append(templates);
 					pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
 					pulp.model.getToc(tocUrl);
 				}
 			});
+
 		},
 		
 		/**
@@ -89,22 +94,23 @@
      * @method nextArticle
      */
 		nextArticle: function() {
-			if(articles.hasNext()){				
+			console.log("next!", articles.hasNext(), articles.current())
+			if(articles.hasNext()){		
 				articles.forward();
-				// pulp.app.updateHistory();
+				pulp.app.updateHistory();
 			};
 		},
-		
-		
+				
 		/**
      * Trigger flicking backward.
      *
      * @method previousArticle
      */
-		previousArticle: function() {			
+		previousArticle: function() {	
+			console.log("prev!", articles.hasPrevious())
 			if(articles.hasPrevious()){	
 				articles.backward();
-				// pulp.app.updateHistory();
+				pulp.app.updateHistory();
 			};
 		},
 		

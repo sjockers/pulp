@@ -15,7 +15,6 @@
 	carousel.extend( pulp.util.touchable );
 	
 	var articles = pulp.model.articles;
-	var $containers = [];
 	var scroller;
 	var slider;
 	
@@ -25,11 +24,6 @@
 		carousel.target = document.body;
 		carousel.hideContent();		
 		carousel.render();		
-				
-		$containers[0] = carousel.$element.find("#container-0");
-		$containers[1] = carousel.$element.find("#container-1");
-		$containers[2] = carousel.$element.find("#container-2");
-
 
 		slider = new pulp.util.Scroll("pulp-carousel", {
 			snap: true,
@@ -38,125 +32,147 @@
 			vScroll: false,
 			onScrollEnd: updateViews
 		});
-		
-		$("#pulp-next").click( function(){
-			console.log("YEAH!");
-			// slider.scrollToPage('next', 0);
-			// return false;
-		})
-		
-		$("#pulp-prev").click( function(){
-			console.log("YEAH!");
-			// slider.scrollToPage('prev', 0);
-			// return false;
-		})
-
 			
 		$(window).bind("orientationchange resize", function (){
 			resizeContainers();
-		});	
-				
-		resizeContainers();	
+		}); 
+		
+		makeLinksLocal();		
 	}
 	
-	function resizeContainers(){
-		$.each($containers, function() {        
-		    this.height($(document).height());  
-		});
+	function resizeContainers(){		
+		$("#slider").height($(document).height());
 		scroller.refresh();
 		slider.refresh();
 		slider.center();
 	}
 
 	function updateViews(e){
-		
 		if(slider.currPageX > 1) {
-			stepForward(carousel.views);
+			stepForward();
 		}
 		if(slider.currPageX < 1) {
-			stepBackward(carousel.views);						
-		}
-
-	}	
+			stepBackward();						
+		}			
+	} 
 	
-	function stepForward(vws) {
-					
-		if(articles.hasNext()){
-										
-			pulp.app.nextArticle();
-			
-			if(articles.hasNext()){
-				vws.previous = vws.current;
-				vws.current = vws.next;
-				
-				vws.previous.render($containers[0]);
-				vws.current.render($containers[1]);
-				slider.center();
-				scroller = new pulp.util.Scroll('container-1');
-				vws.next = new pulp.ArticleView(articles.next(), $containers[2]);
-			} 
-			else {
-				pulp.app.previousArticle();
-				vws.previous = new pulp.ArticleView(articles.previous(), $containers[0]);
+	function makeLinksLocal() {
+		var a = document.getElementsByTagName("a");
+		for(var i=0;i<a.length;i++) {
+		if(!a[i].onclick && a[i].getAttribute("target") != "_blank") {
+			a[i].onclick=function() {
+					window.location=this.getAttribute("href");
+					return false; 
+				}
 			}
 		}
 	}
 	
-	function stepBackward(vws) {
+	function findViews() {
+		return {
+			previous: $(slider.scroller).find(".previous"),	
+			current: $(slider.scroller).find(".current"),
+			next: $(slider.scroller).find(".next")  	
+		}
+	}
+	
+	function stepForward() {
+					
+		if(articles.hasNext()){
+										
+			pulp.app.nextArticle();
+			var views = findViews();
+			
+			if(articles.hasNext()){
+
+				new pulp.ArticleView(articles.next(), views.previous);
+				
+				views.next.removeClass("next").addClass("current");								
+				views.current.removeClass("current").addClass("previous");
+				views.previous.removeClass("previous").addClass("next");
+														
+				slider.center();
+				
+				scroller.refresh();
+				scroller.destroy();
+				scroller = new pulp.util.Scroll(views.next.get(0));
+			
+			} 
+			else {
+				pulp.app.previousArticle();
+				new pulp.ArticleView(articles.previous(), views.previous);
+				scroller.refresh();
+				scroller.destroy();
+				scroller = new pulp.util.Scroll(views.next.get(0)); 
+			}
+		}
+	}
+	
+	function stepBackward() {
 
 		if(articles.hasPrevious()){
 
 			pulp.app.previousArticle();				
-
+			var views = findViews();
+			
 			if(articles.hasPrevious()){
-				vws.next = vws.current;
-				vws.current = vws.previous;
+
+				new pulp.ArticleView(articles.previous(), views.next);
 				
-				vws.next.render($containers[2]);
-				vws.current.render($containers[1]);
-				slider.center();			
-				scroller = new pulp.util.Scroll('container-1');		
-				vws.previous = new pulp.ArticleView(articles.previous(), $containers[0]);
+				views.previous.removeClass("previous").addClass("current");
+				views.current.removeClass("current").addClass("next");
+				views.next.removeClass("next").addClass("previous");								
+														
+				slider.center();								
+				scroller.refresh();
+				scroller.destroy();
+				scroller = new pulp.util.Scroll(views.previous.get(0)); 
+
 			}
 			else {
 				pulp.app.nextArticle();
-				vws.next = new pulp.ArticleView(articles.next(), $containers[2]);				
+				new pulp.ArticleView(articles.next(), views.next); 
+				scroller.refresh();
+				scroller.destroy();				
+				scroller = new pulp.util.Scroll(views.previous.get(0)); 
 			}
 		}		
-	}	
+	} 
 			
 	carousel.extend({
 
 		init: function() {
 		},
-
-		views: {
-			previous: null,
-			current: null,
-			next: null
-		},
 		
-		display: function(path) {	
+		display: function(path) { 
 
 			if(!this.element) initializeScaffold();			
 			
 			articles.find("url", path);
-			var views = this.views;
+			var views = findViews();
 			
-			views.current =  new pulp.ArticleView(articles.current(), $containers[1]);
-			scroller = new pulp.util.Scroll('container-1');	
+			new pulp.ArticleView(articles.current(), views.current);
+			scroller = new pulp.util.Scroll(views.current.get(0)); 
 			
 			if(articles.hasPrevious()){
-				views.previous = new pulp.ArticleView(articles.previous(), $containers[0]);					
+				new pulp.ArticleView(articles.previous(), views.previous);					
 			}
 						
 			if(articles.hasNext()){
-				views.next = new pulp.ArticleView(articles.next(), $containers[2]);
+				new pulp.ArticleView(articles.next(), views.next);
 			}
 			
-			slider.center();			
-			
+			resizeContainers();				
+		},
+		
+		forward: function(){
+			slider.scrollToPage('next', 0);
+		},
+		
+		backward: function(){
+			slider.scrollToPage('prev', 0);
 		}
+		
 	});
 	
 
