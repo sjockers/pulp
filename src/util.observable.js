@@ -71,9 +71,12 @@
 		var args = Array.prototype.slice.call(arguments, 1);
 
 		$.each(observers, function() {			
-			try {
-				this.apply(this, args);
-			} catch (e) {};
+			this.apply(this, args);
+			// try {
+			// 	this.apply(this, args);
+			// } catch (e) {
+			// 	pulp.log(e);
+			// };
 		});
 	};
 		

@@ -48,9 +48,14 @@
      * @method render
      * @param {HTMLElement} target for rendering
      */		
-		render: function(target){
+		render: function(target) {
 			this.target = target || this.target;		
 			$(this.target).html(this.$element);					
+		},
+		
+		replaceWith: function(replacement) {
+			pulp.log(replacement.$element);
+			this.$element.replaceWith(replacement.$element.html());
 		}
 		
 	});
