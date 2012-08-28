@@ -161,17 +161,6 @@ describe("pulp.util.observer", function() {
 				expect(invalidTestFn).toThrow(new TypeError("not a valid event identifier"));
 			});
 			
-			it("should notify all even when some observers fail", function() {
-				var observer1 = function() { throw new Error("Whut!?"); };
-				var observer2 = function() { observer2.called = true };				
-
-				observable.observe("event", observer1);
-				observable.observe("event", observer2);
-				observable.notify("event");
-
-				expect(observer2.called).toBeTruthy();
-			});
-			
 		});
 		
 });
