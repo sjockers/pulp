@@ -4,12 +4,21 @@ describe("pulp.app", function() {
 
   beforeEach(function() {
   	sinon.stub(pulp.model, "getToc");
+  	sinon.stub(pulp.util, "templating");    
+  	sinon.stub(pulp.util, "Scroll", function(){
+		  this.refresh = function(){};
+		  this.center = function(){};
+		  this.destroy = function(){};
+		});
+  	
 		server = sinon.fakeServer.create();
 		server.respondWith("GET", "../templates/ui.html", TocResponse.success);
 	});
 
   afterEach(function() {
 		server.restore();
+		pulp.util.Scroll.restore();
+		pulp.util.templating.restore();
 		pulp.model.getToc.restore();		
   });
 

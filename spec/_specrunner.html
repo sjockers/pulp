@@ -6,7 +6,12 @@
 
   <link rel="stylesheet" type="text/css" href="vendor/jasmine.css">
 
-	<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
+	<!-- libs -->
+	<script type="text/javascript" src="../lib/modernizr.js"></script>
+	<script type="text/javascript" src="../lib/jquery-1.7.1.js"></script>	
+	<script type="text/javascript" src="../lib/iscroll.js"></script>
+	
+	<!-- testing helpers + libs -->	
   <script type="text/javascript" src="vendor/jasmine.js"></script>
   <script type="text/javascript" src="vendor/jasmine-html.js"></script>
   <script type="text/javascript" src="vendor/sinon.js"></script>
@@ -25,20 +30,21 @@
   <script type="text/javascript" src="carousel_spec.js"></script>
   <script type="text/javascript" src="app_spec.js"></script>
 
-  <!-- include source files here... -->
-  <script type="text/javascript" src="../src/util.module.js"></script>
-  <script type="text/javascript" src="../src/util.observable.js"></script>
-  <script type="text/javascript" src="../src/util.collection.js"></script>
-  <script type="text/javascript" src="../src/util.renderable.js"></script>
-  <script type="text/javascript" src="../src/util.touchable.js"></script>
-  <script type="text/javascript" src="../src/util.log.js"></script>
-  <script type="text/javascript" src="../src/events.js"></script>
-  <script type="text/javascript" src="../src/article.js"></script>
-  <script type="text/javascript" src="../src/model.js"></script>
-  <script type="text/javascript" src="../src/articleview.js"></script>
-  <script type="text/javascript" src="../src/ui.carousel.js"></script>
-  <script type="text/javascript" src="../src/ui.navbar.js"></script>
-  <script type="text/javascript" src="../src/app.js"></script>
+	<!-- include source files here... (for production, use pulp.js!) -->
+	<script type="text/javascript" src="../src/util.module.js"></script>
+	<script type="text/javascript" src="../src/util.scroll.js"></script>
+	<script type="text/javascript" src="../src/util.observable.js"></script>
+	<script type="text/javascript" src="../src/util.collection.js"></script>
+	<script type="text/javascript" src="../src/util.renderable.js"></script>
+	<script type="text/javascript" src="../src/util.touchable.js"></script>
+	<script type="text/javascript" src="../src/util.log.js"></script>
+	<script type="text/javascript" src="../src/events.js"></script>
+	<script type="text/javascript" src="../src/article.js"></script>
+	<script type="text/javascript" src="../src/model.js"></script>
+	<script type="text/javascript" src="../src/articleview.js"></script>
+	<script type="text/javascript" src="../src/ui.carousel.js"></script>
+	<script type="text/javascript" src="../src/app.js"></script>
+	<script type="text/javascript" src="../src/ui.navbar.js"></script>
 
   <script type="text/javascript">
     (function() {

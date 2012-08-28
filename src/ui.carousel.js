@@ -15,8 +15,7 @@
 	carousel.extend( pulp.util.touchable );
 	
 	var articles = pulp.model.articles;
-	var scroller;
-	var slider;
+	
 	var leftStepSkipped = false;
 	var rightStepSkipped = false;
 	
@@ -24,10 +23,11 @@
 		
 		carousel.create("carousel_tmpl");
 		carousel.target = document.body;
-		carousel.hideContent();		
+		carousel.hideContent();
+		
 		carousel.render();		
 
-		slider = new pulp.util.Scroll("pulp-carousel", {
+		carousel.slider = new pulp.util.Scroll("pulp-carousel", {
 			snap: true,
 			momentum: false,
 			hScrollbar: false,
@@ -38,20 +38,20 @@
 			
 		$(window).bind("orientationchange resize", function (){
 			resizeContainers();
-		}); 
+		});
 		
 		makeLinksLocal();		
 	}
 	
 	function resizeContainers(){		
 		$("#slider").height($(document).height());
-		scroller.refresh();
-		slider.refresh();
-		slider.center();
+		carousel.scroller.refresh();
+		carousel.slider.refresh();
+		carousel.slider.center();
 	}
 
 	function updateViews(e){		
-		switch (slider.currPageX) {
+		switch (carousel.slider.currPageX) {
 			case 0 :
 				stepBackward();
 				break;
@@ -60,6 +60,14 @@
 				break;
 		}
 	} 
+	
+	function findViews(slider) {
+		return {
+			previous: $(slider).find(".previous"),	
+			current: $(slider).find(".current"),
+			next: $(slider).find(".next")  	
+		}
+	}
 	
 	function makeLinksLocal() {
 		var a = document.getElementsByTagName("a");
@@ -73,19 +81,11 @@
 		}
 	}
 	
-	function findViews() {
-		return {
-			previous: $(slider.scroller).find(".previous"),	
-			current: $(slider.scroller).find(".current"),
-			next: $(slider.scroller).find(".next")  	
-		}
-	}
-	
 	function stepForward() {
 
 		if(rightStepSkipped === false) {															
 			pulp.app.nextArticle();
-			var views = findViews();
+			var views = findViews(carousel.slider.scroller);
 		
 			if(articles.hasNext()){
 
@@ -95,10 +95,10 @@
 				views.current.removeClass("current").addClass("previous");
 				views.previous.removeClass("previous").addClass("next");
 													
-				slider.center();
+				carousel.slider.center();
 			
-				scroller.destroy();
-				scroller = new pulp.util.Scroll(views.next.get(0));
+				carousel.scroller.destroy();
+				carousel.scroller = new pulp.util.Scroll(views.next.get(0));
 			
 				leftStepSkipped = false;
 			
@@ -108,7 +108,7 @@
 					pulp.app.previousArticle();
 					new pulp.ArticleView(articles.previous(), views.previous);
 
-					scroller = new pulp.util.Scroll(views.next.get(0));
+					carousel.scroller = new pulp.util.Scroll(views.next.get(0));
 					rightStepSkipped = true;
 				}
 			}
@@ -120,7 +120,7 @@
 		if(leftStepSkipped === false){
 
 			pulp.app.previousArticle();				
-			var views = findViews();
+			var views = findViews(carousel.slider.scroller);
 		
 			if(articles.hasPrevious()){
 
@@ -130,10 +130,10 @@
 				views.current.removeClass("current").addClass("next");
 				views.next.removeClass("next").addClass("previous");								
 													
-				slider.center();
+				carousel.slider.center();
 			
-				scroller.destroy();				
-				scroller = new pulp.util.Scroll(views.previous.get(0));
+				carousel.scroller.destroy();				
+				carousel.scroller = new pulp.util.Scroll(views.previous.get(0));
 
 				rightStepSkipped = false;
 		
@@ -142,7 +142,7 @@
 				if (leftStepSkipped === false) {
 					pulp.app.nextArticle();
 					new pulp.ArticleView(articles.next(), views.next); 
-					scroller = new pulp.util.Scroll(views.previous.get(0));				
+					carousel.scroller = new pulp.util.Scroll(views.previous.get(0));				
 					leftStepSkipped = true;					
 				}
 			}
@@ -150,6 +150,9 @@
 	}	
 			
 	carousel.extend({
+
+  	scroller: null,
+  	slider: null,
 
 		init: function() {
 		},
@@ -159,10 +162,10 @@
 			if(!this.element) initializeScaffold();			
 			
 			articles.find("url", path);
-			var views = findViews();
+			var views = findViews(this.slider.scroller);
 			
 			new pulp.ArticleView(articles.current(), views.current);
-			scroller = new pulp.util.Scroll(views.current.get(0)); 
+			carousel.scroller = new pulp.util.Scroll(views.current.get(0)); 
 			
 			if(articles.hasPrevious()){
 				new pulp.ArticleView(articles.previous(), views.previous);					
@@ -176,11 +179,11 @@
 		},
 		
 		forward: function(){
-			slider.scrollToPage('next', 0);
+			this.slider.scrollToPage('next', 0);
 		},
 		
 		backward: function(){
-			slider.scrollToPage('prev', 0);
+			this.slider.scrollToPage('prev', 0);
 		}
 		
 	});

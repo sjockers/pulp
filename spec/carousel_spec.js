@@ -21,12 +21,23 @@ describe("pulp.ui.carousel", function() {
 	  </ul>'
 
 		pulp.model.articles.init(articles);
-		
+
+		sinon.stub(pulp.util, "templating");
+		sinon.stub(pulp.util, "Scroll", function(){
+		  this.refresh = function(){};
+		  this.center = function(){};
+		  this.destroy = function(){};
+		});
+
+	  pulp.ui.carousel.slider = new pulp.util.Scroll();
+	  pulp.ui.carousel.scroller = new pulp.util.Scroll();
 	});
 
   afterEach(function() {
 		pulp.model.articles.clear();
 		pulp.ui.carousel.element = null;
+    pulp.util.Scroll.restore();
+		pulp.util.templating.restore();    
   });
 
   it("should find and display the current article", function() {
@@ -52,6 +63,7 @@ describe("pulp.ui.carousel", function() {
 			sinon.stub(pulp.ui.carousel, "hideContent");
 			sinon.stub(pulp.ui.carousel, "create");
 			sinon.stub(pulp.ui.carousel, "render");
+			  
 	  });
 
 	  afterEach(function() {
@@ -61,9 +73,10 @@ describe("pulp.ui.carousel", function() {
 			pulp.ui.carousel.render.restore();
 	  });
 
-	  it("should hide the initial body content", function() {		
-			pulp.ui.carousel.display("/path/to/article1");
-			articles[1].notify(pulp.events.CONTENT_LOADED);
+	  it("should initialize the carousel UI", function() {		
+      
+      pulp.ui.carousel.display("/path/to/article1");    
+      articles[1].notify(pulp.events.CONTENT_LOADED);			
 			
 			expect( pulp.ui.carousel.hideContent ).toHaveBeenCalled();		
 	  });
