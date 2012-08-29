@@ -18,13 +18,13 @@ describe("pulp.ArticleView", function() {
 	});
 	
 	it("should initialize by fetching the passed article's content", function(){		
-  	var view = new pulp.ArticleView(article, "body");
+  	var view = pulp.articleViewFactory.create(article, "body");
 		
 		expect( article.fetch ).toHaveBeenCalled();
 	})
 	
   it("should add an article view to the DOM", function() {
-  	var view = new pulp.ArticleView(article, "body");
+  	var view = pulp.articleViewFactory.create(article, "body");
 		
 		expect( $("body").find("#fixture").detach() ).toBeTruthy();
   });

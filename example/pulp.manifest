@@ -5,7 +5,7 @@ CACHE MANIFEST
 CACHE:
 ../src/app.js
 ../src/article.js
-../src/articleview.js
+../src/ui.articleview.js
 ../src/events.js
 ../src/model.js
 ../src/ui.carousel.js

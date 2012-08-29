@@ -1,5 +1,6 @@
 /**
  * pulp.ArticleView
+ * pulp.ArticleViewFactory
  *
  * visual representation of an article, used for rendering articles in the ui.carousel component
  * 
@@ -7,7 +8,7 @@
 
 (function( pulp, $ ) {
 
-	var ArticleView = new pulp.util.Module; 
+	var ArticleView = new pulp.util.Module(); 
 	ArticleView.include(pulp.util.observable);
 	ArticleView.include(pulp.util.renderable);
 
@@ -27,8 +28,8 @@
 		init: function(article, target) {
 			
 			if(!article || !target) {
-				return
-			};
+				return;
+			}
 			
 			var view = this;
 			view.article = article;
@@ -60,7 +61,13 @@
 		
 	});
 			
+	var articleViewFactory = {
+		create : function(article, target){
+			return new ArticleView(article, target);
+		}
+  };		
+			
 	// expose to namespace
-	pulp.ArticleView = pulp.ArticleView || ArticleView;		
+	pulp.articleViewFactory = pulp.articleViewFactory || articleViewFactory;	
 		   
-})( window.pulp = window.pulp || {}, jQuery );
+}( window.pulp = window.pulp || {}, jQuery ));
