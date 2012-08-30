@@ -15,7 +15,6 @@ CACHE:
 ../src/util.module.js
 ../src/util.observable.js
 ../src/util.renderable.js
-../src/util.touchable.js
 ../css/global.css
 ../css/layout.css
 ../css/controls.css
