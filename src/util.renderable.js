@@ -1,53 +1,57 @@
+/*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
+/*jshint regexp: false, evil: true */
+
 /**
  * pulp.util.rederable
  *
  * implementing this mixin enables modules to render content into the DOM
- * 
+ *
  */
 
 (function( pulp, $ ) {
-	"use strict"
+  "use strict";
 
-	// namespace declaration
-	pulp.util = pulp.util || {};
-	
-	// expose to namespace
-	pulp.util.renderable = {
-		
-		element: null,
-		
-		$element: null,
-		
-		target: null,
-		
-		data: {},
-				
-		template: null,
-				
-		// create the element
-		create: function(template, data){
-			this.template = template || this.template;
-			this.data = data || this.data;
-			this.element = pulp.util.templating(this.template, this.data);
-			this.$element = $(this.element);
-		},
-		
-		// insert it into the DOM
-		render: function(target){
-			this.target = target || this.target;
-			$(this.target).append(this.$element);					
-		},
+  // namespace declaration
+  pulp.util = pulp.util || {};
+  
+  // expose to namespace
+  pulp.util.renderable = {
+    
+    element: null,
+    
+    $element: null,
+    
+    target: null,
+    
+    data: {},
+        
+    template: null,
+        
+    // create the element
+    create: function(template, data){
+      this.template = template || this.template;
+      this.data = data || this.data;
+      this.element = pulp.util.templating(this.template, this.data);
+      this.$element = $(this.element);
+    },
+    
+    // insert it into the DOM
+    render: function(target){
+      this.target = target || this.target;
+      $(this.target).append(this.$element);
+    },
 
-		// wrap original content in container to hide it		
-		hideContent: function(target){
-			this.target = target || this.target;			
-			$(this.target).wrapInner(pulp.util.templating("original_tmp",{}));		
-		}
-	};
-	
-	// JavaScript Micro-Templating
-	// Courtesy of John Resig - MIT Licensed
-	var templatingCache = {};  
+    // wrap original content in container to hide it
+    hideContent: function(target){
+      this.target = target || this.target;
+      $(this.target).wrapInner(pulp.util.templating("original_tmp",{}));
+    }
+  };
+  
+  // JavaScript Micro-Templating
+  // Courtesy of John Resig - MIT Licensed
+    
+  var templatingCache = {};
   pulp.util.templating = function(str, data){
 
     // Figure out if we're getting a template, or if we need to
@@ -72,12 +76,10 @@
           .replace(/\t=(.*?)%>/g, "',$1,'")
           .split("\t").join("');")
           .split("%>").join("p.push('")
-          .split("\r").join("\\'")
-      + "');}return p.join('');");
+          .split("\r").join("\\'") + "');}return p.join('');");
     
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
-	
-		   
-})( window.pulp = window.pulp || {}, jQuery );
+
+}( window.pulp = window.pulp || {}, jQuery ));
