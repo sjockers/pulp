@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Jasmine Spec Runner (trivial and headless reporting)</title>
+  <link rel="stylesheet" href="styles.css" charset="utf-8">
+
+	<!-- libs -->
+	<script type="text/javascript" src="../../lib/modernizr.js"></script>
+	<script type="text/javascript" src="../../lib/jquery-1.7.1.js"></script>	
+	<script type="text/javascript" src="../../lib/iscroll.js"></script>
+	
+	<!-- testing helpers + libs -->	
+  <script type="text/javascript" src="../vendor/jasmine.js"></script>
+  <script type="text/javascript" src="../vendor/jasmine-html.js"></script>
+  <script type="text/javascript" src="../vendor/sinon.js"></script>
+  <script type="text/javascript" src="../vendor/grunt-reporter.js"></script>
+  
+	<script type="text/javascript" src="../helpers/jasmine-jquery.js"></script>
+	<script type="text/javascript" src="../helpers/jasmine-sinon.js"></script>
+  <script type="text/javascript" src="../helpers/fixtures/toc-xhr-response.js"></script>
+  <script type="text/javascript" src="../helpers/fixtures/articles-xhr-response.js"></script>
+
+  <!-- include spec files here... -->
+  <script type="text/javascript" src="../observable_spec.js"></script>
+  <script type="text/javascript" src="../collection_spec.js"></script>
+  <script type="text/javascript" src="../article_spec.js"></script>
+  <script type="text/javascript" src="../model_spec.js"></script>
+  <script type="text/javascript" src="../view_spec.js"></script>
+  <script type="text/javascript" src="../carousel_spec.js"></script>
+  <script type="text/javascript" src="../app_spec.js"></script>
+
+	<!-- include source files here... (for production, use pulp.js!) -->
+	<script type="text/javascript" src="../../src/util.module.js"></script>
+	<script type="text/javascript" src="../../src/util.scroll.js"></script>
+	<script type="text/javascript" src="../../src/util.observable.js"></script>
+	<script type="text/javascript" src="../../src/util.collection.js"></script>
+	<script type="text/javascript" src="../../src/util.renderable.js"></script>
+	<script type="text/javascript" src="../../src/util.log.js"></script>
+	<script type="text/javascript" src="../../src/events.js"></script>
+	<script type="text/javascript" src="../../src/article.js"></script>
+	<script type="text/javascript" src="../../src/model.js"></script>
+	<script type="text/javascript" src="../../src/ui.articleview.js"></script>
+	<script type="text/javascript" src="../../src/ui.carousel.js"></script>
+	<script type="text/javascript" src="../../src/app.js"></script>
+	<script type="text/javascript" src="../../src/ui.navbar.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+  
+    if(/phantom/i.test(navigator.userAgent)) {
+      jasmine.getEnv().addReporter( new GruntReporter() );
+    }
+    else {
+      var trivialReporter = new jasmine.TrivialReporter();
+      jasmine.getEnv().addReporter(trivialReporter);
+      jasmine.getEnv().specFilter = function(spec) {
+        return trivialReporter.specFilter(spec);
+      };
+    }
+
+    jasmine.getEnv().execute();
+  
+  </script>
+</body>
+</html>
