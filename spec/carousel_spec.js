@@ -24,13 +24,13 @@ describe("pulp.ui.carousel", function() {
 
     $.each(articles, function(i, article) {
       sinon.stub(article, "fetch");
-    })
+    });
 
     pulp.ui.carousel.element = '<ul id="carousel">\
-	  	<li class="article-container" id="container-0"></li>\
-	  	<li class="article-container" id="container-1"></li>\
-	    <li class="article-container" id="container-2"></li>\
-	  </ul>'
+      <li class="article-container" id="container-0"></li>\
+      <li class="article-container" id="container-1"></li>\
+      <li class="article-container" id="container-2"></li>\
+    </ul>';
 
     pulp.model.articles.init(articles);
 
