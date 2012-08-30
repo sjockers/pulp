@@ -2,9 +2,9 @@
 /*jshint regexp: false, evil: true */
 
 /**
- * pulp.util.rederable
+ * pulp.util.renderable
  *
- * implementing this mixin enables modules to render content into the DOM
+ * implementing this mixin enables modules to render content to the DOM
  *
  */
 
