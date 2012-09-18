@@ -1,4 +1,4 @@
-/*! Pulp Toolkit - v0.1.0 - 2012-08-30
+/*! Pulp Toolkit - v0.1.0 - 2012-09-18
 * https://github.com/sjockers/pulp
 * Copyright (c) 2012 Simon Jockers; Licensed MIT */
 
@@ -12,125 +12,126 @@
 (function( pulp, $) {
   "use strict";
   
-  var app = new pulp.util.Module();
-  app.extend(pulp.util.observable);
-  var articles = pulp.model.articles;
+  pulp.app = (function(){
+    var app = new pulp.util.Module();
+    app.extend(pulp.util.observable);
+    var articles = pulp.model.articles;
 
-  // private methods:
+    // private methods:
 
-  function getTocUrl() {
-  return $("link[rel='toc']").attr("href");
-  }
-
-  function getTemplatesUrl() {
-  return $("link[rel='templates']").attr("href");
-  }
-
-  // public methods:
-  app.extend({
-
-  /**
-   * Initializes the application.
-   *
-   * @method init
-   * @param {String} path to TOC
-   * @param {String} path to external GUI templates
-   */
-  init: function(tocUrl, templatesUrl) {
-    var toc = tocUrl || getTocUrl();
-    var templates = templatesUrl || getTemplatesUrl();
-
-
-    //TODO: Make History API/popstate work
-    //window.addEventListener("popstate", pulp.ui.carousel.backward);
-    //console.log("LOAD TOC!");
-
-    $.ajax({
-    type: "GET",
-    dataType: "html",
-    url: templates,
-    success: function(templates) {
-      $(document.body).append(templates);
-      pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
-      pulp.model.getToc(toc);
+    function getTocUrl() {
+    return $("link[rel='toc']").attr("href");
     }
+
+    function getTemplatesUrl() {
+    return $("link[rel='templates']").attr("href");
+    }
+
+    // public methods:
+    app.extend({
+
+    /**
+     * Initializes the application.
+     *
+     * @method init
+     * @param {String} path to TOC
+     * @param {String} path to external GUI templates
+     */
+    init: function(tocUrl, templatesUrl) {
+      var toc = tocUrl || getTocUrl();
+      var templates = templatesUrl || getTemplatesUrl();
+
+
+      //TODO: Make History API/popstate work
+      //window.addEventListener("popstate", pulp.ui.carousel.backward);
+      //console.log("LOAD TOC!");
+
+      $.ajax({
+      type: "GET",
+      dataType: "html",
+      url: templates,
+      success: function(templates) {
+        $(document.body).append(templates);
+        pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
+        pulp.model.getToc(toc);
+      }
+      });
+
+    },
+
+    /**
+     * Sets up the GUI elements.
+     *
+     * @method setup
+     */
+    setup: function() {
+      var path = window.location.pathname;
+      app.navigate(path);
+      pulp.ui.navbar.init();
+    },
+
+    /**
+     * Checks if the History API is supported.
+     *
+     * @method historySupported
+     */
+    historySupported: function() {
+      return !!(window.history && window.history.pushState);
+    },
+
+    /**
+     * Updates the browser history.
+     *
+     * @method updatesHistory
+     */
+    updateHistory: function() {
+      var article = articles.current();
+      window.document.title = article.title;
+      if (this.historySupported()) {
+      history.pushState(null, null, article.url);
+      }
+    },
+
+    /**
+     * Trigger flicking forward.
+     *
+     * @method nextArticle
+     */
+    nextArticle: function() {
+      articles.forward();
+      pulp.app.updateHistory();
+    },
+
+    /**
+     * Trigger flicking backward.
+     *
+     * @method previousArticle
+     */
+    previousArticle: function() {
+      articles.backward();
+      pulp.app.updateHistory();
+    },
+
+    /**
+     * Navigate to a certain article within the publication.
+     *
+     * @method navigate
+     * @param {String} path to the article (ID)
+     */
+    navigate: function(path) {
+      // TODO: Check if path is valid
+      pulp.ui.carousel.display(path);
+    }
+
     });
+    
+    return app;    
+  }());
 
-  },
-
-  /**
-   * Sets up the GUI elements.
-   *
-   * @method setup
-   */
-  setup: function() {
-    var path = window.location.pathname;
-    app.navigate(path);
-    pulp.ui.navbar.init();
-  },
-
-  /**
-   * Checks if the History API is supported.
-   *
-   * @method historySupported
-   */
-  historySupported: function() {
-    return !!(window.history && window.history.pushState);
-  },
-
-  /**
-   * Updates the browser history.
-   *
-   * @method updatesHistory
-   */
-  updateHistory: function() {
-    var article = articles.current();
-    window.document.title = article.title;
-    if (this.historySupported()) {
-    history.pushState(null, null, article.url);
-    }
-  },
-  
-  /**
-   * Trigger flicking forward.
-   *
-   * @method nextArticle
-   */
-  nextArticle: function() {
-    articles.forward();
-    pulp.app.updateHistory();
-  },
-
-  /**
-   * Trigger flicking backward.
-   *
-   * @method previousArticle
-   */
-  previousArticle: function() {
-    articles.backward();
-    pulp.app.updateHistory();
-  },
-
-  /**
-   * Navigate to a certain article within the publication.
-   *
-   * @method navigate
-   * @param {String} path to the article (ID)
-   */
-  navigate: function(path) {
-    // TODO: Check if path is valid
-    pulp.ui.carousel.display(path);
-  }
-
-  });
-
-  // expose to namespace
-  pulp.app = pulp.app || app;
-
-}(window.pulp = window.pulp || {}, jQuery));
+}(window.pulp, jQuery));
 
 /**
- * pulp.article
+ * pulp.core.Article
  *
  * Represents an article item
  *
@@ -139,103 +140,107 @@
 (function( pulp, $ ) {
   "use strict";
 
-  var Article = new pulp.util.Module();
+  pulp.namespace("Article");
   
-  // make instances observable:
-  Article.include(pulp.util.observable);
+  pulp.core.Article = (function(){
 
-  // public methods:
-  Article.include({
+    var Article = new pulp.util.Module();
 
-    /**
-     * Constructor.
-     *
-     * @method init
-     * @param {Object} object containing a TOC item
-     */   
-    init: function(ressource) {
-      ressource = ressource || {};
-      this.url = ressource.url;
-      this.title = ressource.title;
-      this.thumbnail = ressource.thumbnail;
-      this.byline = ressource.byline;
-      this.content = ressource.content;
-    },
+    // make instances observable:
+    Article.include(pulp.util.observable);
 
-    /**
-     * Persist Article to LocalStorage.
-     *
-     * @method save
-     */
-    save: function() {
-      localStorage.setItem(this.url, JSON.stringify(this.content));
-    },
+    // public methods:
+    Article.include({
 
-    /**
-     * Load Article from LocalStorage.
-     *
-     * @method load
-     */
-    load: function() {
-      this.content = JSON.parse(localStorage.getItem(this.url));
-    },
+      /**
+       * Constructor.
+       *
+       * @method init
+       * @param {Object} object containing a TOC item
+       */   
+      init: function(ressource) {
+        ressource = ressource || {};
+        this.url = ressource.url;
+        this.title = ressource.title;
+        this.thumbnail = ressource.thumbnail;
+        this.byline = ressource.byline;
+        this.content = ressource.content;
+      },
+
+      /**
+       * Persist Article to LocalStorage.
+       *
+       * @method save
+       */
+      save: function() {
+        localStorage.setItem(this.url, JSON.stringify(this.content));
+      },
+
+      /**
+       * Load Article from LocalStorage.
+       *
+       * @method load
+       */
+      load: function() {
+        this.content = JSON.parse(localStorage.getItem(this.url));
+      },
 
 
-    /**
-     * Fetch Article from Server.
-     *
-     * @method fetch
-     */   
-    fetch: function(successCallback) {
-      var article = this;
-      article.load();
+      /**
+       * Fetch Article from Server.
+       *
+       * @method fetch
+       */   
+      fetch: function(successCallback) {
+        var article = this;
+        article.load();
 
-      function onSuccess(data){
-        article.content = Article.extractContent(data);
-        article.save();
-        article.notify(pulp.events.CONTENT_LOADED);
-        if (typeof successCallback === "function") {
-          successCallback();
+        function onSuccess(data){
+          article.content = Article.extractContent(data);
+          article.save();
+          article.notify(pulp.events.CONTENT_LOADED);
+          if (typeof successCallback === "function") {
+            successCallback();
+          }
         }
+
+        if (article.content) {
+          article.notify(pulp.events.CONTENT_LOADED);       
+        }
+        else {
+          $.ajax({
+            type: "GET",
+            dataType: "html",
+            url: this.url,
+            success: onSuccess
+          });       
+        } 
       }
 
-      if (article.content) {
-        article.notify(pulp.events.CONTENT_LOADED);       
+    });
+
+    // public static methods: 
+    Article.extend({
+
+      /**
+       * Extracts the article content from an HTML document 
+       *
+       * @method extractContent
+       * @param {String} a string containing a complete HTML document
+       */   
+      extractContent: function(htmlString) {
+        // remove arbitrary line breaks and extract the content from the body-element using reg-ex
+        var temp = htmlString.replace(/\s*\n\s*/g,' ');     
+        temp = temp.split(/<\/?body[^>]*>/)[1]; 
+        return $(temp).find("#pulp").html();    
       }
-      else {
-        $.ajax({
-          type: "GET",
-          dataType: "html",
-          url: this.url,
-          success: onSuccess
-        });       
-      } 
-    }
+
+    });    
     
-  });
+    return Article;
+  }());
 
-  // public static methods: 
-  Article.extend({
-
-    /**
-     * Extracts the article content from an HTML document 
-     *
-     * @method extractContent
-     * @param {String} a string containing a complete HTML document
-     */   
-    extractContent: function(htmlString) {
-      // remove arbitrary line breaks and extract the content from the body-element using reg-ex
-      var temp = htmlString.replace(/\s*\n\s*/g,' ');     
-      temp = temp.split(/<\/?body[^>]*>/)[1]; 
-      return $(temp).find("#pulp").html();    
-    }
-    
-  });
-
-  // expose to namespace
-  pulp.Article = pulp.Article || Article;   
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( window.pulp, jQuery ));
 /**
  * pulp.events
  *
@@ -261,13 +266,14 @@
  * 
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("model");
 
+pulp.model = (function( pulp, $ ) {
+  "use strict";
+    
   var model = new pulp.util.Module();
   model.extend(pulp.util.observable); 
   model.articles = new pulp.util.Collection();
-  
   
   function fetchTocFromServer( url, successCallback, failureCallback ) {                        
     $.ajax({
@@ -290,7 +296,7 @@
     var items = $(htmlFragment).find("[itemscope]");        
     var articles = $.map( items, function(item) {
       var i = $(item);
-      return new pulp.Article({
+      return new pulp.core.Article({
         title :  i.find("[itemprop='title']").text(),
         url :    i.find("[itemprop='url']").attr("href"),
         byline : i.find("[itemprop='byline']").text()
@@ -314,14 +320,38 @@
     
     fetchTocFromServer( pathToToc, success, failure );
   };
-
-  // expose to namespace
-  pulp.model = pulp.model || model;
+  
+  return model;
      
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 /**
- * pulp.ArticleView
- * pulp.ArticleViewFactory
+ * pulp.namepaces
+ *
+ * Generic namespace implementation
+ *
+ */
+
+(function( pulp, $) {
+  "use strict";
+
+  pulp.namespace = function(namespaceString) {
+    var parts = namespaceString.split("."),
+      parent = pulp,
+      currentPart = "";    
+    
+    for(var i = 0, length = parts.length; i < length; i++) {
+      currentPart = parts[i];
+      parent[currentPart] = parent[currentPart] || {};
+      parent = parent[currentPart];
+    }
+
+    return parent;
+  };
+
+}(window.pulp = window.pulp || {}, jQuery));
+/**
+ * pulp.core.ArticleView
+ * pulp.core.ArticleViewFactory
  *
  * visual representation of an article, used for rendering articles in the ui.carousel component
  * 
@@ -343,7 +373,7 @@
      * Constructor.
      *
      * @method init
-     * @param {pulp.Article} article to be rendered
+     * @param {pulp.core.Article} article to be rendered
      * @param {HTMLElement} target for rendering
      */       
     init: function(article, target) {
@@ -389,7 +419,7 @@
   };    
       
   // expose to namespace
-  pulp.articleViewFactory = pulp.articleViewFactory || articleViewFactory;  
+  pulp.core.ArticleViewFactory = pulp.core.ArticleViewFactory || articleViewFactory;  
        
 }( window.pulp = window.pulp || {}, jQuery ));
 /**
@@ -448,7 +478,7 @@
     
       if(articles.hasNext()){
 
-        pulp.articleViewFactory.create(articles.next(), views.previous);
+        pulp.core.ArticleViewFactory.create(articles.next(), views.previous);
       
         views.next.removeClass("next").addClass("current");               
         views.current.removeClass("current").addClass("previous");
@@ -465,7 +495,7 @@
       else {
         if (rightStepSkipped === false) {
           pulp.app.previousArticle();
-          pulp.articleViewFactory.create(articles.previous(), views.previous);
+          pulp.core.ArticleViewFactory.create(articles.previous(), views.previous);
 
           carousel.scroller = new pulp.util.Scroll(views.next.get(0));
           rightStepSkipped = true;
@@ -483,7 +513,7 @@
     
       if(articles.hasPrevious()){
 
-        pulp.articleViewFactory.create(articles.previous(), views.next);
+        pulp.core.ArticleViewFactory.create(articles.previous(), views.next);
       
         views.previous.removeClass("previous").addClass("current");
         views.current.removeClass("current").addClass("next");
@@ -500,7 +530,7 @@
       else {
         if (leftStepSkipped === false) {
           pulp.app.nextArticle();
-          pulp.articleViewFactory.create(articles.next(), views.next); 
+          pulp.core.ArticleViewFactory.create(articles.next(), views.next); 
           carousel.scroller = new pulp.util.Scroll(views.previous.get(0));        
           leftStepSkipped = true;         
         }
@@ -560,15 +590,15 @@
       articles.find("url", path);
       var views = findViews(this.slider.scroller);
       
-      pulp.articleViewFactory.create(articles.current(), views.current);
+      pulp.core.ArticleViewFactory.create(articles.current(), views.current);
       carousel.scroller = new pulp.util.Scroll(views.current.get(0)); 
       
       if(articles.hasPrevious()){
-        pulp.articleViewFactory.create(articles.previous(), views.previous);          
+        pulp.core.ArticleViewFactory.create(articles.previous(), views.previous);          
       }
             
       if(articles.hasNext()){
-        pulp.articleViewFactory.create(articles.next(), views.next);
+        pulp.core.ArticleViewFactory.create(articles.next(), views.next);
       }
       
       resizeContainers();       
@@ -771,11 +801,12 @@
  * 
  */
 
-
 (function( pulp, $ ) {
   "use strict";
 
-  var closure = function(parent){  
+  pulp.namespace("util.Module");
+
+  pulp.util.Module = function(parent){  
     var Module = function(){
       this.init.apply(this, arguments);
     };
@@ -844,14 +875,7 @@
     return Module;
   };
 
-
-  // namespace declaration
-  pulp.util = pulp.util || {};
-  
-  // expose to namespace
-  pulp.util.Module = closure;
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( window.pulp, jQuery ));
 /**
  * pulp.util.observable
  *
