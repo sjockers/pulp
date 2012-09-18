@@ -1,11 +1,11 @@
 
-describe("pulp.ArticleView", function() {
+describe("pulp.core.ArticleView", function() {
 
   var article;
 
   beforeEach(function() {
     pulp.model.articles.clear();
-    article = new pulp.Article({
+    article = new pulp.core.Article({
       content :  "<div id='fixture'>Lorem Ipsum</div>",
       url :    "/lorem/ipsum/"    
     });   
@@ -18,13 +18,13 @@ describe("pulp.ArticleView", function() {
   });
   
   it("should initialize by fetching the passed article's content", function(){    
-    var view = pulp.articleViewFactory.create(article, "body");
+    var view = pulp.core.ArticleViewFactory.create(article, "body");
     
     expect( article.fetch ).toHaveBeenCalled();
   })
   
   it("should add an article view to the DOM", function() {
-    var view = pulp.articleViewFactory.create(article, "body");
+    var view = pulp.core.ArticleViewFactory.create(article, "body");
     
     expect( $("body").find("#fixture").detach() ).toBeTruthy();
   });

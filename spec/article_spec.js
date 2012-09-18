@@ -1,10 +1,10 @@
-describe("pulp.Article", function() {
+describe("pulp.core.Article", function() {
 
   var article;
 
   beforeEach(function() {
 
-    article = new pulp.Article ({
+    article = new pulp.core.Article ({
       url : "./article.html",
       thumbnail : "./thumbnail.png",
       title : "This is the Title",

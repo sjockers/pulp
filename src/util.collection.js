@@ -1,19 +1,17 @@
 /**
- * pulp.util.collection
+ * pulp.util.Collection
  *
  * basic implementation for a generic collection of data
  * used for storing articles in pulp.model
  * 
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("util.Collection");
 
-  // namespace declaration
-  pulp.util = pulp.util || {};
+pulp.util.Collection = (function( pulp, $ ) {
+  "use strict";
   
-  // expose public functions:
-  pulp.util.Collection = function() {
+  var Collection = function() {
     
     var index = 0;
     var data = [];
@@ -102,4 +100,6 @@
     };
   };  
 
-}( window.pulp = window.pulp || {}, jQuery ));
+  return Collection;
+
+}( pulp, jQuery ));

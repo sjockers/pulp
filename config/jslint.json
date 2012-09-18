@@ -45,7 +45,7 @@ More info:
   // your variables within it.
 
   "predef": [
-    "jQuery"
+    "jQuery","pulp"
   ],
 
   /*** Enforcing options ***/

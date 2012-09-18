@@ -7,13 +7,14 @@
  * 
  */
 
+pulp.namespace("log");
 
-(function(pulp) {
+pulp.log = (function(pulp) {
   "use strict";
   
-  pulp.log = function(){
-    pulp.log.history = pulp.log.history || [];
-    pulp.log.history.push(arguments);
+  var log = function(){
+    log.history = log.history || [];
+    log.history.push(arguments);
     
     if (window.console) {
       if (arguments.length === 1) {
@@ -25,5 +26,7 @@
     }
     
   };
+  
+  return log;
 
-}( window.pulp = window.pulp || {}));
+}(pulp));

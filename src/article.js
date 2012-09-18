@@ -1,15 +1,17 @@
 /**
- * pulp.article
+ * pulp.core.Article
  *
  * Represents an article item
  *
  */
 
-(function( pulp, $ ) {
+pulp.namespace("core");
+
+pulp.core.Article = (function( pulp, $ ) {
   "use strict";
 
   var Article = new pulp.util.Module();
-  
+
   // make instances observable:
   Article.include(pulp.util.observable);
 
@@ -80,7 +82,7 @@
         });       
       } 
     }
-    
+
   });
 
   // public static methods: 
@@ -98,10 +100,9 @@
       temp = temp.split(/<\/?body[^>]*>/)[1]; 
       return $(temp).find("#pulp").html();    
     }
-    
-  });
 
-  // expose to namespace
-  pulp.Article = pulp.Article || Article;   
+  });    
+  
+  return Article;
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

@@ -7,10 +7,10 @@ describe("util.collection", function() {
   beforeEach(function() {
       
     articles  = [ 
-      new pulp.Article ({ title : "Article 0", url : "/path/to/article0" }),
-      new pulp.Article ({ title : "Article 1", url : "/path/to/article1" }),        
-      new pulp.Article ({ title : "Article 2", url : "/path/to/article2" }),
-      new pulp.Article ({ title : "Article 3", url : "/path/to/article3" }),
+      new pulp.core.Article ({ title : "Article 0", url : "/path/to/article0" }),
+      new pulp.core.Article ({ title : "Article 1", url : "/path/to/article1" }),        
+      new pulp.core.Article ({ title : "Article 2", url : "/path/to/article2" }),
+      new pulp.core.Article ({ title : "Article 3", url : "/path/to/article3" }),
     ];
     
     collection = new pulp.util.Collection();
@@ -19,7 +19,7 @@ describe("util.collection", function() {
 
   describe("add", function() {
 
-    it("should store instances of pulp.Article", function() {
+    it("should store instances of pulp.core.Article", function() {
       collection.add( articles[0] );
       
       expect( collection.current() ).toBe( articles[0] );     
@@ -27,10 +27,10 @@ describe("util.collection", function() {
   
     it("should store arbitrary objects", function() {
     
-      collection.add( new pulp.Article() );
+      collection.add( new pulp.core.Article() );
       collection.add( "hello" );
       
-      expect( collection.current() ).toEqual( jasmine.any(pulp.Article) );
+      expect( collection.current() ).toEqual( jasmine.any(pulp.core.Article) );
       expect( collection.next() ).toEqual( jasmine.any(String) );
     });
   

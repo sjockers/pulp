@@ -5,7 +5,9 @@
  * 
  */
 
-(function( pulp, $ ) {
+pulp.namespace("ui.navbar");
+
+pulp.ui.navbar = (function( pulp, $ ) {
   "use strict";
 
   var navbar = new pulp.util.Module(); 
@@ -28,11 +30,7 @@
       $(".pulp-next").click(nextClicked);   
     }
   });
+  
+  return navbar;  
 
-  // UI namespace declaration
-  pulp.ui = pulp.ui || {};
-
-  // expose to namespace
-  pulp.ui.navbar = pulp.ui.navbar || navbar;    
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

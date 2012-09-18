@@ -5,13 +5,14 @@
  * 
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("model");
 
+pulp.model = (function( pulp, $ ) {
+  "use strict";
+    
   var model = new pulp.util.Module();
   model.extend(pulp.util.observable); 
   model.articles = new pulp.util.Collection();
-  
   
   function fetchTocFromServer( url, successCallback, failureCallback ) {                        
     $.ajax({
@@ -34,7 +35,7 @@
     var items = $(htmlFragment).find("[itemscope]");        
     var articles = $.map( items, function(item) {
       var i = $(item);
-      return new pulp.Article({
+      return new pulp.core.Article({
         title :  i.find("[itemprop='title']").text(),
         url :    i.find("[itemprop='url']").attr("href"),
         byline : i.find("[itemprop='byline']").text()
@@ -58,8 +59,7 @@
     
     fetchTocFromServer( pathToToc, success, failure );
   };
-
-  // expose to namespace
-  pulp.model = pulp.model || model;
+  
+  return model;
      
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

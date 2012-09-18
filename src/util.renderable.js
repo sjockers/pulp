@@ -1,6 +1,3 @@
-/*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
-/*jshint regexp: false, evil: true */
-
 /**
  * pulp.util.renderable
  *
@@ -8,14 +5,12 @@
  *
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("util");
 
-  // namespace declaration
-  pulp.util = pulp.util || {};
+pulp.util.renderable = (function( pulp, $ ) {
+  "use strict";
   
-  // expose to namespace
-  pulp.util.renderable = {
+  var renderable = {
     
     element: null,
     
@@ -53,7 +48,9 @@
     
   var templatingCache = {};
   pulp.util.templating = function(str, data){
-
+  /*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
+  /*jshint regexp: false, evil: true */
+    
     // Figure out if we're getting a template, or if we need to
     // load the template - and be sure to cache the result.
     var fn = !/\W/.test(str) ?
@@ -81,5 +78,7 @@
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
+  
+  return renderable;
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

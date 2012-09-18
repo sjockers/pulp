@@ -20,11 +20,11 @@
     // private methods:
 
     function getTocUrl() {
-    return $("link[rel='toc']").attr("href");
+      return $("link[rel='toc']").attr("href");
     }
 
     function getTemplatesUrl() {
-    return $("link[rel='templates']").attr("href");
+      return $("link[rel='templates']").attr("href");
     }
 
     // public methods:
@@ -128,7 +128,7 @@
     return app;    
   }());
 
-}(window.pulp, jQuery));
+}( pulp, jQuery ));
 
 /**
  * pulp.core.Article
@@ -137,110 +137,107 @@
  *
  */
 
-(function( pulp, $ ) {
+pulp.namespace("core");
+
+pulp.core.Article = (function( pulp, $ ) {
   "use strict";
 
-  pulp.namespace("Article");
+  var Article = new pulp.util.Module();
+
+  // make instances observable:
+  Article.include(pulp.util.observable);
+
+  // public methods:
+  Article.include({
+
+    /**
+     * Constructor.
+     *
+     * @method init
+     * @param {Object} object containing a TOC item
+     */   
+    init: function(ressource) {
+      ressource = ressource || {};
+      this.url = ressource.url;
+      this.title = ressource.title;
+      this.thumbnail = ressource.thumbnail;
+      this.byline = ressource.byline;
+      this.content = ressource.content;
+    },
+
+    /**
+     * Persist Article to LocalStorage.
+     *
+     * @method save
+     */
+    save: function() {
+      localStorage.setItem(this.url, JSON.stringify(this.content));
+    },
+
+    /**
+     * Load Article from LocalStorage.
+     *
+     * @method load
+     */
+    load: function() {
+      this.content = JSON.parse(localStorage.getItem(this.url));
+    },
+
+
+    /**
+     * Fetch Article from Server.
+     *
+     * @method fetch
+     */   
+    fetch: function(successCallback) {
+      var article = this;
+      article.load();
+
+      function onSuccess(data){
+        article.content = Article.extractContent(data);
+        article.save();
+        article.notify(pulp.events.CONTENT_LOADED);
+        if (typeof successCallback === "function") {
+          successCallback();
+        }
+      }
+
+      if (article.content) {
+        article.notify(pulp.events.CONTENT_LOADED);       
+      }
+      else {
+        $.ajax({
+          type: "GET",
+          dataType: "html",
+          url: this.url,
+          success: onSuccess
+        });       
+      } 
+    }
+
+  });
+
+  // public static methods: 
+  Article.extend({
+
+    /**
+     * Extracts the article content from an HTML document 
+     *
+     * @method extractContent
+     * @param {String} a string containing a complete HTML document
+     */   
+    extractContent: function(htmlString) {
+      // remove arbitrary line breaks and extract the content from the body-element using reg-ex
+      var temp = htmlString.replace(/\s*\n\s*/g,' ');     
+      temp = temp.split(/<\/?body[^>]*>/)[1]; 
+      return $(temp).find("#pulp").html();    
+    }
+
+  });    
   
-  pulp.core.Article = (function(){
+  return Article;
 
-    var Article = new pulp.util.Module();
-
-    // make instances observable:
-    Article.include(pulp.util.observable);
-
-    // public methods:
-    Article.include({
-
-      /**
-       * Constructor.
-       *
-       * @method init
-       * @param {Object} object containing a TOC item
-       */   
-      init: function(ressource) {
-        ressource = ressource || {};
-        this.url = ressource.url;
-        this.title = ressource.title;
-        this.thumbnail = ressource.thumbnail;
-        this.byline = ressource.byline;
-        this.content = ressource.content;
-      },
-
-      /**
-       * Persist Article to LocalStorage.
-       *
-       * @method save
-       */
-      save: function() {
-        localStorage.setItem(this.url, JSON.stringify(this.content));
-      },
-
-      /**
-       * Load Article from LocalStorage.
-       *
-       * @method load
-       */
-      load: function() {
-        this.content = JSON.parse(localStorage.getItem(this.url));
-      },
-
-
-      /**
-       * Fetch Article from Server.
-       *
-       * @method fetch
-       */   
-      fetch: function(successCallback) {
-        var article = this;
-        article.load();
-
-        function onSuccess(data){
-          article.content = Article.extractContent(data);
-          article.save();
-          article.notify(pulp.events.CONTENT_LOADED);
-          if (typeof successCallback === "function") {
-            successCallback();
-          }
-        }
-
-        if (article.content) {
-          article.notify(pulp.events.CONTENT_LOADED);       
-        }
-        else {
-          $.ajax({
-            type: "GET",
-            dataType: "html",
-            url: this.url,
-            success: onSuccess
-          });       
-        } 
-      }
-
-    });
-
-    // public static methods: 
-    Article.extend({
-
-      /**
-       * Extracts the article content from an HTML document 
-       *
-       * @method extractContent
-       * @param {String} a string containing a complete HTML document
-       */   
-      extractContent: function(htmlString) {
-        // remove arbitrary line breaks and extract the content from the body-element using reg-ex
-        var temp = htmlString.replace(/\s*\n\s*/g,' ');     
-        temp = temp.split(/<\/?body[^>]*>/)[1]; 
-        return $(temp).find("#pulp").html();    
-      }
-
-    });    
-    
-    return Article;
-  }());
-
-}( window.pulp, jQuery ));
+}( pulp, jQuery ));
 /**
  * pulp.events
  *
@@ -256,7 +253,7 @@
 		CONTENT_LOADED : "Content loaded!"
 	};
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 
 
 /**
@@ -348,7 +345,7 @@ pulp.model = (function( pulp, $ ) {
     return parent;
   };
 
-}(window.pulp = window.pulp || {}, jQuery));
+}( window.pulp = window.pulp || {}, jQuery ));
 /**
  * pulp.core.ArticleView
  * pulp.core.ArticleViewFactory
@@ -357,7 +354,10 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
-(function( pulp, $ ) {
+
+pulp.namespace("ArticleViewFactory");
+
+pulp.core.ArticleViewFactory = (function( pulp, $ ) {
 
   var ArticleView = new pulp.util.Module(); 
   ArticleView.include(pulp.util.observable);
@@ -367,7 +367,6 @@ pulp.model = (function( pulp, $ ) {
   ArticleView.include({
     
     article: null,
-
 
     /**
      * Constructor.
@@ -412,16 +411,13 @@ pulp.model = (function( pulp, $ ) {
     
   });
       
-  var articleViewFactory = {
+  return {
     create : function(article, target){
       return new ArticleView(article, target);
     }
   };    
-      
-  // expose to namespace
-  pulp.core.ArticleViewFactory = pulp.core.ArticleViewFactory || articleViewFactory;  
        
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 /**
  * pulp.ui.carousel
  *
@@ -430,7 +426,9 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
-(function( pulp, $ ) {
+pulp.namespace("ui.carousel");
+
+pulp.ui.carousel = (function( pulp, $ ) {
 
   var carousel = new pulp.util.Module();  
   carousel.extend( pulp.util.renderable );
@@ -614,14 +612,9 @@ pulp.model = (function( pulp, $ ) {
     
   });
   
+  return carousel;
 
-  // UI namespace declaration
-  pulp.ui = pulp.ui || {};
-
-  // expose to namespace
-  pulp.ui.carousel = pulp.ui.carousel || carousel;
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 /**
  * pulp.ui.navbar
  *
@@ -629,7 +622,9 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
-(function( pulp, $ ) {
+pulp.namespace("ui.navbar");
+
+pulp.ui.navbar = (function( pulp, $ ) {
   "use strict";
 
   var navbar = new pulp.util.Module(); 
@@ -652,30 +647,24 @@ pulp.model = (function( pulp, $ ) {
       $(".pulp-next").click(nextClicked);   
     }
   });
+  
+  return navbar;  
 
-  // UI namespace declaration
-  pulp.ui = pulp.ui || {};
-
-  // expose to namespace
-  pulp.ui.navbar = pulp.ui.navbar || navbar;    
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 /**
- * pulp.util.collection
+ * pulp.util.Collection
  *
  * basic implementation for a generic collection of data
  * used for storing articles in pulp.model
  * 
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("util.Collection");
 
-  // namespace declaration
-  pulp.util = pulp.util || {};
+pulp.util.Collection = (function( pulp, $ ) {
+  "use strict";
   
-  // expose public functions:
-  pulp.util.Collection = function() {
+  var Collection = function() {
     
     var index = 0;
     var data = [];
@@ -764,7 +753,9 @@ pulp.model = (function( pulp, $ ) {
     };
   };  
 
-}( window.pulp = window.pulp || {}, jQuery ));
+  return Collection;
+
+}( pulp, jQuery ));
 /*jslint devel: true */ // ... allow for the console to be used
 
 /**
@@ -774,13 +765,14 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
+pulp.namespace("log");
 
-(function(pulp) {
+pulp.log = (function(pulp) {
   "use strict";
   
-  pulp.log = function(){
-    pulp.log.history = pulp.log.history || [];
-    pulp.log.history.push(arguments);
+  var log = function(){
+    log.history = log.history || [];
+    log.history.push(arguments);
     
     if (window.console) {
       if (arguments.length === 1) {
@@ -792,8 +784,10 @@ pulp.model = (function( pulp, $ ) {
     }
     
   };
+  
+  return log;
 
-}( window.pulp = window.pulp || {}));
+}(pulp));
 /**
  * pulp.util.Module
  *
@@ -801,12 +795,12 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
-(function( pulp, $ ) {
+pulp.namespace("util.Module");
+
+pulp.util.Module = (function( pulp, $ ) {
   "use strict";
 
-  pulp.namespace("util.Module");
-
-  pulp.util.Module = function(parent){  
+  var closure = function(parent){
     var Module = function(){
       this.init.apply(this, arguments);
     };
@@ -874,8 +868,10 @@ pulp.model = (function( pulp, $ ) {
 
     return Module;
   };
+  
+  return closure;
 
-}( window.pulp, jQuery ));
+}( pulp, jQuery ));
 /**
  * pulp.util.observable
  *
@@ -883,8 +879,9 @@ pulp.model = (function( pulp, $ ) {
  * 
  */
 
+pulp.namespace("util.observable");
 
-(function( pulp, $ ) {
+pulp.util.observable = (function( pulp, $ ) {
 
   function _observers(observable, event) {
     if (!observable.observers) {
@@ -950,12 +947,9 @@ pulp.model = (function( pulp, $ ) {
       this.apply(this, args);
     });
   }
-    
-  // utilities namespace declaration
-  pulp.util = pulp.util || {};
-  
+
   // expose public functions:
-  pulp.util.observable = {
+  return {
     observe: observe, 
     unObserve: unObserve,     
     hasObserver: hasObserver,
@@ -963,9 +957,6 @@ pulp.model = (function( pulp, $ ) {
   };
      
 }( window.pulp = window.pulp || {}, jQuery ));
-/*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
-/*jshint regexp: false, evil: true */
-
 /**
  * pulp.util.renderable
  *
@@ -973,14 +964,12 @@ pulp.model = (function( pulp, $ ) {
  *
  */
 
-(function( pulp, $ ) {
-  "use strict";
+pulp.namespace("util");
 
-  // namespace declaration
-  pulp.util = pulp.util || {};
+pulp.util.renderable = (function( pulp, $ ) {
+  "use strict";
   
-  // expose to namespace
-  pulp.util.renderable = {
+  var renderable = {
     
     element: null,
     
@@ -1018,7 +1007,9 @@ pulp.model = (function( pulp, $ ) {
     
   var templatingCache = {};
   pulp.util.templating = function(str, data){
-
+  /*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
+  /*jshint regexp: false, evil: true */
+    
     // Figure out if we're getting a template, or if we need to
     // load the template - and be sure to cache the result.
     var fn = !/\W/.test(str) ?
@@ -1046,8 +1037,10 @@ pulp.model = (function( pulp, $ ) {
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
+  
+  return renderable;
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 /*global iScroll */ // tell jslint/jshint to treat iScroll as a global
 
 /**
@@ -1057,7 +1050,9 @@ pulp.model = (function( pulp, $ ) {
  *
  */
 
-(function( pulp, $ ) {
+pulp.namespace("util");
+
+pulp.util.Scroll = (function( pulp, $ ) {
   "use strict";
 
   // extending the iScroll lib
@@ -1068,10 +1063,6 @@ pulp.model = (function( pulp, $ ) {
     }
   };
 
-  // utilities namespace declaration
-  pulp.util = pulp.util || {};
+  return iScroll;
 
-  // expose public functions:
-  pulp.util.Scroll = iScroll;
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

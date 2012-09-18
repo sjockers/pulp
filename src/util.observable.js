@@ -5,8 +5,9 @@
  * 
  */
 
+pulp.namespace("util.observable");
 
-(function( pulp, $ ) {
+pulp.util.observable = (function( pulp, $ ) {
 
   function _observers(observable, event) {
     if (!observable.observers) {
@@ -72,12 +73,9 @@
       this.apply(this, args);
     });
   }
-    
-  // utilities namespace declaration
-  pulp.util = pulp.util || {};
-  
+
   // expose public functions:
-  pulp.util.observable = {
+  return {
     observe: observe, 
     unObserve: unObserve,     
     hasObserver: hasObserver,

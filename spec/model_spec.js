@@ -20,7 +20,7 @@ describe("pulp.model", function() {
       server.respond(); 
   
       expect(pulp.model.articles.hasItems()).toEqual(true);     
-      expect(pulp.model.articles.current()).toEqual(jasmine.any(pulp.Article));
+      expect(pulp.model.articles.current()).toEqual(jasmine.any(pulp.core.Article));
     });
         
     it("should notify observers once pulp.model.articles was initialized", function() {
@@ -38,8 +38,8 @@ describe("pulp.model", function() {
   
   describe("articles", function() {
     
-    it("should contain instances of pulp.Article", function() {
-      expect( pulp.model.articles.current() ).toEqual( jasmine.any(pulp.Article) );
+    it("should contain instances of pulp.core.Article", function() {
+      expect( pulp.model.articles.current() ).toEqual( jasmine.any(pulp.core.Article) );
     });
     
   }); 

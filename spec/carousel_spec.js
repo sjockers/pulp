@@ -4,19 +4,19 @@ describe("pulp.ui.carousel", function() {
 
   beforeEach(function() {
     articles = [
-    new pulp.Article({
+    new pulp.core.Article({
       title: "Article 0",
       url: "/path/to/article0",
       content: "Lorem Ipsum"
-    }), new pulp.Article({
+    }), new pulp.core.Article({
       title: "Article 1",
       url: "/path/to/article1",
       content: "Lorem Ipsum"
-    }), new pulp.Article({
+    }), new pulp.core.Article({
       title: "Article 2",
       url: "/path/to/article2",
       content: "Lorem Ipsum"
-    }), new pulp.Article({
+    }), new pulp.core.Article({
       title: "Article 3",
       url: "/path/to/article3",
       content: "Lorem Ipsum"

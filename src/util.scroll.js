@@ -7,7 +7,9 @@
  *
  */
 
-(function( pulp, $ ) {
+pulp.namespace("util");
+
+pulp.util.Scroll = (function( pulp, $ ) {
   "use strict";
 
   // extending the iScroll lib
@@ -18,10 +20,6 @@
     }
   };
 
-  // utilities namespace declaration
-  pulp.util = pulp.util || {};
+  return iScroll;
 
-  // expose public functions:
-  pulp.util.Scroll = iScroll;
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

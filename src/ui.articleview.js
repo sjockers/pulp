@@ -1,12 +1,15 @@
 /**
- * pulp.ArticleView
- * pulp.ArticleViewFactory
+ * pulp.core.ArticleView
+ * pulp.core.ArticleViewFactory
  *
  * visual representation of an article, used for rendering articles in the ui.carousel component
  * 
  */
 
-(function( pulp, $ ) {
+
+pulp.namespace("ArticleViewFactory");
+
+pulp.core.ArticleViewFactory = (function( pulp, $ ) {
 
   var ArticleView = new pulp.util.Module(); 
   ArticleView.include(pulp.util.observable);
@@ -17,12 +20,11 @@
     
     article: null,
 
-
     /**
      * Constructor.
      *
      * @method init
-     * @param {pulp.Article} article to be rendered
+     * @param {pulp.core.Article} article to be rendered
      * @param {HTMLElement} target for rendering
      */       
     init: function(article, target) {
@@ -61,13 +63,10 @@
     
   });
       
-  var articleViewFactory = {
+  return {
     create : function(article, target){
       return new ArticleView(article, target);
     }
   };    
-      
-  // expose to namespace
-  pulp.articleViewFactory = pulp.articleViewFactory || articleViewFactory;  
        
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

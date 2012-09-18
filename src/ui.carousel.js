@@ -6,7 +6,9 @@
  * 
  */
 
-(function( pulp, $ ) {
+pulp.namespace("ui.carousel");
+
+pulp.ui.carousel = (function( pulp, $ ) {
 
   var carousel = new pulp.util.Module();  
   carousel.extend( pulp.util.renderable );
@@ -54,7 +56,7 @@
     
       if(articles.hasNext()){
 
-        pulp.articleViewFactory.create(articles.next(), views.previous);
+        pulp.core.ArticleViewFactory.create(articles.next(), views.previous);
       
         views.next.removeClass("next").addClass("current");               
         views.current.removeClass("current").addClass("previous");
@@ -71,7 +73,7 @@
       else {
         if (rightStepSkipped === false) {
           pulp.app.previousArticle();
-          pulp.articleViewFactory.create(articles.previous(), views.previous);
+          pulp.core.ArticleViewFactory.create(articles.previous(), views.previous);
 
           carousel.scroller = new pulp.util.Scroll(views.next.get(0));
           rightStepSkipped = true;
@@ -89,7 +91,7 @@
     
       if(articles.hasPrevious()){
 
-        pulp.articleViewFactory.create(articles.previous(), views.next);
+        pulp.core.ArticleViewFactory.create(articles.previous(), views.next);
       
         views.previous.removeClass("previous").addClass("current");
         views.current.removeClass("current").addClass("next");
@@ -106,7 +108,7 @@
       else {
         if (leftStepSkipped === false) {
           pulp.app.nextArticle();
-          pulp.articleViewFactory.create(articles.next(), views.next); 
+          pulp.core.ArticleViewFactory.create(articles.next(), views.next); 
           carousel.scroller = new pulp.util.Scroll(views.previous.get(0));        
           leftStepSkipped = true;         
         }
@@ -166,15 +168,15 @@
       articles.find("url", path);
       var views = findViews(this.slider.scroller);
       
-      pulp.articleViewFactory.create(articles.current(), views.current);
+      pulp.core.ArticleViewFactory.create(articles.current(), views.current);
       carousel.scroller = new pulp.util.Scroll(views.current.get(0)); 
       
       if(articles.hasPrevious()){
-        pulp.articleViewFactory.create(articles.previous(), views.previous);          
+        pulp.core.ArticleViewFactory.create(articles.previous(), views.previous);          
       }
             
       if(articles.hasNext()){
-        pulp.articleViewFactory.create(articles.next(), views.next);
+        pulp.core.ArticleViewFactory.create(articles.next(), views.next);
       }
       
       resizeContainers();       
@@ -190,11 +192,6 @@
     
   });
   
+  return carousel;
 
-  // UI namespace declaration
-  pulp.ui = pulp.ui || {};
-
-  // expose to namespace
-  pulp.ui.carousel = pulp.ui.carousel || carousel;
-
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

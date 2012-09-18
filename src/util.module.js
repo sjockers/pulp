@@ -5,11 +5,12 @@
  * 
  */
 
+pulp.namespace("util.Module");
 
-(function( pulp, $ ) {
+pulp.util.Module = (function( pulp, $ ) {
   "use strict";
 
-  var closure = function(parent){  
+  var closure = function(parent){
     var Module = function(){
       this.init.apply(this, arguments);
     };
@@ -77,12 +78,7 @@
 
     return Module;
   };
-
-
-  // namespace declaration
-  pulp.util = pulp.util || {};
   
-  // expose to namespace
-  pulp.util.Module = closure;
+  return closure;
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));

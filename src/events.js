@@ -13,5 +13,5 @@
 		CONTENT_LOADED : "Content loaded!"
 	};
 
-}( window.pulp = window.pulp || {}, jQuery ));
+}( pulp, jQuery ));
 
