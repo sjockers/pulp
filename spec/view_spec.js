@@ -4,7 +4,7 @@ describe("pulp.core.ArticleView", function() {
   var article;
 
   beforeEach(function() {
-    pulp.model.articles.clear();
+    pulp.core.model.articles.clear();
     article = new pulp.core.Article({
       content :  "<div id='fixture'>Lorem Ipsum</div>",
       url :    "/lorem/ipsum/"    
@@ -13,7 +13,7 @@ describe("pulp.core.ArticleView", function() {
   });
 
   afterEach(function() {
-    pulp.model.articles.clear();    
+    pulp.core.model.articles.clear();    
     article.fetch.restore();
   });
   

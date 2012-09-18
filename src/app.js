@@ -9,9 +9,9 @@
   "use strict";
   
   pulp.app = (function(){
-    var app = new pulp.util.Module();
-    app.extend(pulp.util.observable);
-    var articles = pulp.model.articles;
+    var app = new pulp.core.Module();
+    app.extend(pulp.mixin.observable);
+    var articles = pulp.core.model.articles;
 
     // private methods:
 
@@ -48,8 +48,8 @@
       url: templates,
       success: function(templates) {
         $(document.body).append(templates);
-        pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
-        pulp.model.getToc(toc);
+        pulp.core.model.observe(pulp.core.events.TOC_LOADED, app.setup);
+        pulp.core.model.getToc(toc);
       }
       });
 

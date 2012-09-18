@@ -1,14 +1,16 @@
 /**
- * pulp.events
+ * pulp.core.events
  *
  * event constants for use with observable component
  * 
  */
+ 
+pulp.util.namespace("core");
 
-(function( pulp, $ ) {
+pulp.core.events = (function( pulp, $ ) {
 	"use strict";
 
-	pulp.events = {
+	return {
 		TOC_LOADED : "TOC loaded!",
 		CONTENT_LOADED : "Content loaded!"
 	};

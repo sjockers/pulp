@@ -32,7 +32,7 @@ describe("pulp.ui.carousel", function() {
       <li class="article-container" id="container-2"></li>\
     </ul>';
 
-    pulp.model.articles.init(articles);
+    pulp.core.model.articles.init(articles);
 
     sinon.stub(pulp.util, "templating");
     sinon.stub(pulp.util, "Scroll", function() {
@@ -46,7 +46,7 @@ describe("pulp.ui.carousel", function() {
   });
 
   afterEach(function() {
-    pulp.model.articles.clear();
+    pulp.core.model.articles.clear();
     pulp.ui.carousel.element = null;
     pulp.util.Scroll.restore();
     pulp.util.templating.restore();
@@ -60,7 +60,7 @@ describe("pulp.ui.carousel", function() {
 
   it("should preload the previous and next aricles after the current article is loaded", function() {
     pulp.ui.carousel.display("/path/to/article1");
-    articles[1].notify(pulp.events.CONTENT_LOADED);
+    articles[1].notify(pulp.core.events.CONTENT_LOADED);
 
     expect(articles[0].fetch).toHaveBeenCalled();
     expect(articles[2].fetch).toHaveBeenCalled();
@@ -88,21 +88,21 @@ describe("pulp.ui.carousel", function() {
     it("should initialize the carousel UI", function() {
 
       pulp.ui.carousel.display("/path/to/article1");
-      articles[1].notify(pulp.events.CONTENT_LOADED);
+      articles[1].notify(pulp.core.events.CONTENT_LOADED);
 
       expect(pulp.ui.carousel.hideContent).toHaveBeenCalled();
     });
 
     it("should create the carousel control", function() {
       pulp.ui.carousel.display("/path/to/article1");
-      articles[1].notify(pulp.events.CONTENT_LOADED);
+      articles[1].notify(pulp.core.events.CONTENT_LOADED);
 
       expect(pulp.ui.carousel.create).toHaveBeenCalled();
     });
 
     it("should render the carousel control", function() {
       pulp.ui.carousel.display("/path/to/article1");
-      articles[1].notify(pulp.events.CONTENT_LOADED);
+      articles[1].notify(pulp.core.events.CONTENT_LOADED);
 
       expect(pulp.ui.carousel.render).toHaveBeenCalled();
     });

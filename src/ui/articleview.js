@@ -7,13 +7,13 @@
  */
 
 
-pulp.namespace("ArticleViewFactory");
+pulp.util.namespace("ArticleViewFactory");
 
 pulp.core.ArticleViewFactory = (function( pulp, $ ) {
 
-  var ArticleView = new pulp.util.Module(); 
-  ArticleView.include(pulp.util.observable);
-  ArticleView.include(pulp.util.renderable);
+  var ArticleView = new pulp.core.Module(); 
+  ArticleView.include(pulp.mixin.observable);
+  ArticleView.include(pulp.mixin.renderable);
 
   // public methods:
   ArticleView.include({
@@ -36,17 +36,17 @@ pulp.core.ArticleViewFactory = (function( pulp, $ ) {
       var view = this;
       view.article = article;
       
-      view.article.observe( pulp.events.CONTENT_LOADED, function(){
+      view.article.observe( pulp.core.events.CONTENT_LOADED, function(){
         view.create("view_tmp", view.article);
         view.render(target);
-        view.article.unObserve( pulp.events.CONTENT_LOADED, this);
+        view.article.unObserve( pulp.core.events.CONTENT_LOADED, this);
       });
       
       view.article.fetch();
     },
 
     /**
-     * Inserts the view into the DOM (overwrites pulp.util.renderable) 
+     * Inserts the view into the DOM (overwrites pulp.mixin.renderable) 
      * 
      * @method render
      * @param {HTMLElement} target for rendering
@@ -57,7 +57,7 @@ pulp.core.ArticleViewFactory = (function( pulp, $ ) {
     },
     
     replaceWith: function(replacement) {
-      pulp.log(replacement.$element);
+      pulp.util.log(replacement.$element);
       this.$element.replaceWith(replacement.$element.html());
     }
     

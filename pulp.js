@@ -13,9 +13,9 @@
   "use strict";
   
   pulp.app = (function(){
-    var app = new pulp.util.Module();
-    app.extend(pulp.util.observable);
-    var articles = pulp.model.articles;
+    var app = new pulp.core.Module();
+    app.extend(pulp.mixin.observable);
+    var articles = pulp.core.model.articles;
 
     // private methods:
 
@@ -52,8 +52,8 @@
       url: templates,
       success: function(templates) {
         $(document.body).append(templates);
-        pulp.model.observe(pulp.events.TOC_LOADED, app.setup);
-        pulp.model.getToc(toc);
+        pulp.core.model.observe(pulp.core.events.TOC_LOADED, app.setup);
+        pulp.core.model.getToc(toc);
       }
       });
 
@@ -137,15 +137,15 @@
  *
  */
 
-pulp.namespace("core");
+pulp.util.namespace("core");
 
 pulp.core.Article = (function( pulp, $ ) {
   "use strict";
 
-  var Article = new pulp.util.Module();
+  var Article = new pulp.core.Module();
 
   // make instances observable:
-  Article.include(pulp.util.observable);
+  Article.include(pulp.mixin.observable);
 
   // public methods:
   Article.include({
@@ -196,14 +196,14 @@ pulp.core.Article = (function( pulp, $ ) {
       function onSuccess(data){
         article.content = Article.extractContent(data);
         article.save();
-        article.notify(pulp.events.CONTENT_LOADED);
+        article.notify(pulp.core.events.CONTENT_LOADED);
         if (typeof successCallback === "function") {
           successCallback();
         }
       }
 
       if (article.content) {
-        article.notify(pulp.events.CONTENT_LOADED);       
+        article.notify(pulp.core.events.CONTENT_LOADED);       
       }
       else {
         $.ajax({
@@ -239,16 +239,123 @@ pulp.core.Article = (function( pulp, $ ) {
 
 }( pulp, jQuery ));
 /**
- * pulp.events
+ * pulp.core.Collection
+ *
+ * basic implementation for a generic collection of data
+ * used for storing articles in pulp.core.model
+ * 
+ */
+
+pulp.util.namespace("core");
+
+pulp.core.Collection = (function( pulp, $ ) {
+  "use strict";
+  
+  var Collection = function() {
+    
+    var index = 0;
+    var data = [];
+    
+    return {
+  
+      init: function (array) {
+        this.clear(); 
+        data = array;
+      },
+
+      add: function (item) {
+        data.push(item);
+      },
+
+      find: function (property, key) {
+        var i=data.length;
+        while (i > 0) {
+          i--;
+          if (data[i][property] === key) {
+            index = i;
+            return data[i];
+          }
+        }
+        return null;
+      },
+
+      current: function () {
+        if (!this.hasItems()) {
+          return null;
+        }
+        return data[index];
+      },
+      
+      next: function () {
+        if (!this.hasNext()) {
+          return null;
+        }
+        return data[index+1];         
+      },
+
+      previous: function () {
+        if (!this.hasPrevious()) {
+          return null;
+        }            
+        return data[index-1];
+      },
+
+      backward: function () {
+        if (!this.hasPrevious()) {
+          return null;
+        }            
+        index-=1;
+        return data[index];
+      },
+
+      forward: function () {
+        if (!this.hasNext()) {
+          return null;
+        }
+        index+=1;
+        return data[index];
+      },
+      
+      rewind: function () {
+        index = 0;
+      },
+  
+      clear: function () {
+        index = 0;
+        data = [];
+      },
+      
+      hasItems: function () {
+        return data.length > 0;
+      },
+
+      hasNext: function () {
+        return index+1 < data.length;
+      },
+
+      hasPrevious: function () {
+        return index > 0;
+      }
+  
+    };
+  };  
+
+  return Collection;
+
+}( pulp, jQuery ));
+/**
+ * pulp.core.events
  *
  * event constants for use with observable component
  * 
  */
+ 
+pulp.util.namespace("core");
 
-(function( pulp, $ ) {
+pulp.core.events = (function( pulp, $ ) {
 	"use strict";
 
-	pulp.events = {
+	return {
 		TOC_LOADED : "TOC loaded!",
 		CONTENT_LOADED : "Content loaded!"
 	};
@@ -257,20 +364,20 @@ pulp.core.Article = (function( pulp, $ ) {
 
 
 /**
- * pulp.model
+ * pulp.core.model
  *
  * data model for the publication. Home of words.
  * 
  */
 
-pulp.namespace("model");
+pulp.util.namespace("core");
 
-pulp.model = (function( pulp, $ ) {
+pulp.core.model = (function( pulp, $ ) {
   "use strict";
     
-  var model = new pulp.util.Module();
-  model.extend(pulp.util.observable); 
-  model.articles = new pulp.util.Collection();
+  var model = new pulp.core.Module();
+  model.extend(pulp.mixin.observable); 
+  model.articles = new pulp.core.Collection();
   
   function fetchTocFromServer( url, successCallback, failureCallback ) {                        
     $.ajax({
@@ -308,11 +415,11 @@ pulp.model = (function( pulp, $ ) {
     function success (data) {
       var articleArray = parseArticleItems(data);
       model.articles.init(articleArray);
-      model.notify(pulp.events.TOC_LOADED);
+      model.notify(pulp.core.events.TOC_LOADED);
     }
     
     function failure (error) {
-      pulp.log("Table of contents could not be loaded!", error);
+      pulp.util.log("Table of contents could not be loaded!", error);
     }
     
     fetchTocFromServer( pathToToc, success, failure );
@@ -322,30 +429,257 @@ pulp.model = (function( pulp, $ ) {
      
 }( pulp, jQuery ));
 /**
- * pulp.namepaces
+ * pulp.core.Module
  *
- * Generic namespace implementation
+ * class-like implementation of the module pattern
+ * 
+ */
+
+pulp.util.namespace("core");
+
+pulp.core.Module = (function( pulp, $ ) {
+  "use strict";
+
+  var closure = function(parent){
+    var Module = function(){
+      this.init.apply(this, arguments);
+    };
+
+    Module.extend = function(obj){
+      var i, extended = obj.extended;
+      for(i in obj){
+        if (obj.hasOwnProperty(i)) {
+          Module[i] = obj[i];
+        }
+      }
+      if (extended) {
+        extended(Module);
+      }
+    };
+
+    Module.include = function(obj){
+      var i, included = obj.included;
+      for(i in obj){
+        if (obj.hasOwnProperty(i)) {
+          Module.prototype[i] = obj[i];
+        }
+      }
+      if (included) {
+        included(Module);
+      }
+    };
+
+    Module.proxy = function(func){
+      var thisObject = this;
+      return function(){ 
+        return func.apply(thisObject, arguments); 
+      };
+    };
+    
+    Module.clone = function(obj){
+      if (typeof obj === "function") {
+        return obj;
+      } 
+      if (typeof obj !== "object") {
+        return obj;
+      }
+      if (jQuery.isArray(obj)) {
+        return jQuery.extend([], obj);
+      }
+      return jQuery.extend({}, obj);
+    };
+    
+    Module.prototype.init = function(){};
+
+    if (parent){
+      for(var i in parent) {
+        Module[i] = Module.clone(parent[i]);
+      }
+      for(var j in parent.prototype) {
+        Module.prototype[j] = Module.clone(parent.prototype[j]);
+      }
+      Module._super = parent;
+      Module.prototype._super = parent.prototype;
+    }
+  
+    Module.prototype.proxy = Module.proxy;
+
+    Module.prototype._class = Module;
+
+    return Module;
+  };
+  
+  return closure;
+
+}( pulp, jQuery ));
+/**
+ * pulp.mixin.observable
+ *
+ * basic pub/sub implementation
+ * 
+ */
+ pulp.util.namespace("mixin");
+
+ pulp.mixin.observable = (function( pulp, $ ) {
+
+  function _observers(observable, event) {
+    if (!observable.observers) {
+      observable.observers = {};
+    }
+    
+    if (!observable.observers[event]) {
+      observable.observers[event] = [];
+    }
+    
+    return observable.observers[event];
+  }
+  
+  function observe(event, observer) {
+    if (!this.observers) {
+      this.observers = [];
+    }
+    
+    if (typeof observer !== "function") {
+      throw new TypeError("not a function"); 
+    }
+    
+    if (typeof event !== "string") {
+      throw new TypeError("not a valid event identifier"); 
+    }
+    
+    _observers(this, event).push(observer);
+  } 
+  
+  function unObserve(event, observer) {
+    
+    if (typeof observer !== "function") {
+      throw new TypeError("not a function"); 
+    }
+    
+    if (typeof event !== "string") {
+      throw new TypeError("not a valid event identifier"); 
+    }
+    
+    var observers  = _observers(this, event);
+    
+    for(var i=0, l=observers.length; i<l; i++) {
+      if(observers[i] === observer){
+        observers.splice(i,1);
+      }
+    }
+  }
+  
+  function hasObserver(event, observer) {
+    var observers  = _observers(this, event);
+    return ($.inArray(observer, observers) >= 0);
+  }
+  
+  function notify(event) {
+    if (typeof event !== "string") {
+      throw new TypeError("not a valid event identifier"); 
+    }
+    
+    var observers  = _observers(this, event);
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    $.each(observers, function() {      
+      this.apply(this, args);
+    });
+  }
+
+  // expose public functions:
+  return {
+    observe: observe, 
+    unObserve: unObserve,     
+    hasObserver: hasObserver,
+    notify: notify
+  };
+     
+}( window.pulp = window.pulp || {}, jQuery ));
+/**
+ * pulp.mixin.renderable
+ *
+ * implementing this mixin enables modules to render content to the DOM
  *
  */
 
-(function( pulp, $) {
+pulp.util.namespace("mixin");
+
+pulp.mixin.renderable = (function( pulp, $ ) {
   "use strict";
-
-  pulp.namespace = function(namespaceString) {
-    var parts = namespaceString.split("."),
-      parent = pulp,
-      currentPart = "";    
+  
+  var renderable = {
     
-    for(var i = 0, length = parts.length; i < length; i++) {
-      currentPart = parts[i];
-      parent[currentPart] = parent[currentPart] || {};
-      parent = parent[currentPart];
+    element: null,
+    
+    $element: null,
+    
+    target: null,
+    
+    data: {},
+        
+    template: null,
+        
+    // create the element
+    create: function(template, data){
+      this.template = template || this.template;
+      this.data = data || this.data;
+      this.element = pulp.util.templating(this.template, this.data);
+      this.$element = $(this.element);
+    },
+    
+    // insert it into the DOM
+    render: function(target){
+      this.target = target || this.target;
+      $(this.target).append(this.$element);
+    },
+
+    // wrap original content in container to hide it
+    hideContent: function(target){
+      this.target = target || this.target;
+      $(this.target).wrapInner(pulp.util.templating("original_tmp",{}));
     }
-
-    return parent;
   };
+  
+  // JavaScript Micro-Templating
+  // Courtesy of John Resig - MIT Licensed
+    
+  var templatingCache = {};
+  pulp.util.templating = function(str, data){
+  /*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
+  /*jshint regexp: false, evil: true */
+    
+    // Figure out if we're getting a template, or if we need to
+    // load the template - and be sure to cache the result.
+    var fn = !/\W/.test(str) ?
+      templatingCache[str] = templatingCache[str] ||
+        pulp.util.templating(document.getElementById(str).innerHTML) :
 
-}( window.pulp = window.pulp || {}, jQuery ));
+      // Generate a reusable function that will serve as a template
+      // generator (and which will be cached).
+      new Function("obj",
+        "var p=[],print=function(){p.push.apply(p,arguments);};" +
+        
+        // Introduce the data as local variables using with(){}
+        "with(obj){p.push('" +
+        
+        // Convert the template into pure JavaScript
+        str
+          .replace(/[\r\t\n]/g, " ")
+          .split("<%").join("\t")
+          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)%>/g, "',$1,'")
+          .split("\t").join("');")
+          .split("%>").join("p.push('")
+          .split("\r").join("\\'") + "');}return p.join('');");
+    
+    // Provide some basic currying to the user
+    return data ? fn( data ) : fn;
+  };
+  
+  return renderable;
+
+}( pulp, jQuery ));
 /**
  * pulp.core.ArticleView
  * pulp.core.ArticleViewFactory
@@ -355,13 +689,13 @@ pulp.model = (function( pulp, $ ) {
  */
 
 
-pulp.namespace("ArticleViewFactory");
+pulp.util.namespace("ArticleViewFactory");
 
 pulp.core.ArticleViewFactory = (function( pulp, $ ) {
 
-  var ArticleView = new pulp.util.Module(); 
-  ArticleView.include(pulp.util.observable);
-  ArticleView.include(pulp.util.renderable);
+  var ArticleView = new pulp.core.Module(); 
+  ArticleView.include(pulp.mixin.observable);
+  ArticleView.include(pulp.mixin.renderable);
 
   // public methods:
   ArticleView.include({
@@ -384,17 +718,17 @@ pulp.core.ArticleViewFactory = (function( pulp, $ ) {
       var view = this;
       view.article = article;
       
-      view.article.observe( pulp.events.CONTENT_LOADED, function(){
+      view.article.observe( pulp.core.events.CONTENT_LOADED, function(){
         view.create("view_tmp", view.article);
         view.render(target);
-        view.article.unObserve( pulp.events.CONTENT_LOADED, this);
+        view.article.unObserve( pulp.core.events.CONTENT_LOADED, this);
       });
       
       view.article.fetch();
     },
 
     /**
-     * Inserts the view into the DOM (overwrites pulp.util.renderable) 
+     * Inserts the view into the DOM (overwrites pulp.mixin.renderable) 
      * 
      * @method render
      * @param {HTMLElement} target for rendering
@@ -405,7 +739,7 @@ pulp.core.ArticleViewFactory = (function( pulp, $ ) {
     },
     
     replaceWith: function(replacement) {
-      pulp.log(replacement.$element);
+      pulp.util.log(replacement.$element);
       this.$element.replaceWith(replacement.$element.html());
     }
     
@@ -426,15 +760,15 @@ pulp.core.ArticleViewFactory = (function( pulp, $ ) {
  * 
  */
 
-pulp.namespace("ui.carousel");
+pulp.util.namespace("ui.carousel");
 
 pulp.ui.carousel = (function( pulp, $ ) {
 
-  var carousel = new pulp.util.Module();  
-  carousel.extend( pulp.util.renderable );
-  carousel.extend( pulp.util.observable );
+  var carousel = new pulp.core.Module();  
+  carousel.extend( pulp.mixin.renderable );
+  carousel.extend( pulp.mixin.observable );
   
-  var articles = pulp.model.articles;
+  var articles = pulp.core.model.articles;
   
   var leftStepSkipped = false;
   var rightStepSkipped = false;
@@ -622,13 +956,13 @@ pulp.ui.carousel = (function( pulp, $ ) {
  * 
  */
 
-pulp.namespace("ui.navbar");
+pulp.util.namespace("ui.navbar");
 
 pulp.ui.navbar = (function( pulp, $ ) {
   "use strict";
 
-  var navbar = new pulp.util.Module(); 
-  navbar.extend(pulp.util.renderable);
+  var navbar = new pulp.core.Module(); 
+  navbar.extend(pulp.mixin.renderable);
 
   function nextClicked(event){
     pulp.ui.carousel.forward();
@@ -651,123 +985,16 @@ pulp.ui.navbar = (function( pulp, $ ) {
   return navbar;  
 
 }( pulp, jQuery ));
-/**
- * pulp.util.Collection
- *
- * basic implementation for a generic collection of data
- * used for storing articles in pulp.model
- * 
- */
-
-pulp.namespace("util.Collection");
-
-pulp.util.Collection = (function( pulp, $ ) {
-  "use strict";
-  
-  var Collection = function() {
-    
-    var index = 0;
-    var data = [];
-    
-    return {
-  
-      init: function (array) {
-        this.clear(); 
-        data = array;
-      },
-
-      add: function (item) {
-        data.push(item);
-      },
-
-      find: function (property, key) {
-        var i=data.length;
-        while (i > 0) {
-          i--;
-          if (data[i][property] === key) {
-            index = i;
-            return data[i];
-          }
-        }
-        return null;
-      },
-
-      current: function () {
-        if (!this.hasItems()) {
-          return null;
-        }
-        return data[index];
-      },
-      
-      next: function () {
-        if (!this.hasNext()) {
-          return null;
-        }
-        return data[index+1];         
-      },
-
-      previous: function () {
-        if (!this.hasPrevious()) {
-          return null;
-        }            
-        return data[index-1];
-      },
-
-      backward: function () {
-        if (!this.hasPrevious()) {
-          return null;
-        }            
-        index-=1;
-        return data[index];
-      },
-
-      forward: function () {
-        if (!this.hasNext()) {
-          return null;
-        }
-        index+=1;
-        return data[index];
-      },
-      
-      rewind: function () {
-        index = 0;
-      },
-  
-      clear: function () {
-        index = 0;
-        data = [];
-      },
-      
-      hasItems: function () {
-        return data.length > 0;
-      },
-
-      hasNext: function () {
-        return index+1 < data.length;
-      },
-
-      hasPrevious: function () {
-        return index > 0;
-      }
-  
-    };
-  };  
-
-  return Collection;
-
-}( pulp, jQuery ));
 /*jslint devel: true */ // ... allow for the console to be used
 
 /**
- * pulp.log
+ * pulp.util.log
  *
  * simple wrapper around console.log
  * 
  */
 
-pulp.namespace("log");
-
-pulp.log = (function(pulp) {
+pulp.util.log = (function(pulp) {
   "use strict";
   
   var log = function(){
@@ -789,258 +1016,33 @@ pulp.log = (function(pulp) {
 
 }(pulp));
 /**
- * pulp.util.Module
+ * pulp.util.namespace
  *
- * class-like implementation of the module pattern
- * 
+ * Generic namespace implementation
+ *
  */
 
-pulp.namespace("util.Module");
-
-pulp.util.Module = (function( pulp, $ ) {
+(function( pulp, $) {
   "use strict";
 
-  var closure = function(parent){
-    var Module = function(){
-      this.init.apply(this, arguments);
-    };
-
-    Module.extend = function(obj){
-      var i, extended = obj.extended;
-      for(i in obj){
-        if (obj.hasOwnProperty(i)) {
-          Module[i] = obj[i];
-        }
-      }
-      if (extended) {
-        extended(Module);
-      }
-    };
-
-    Module.include = function(obj){
-      var i, included = obj.included;
-      for(i in obj){
-        if (obj.hasOwnProperty(i)) {
-          Module.prototype[i] = obj[i];
-        }
-      }
-      if (included) {
-        included(Module);
-      }
-    };
-
-    Module.proxy = function(func){
-      var thisObject = this;
-      return function(){ 
-        return func.apply(thisObject, arguments); 
-      };
-    };
+  var namespace = function(namespaceString) {
+    var parts = namespaceString.split("."),
+      parent = pulp,
+      currentPart = "";    
     
-    Module.clone = function(obj){
-      if (typeof obj === "function") {
-        return obj;
-      } 
-      if (typeof obj !== "object") {
-        return obj;
-      }
-      if (jQuery.isArray(obj)) {
-        return jQuery.extend([], obj);
-      }
-      return jQuery.extend({}, obj);
-    };
-    
-    Module.prototype.init = function(){};
-
-    if (parent){
-      for(var i in parent) {
-        Module[i] = Module.clone(parent[i]);
-      }
-      for(var j in parent.prototype) {
-        Module.prototype[j] = Module.clone(parent.prototype[j]);
-      }
-      Module._super = parent;
-      Module.prototype._super = parent.prototype;
+    for(var i = 0, length = parts.length; i < length; i++) {
+      currentPart = parts[i];
+      parent[currentPart] = parent[currentPart] || {};
+      parent = parent[currentPart];
     }
-  
-    Module.prototype.proxy = Module.proxy;
 
-    Module.prototype._class = Module;
-
-    return Module;
+    return parent;
   };
   
-  return closure;
+  namespace("util");
+  pulp.util.namespace = namespace;
 
-}( pulp, jQuery ));
-/**
- * pulp.util.observable
- *
- * basic pub/sub implementation
- * 
- */
-
-pulp.namespace("util.observable");
-
-pulp.util.observable = (function( pulp, $ ) {
-
-  function _observers(observable, event) {
-    if (!observable.observers) {
-      observable.observers = {};
-    }
-    
-    if (!observable.observers[event]) {
-      observable.observers[event] = [];
-    }
-    
-    return observable.observers[event];
-  }
-  
-  function observe(event, observer) {
-    if (!this.observers) {
-      this.observers = [];
-    }
-    
-    if (typeof observer !== "function") {
-      throw new TypeError("not a function"); 
-    }
-    
-    if (typeof event !== "string") {
-      throw new TypeError("not a valid event identifier"); 
-    }
-    
-    _observers(this, event).push(observer);
-  } 
-  
-  function unObserve(event, observer) {
-    
-    if (typeof observer !== "function") {
-      throw new TypeError("not a function"); 
-    }
-    
-    if (typeof event !== "string") {
-      throw new TypeError("not a valid event identifier"); 
-    }
-    
-    var observers  = _observers(this, event);
-    
-    for(var i=0, l=observers.length; i<l; i++) {
-      if(observers[i] === observer){
-        observers.splice(i,1);
-      }
-    }
-  }
-  
-  function hasObserver(event, observer) {
-    var observers  = _observers(this, event);
-    return ($.inArray(observer, observers) >= 0);
-  }
-  
-  function notify(event) {
-    if (typeof event !== "string") {
-      throw new TypeError("not a valid event identifier"); 
-    }
-    
-    var observers  = _observers(this, event);
-    var args = Array.prototype.slice.call(arguments, 1);
-
-    $.each(observers, function() {      
-      this.apply(this, args);
-    });
-  }
-
-  // expose public functions:
-  return {
-    observe: observe, 
-    unObserve: unObserve,     
-    hasObserver: hasObserver,
-    notify: notify
-  };
-     
 }( window.pulp = window.pulp || {}, jQuery ));
-/**
- * pulp.util.renderable
- *
- * implementing this mixin enables modules to render content to the DOM
- *
- */
-
-pulp.namespace("util");
-
-pulp.util.renderable = (function( pulp, $ ) {
-  "use strict";
-  
-  var renderable = {
-    
-    element: null,
-    
-    $element: null,
-    
-    target: null,
-    
-    data: {},
-        
-    template: null,
-        
-    // create the element
-    create: function(template, data){
-      this.template = template || this.template;
-      this.data = data || this.data;
-      this.element = pulp.util.templating(this.template, this.data);
-      this.$element = $(this.element);
-    },
-    
-    // insert it into the DOM
-    render: function(target){
-      this.target = target || this.target;
-      $(this.target).append(this.$element);
-    },
-
-    // wrap original content in container to hide it
-    hideContent: function(target){
-      this.target = target || this.target;
-      $(this.target).wrapInner(pulp.util.templating("original_tmp",{}));
-    }
-  };
-  
-  // JavaScript Micro-Templating
-  // Courtesy of John Resig - MIT Licensed
-    
-  var templatingCache = {};
-  pulp.util.templating = function(str, data){
-  /*jslint regexp: true, evil: true */ // ... because the Function constructor is evil!
-  /*jshint regexp: false, evil: true */
-    
-    // Figure out if we're getting a template, or if we need to
-    // load the template - and be sure to cache the result.
-    var fn = !/\W/.test(str) ?
-      templatingCache[str] = templatingCache[str] ||
-        pulp.util.templating(document.getElementById(str).innerHTML) :
-
-      // Generate a reusable function that will serve as a template
-      // generator (and which will be cached).
-      new Function("obj",
-        "var p=[],print=function(){p.push.apply(p,arguments);};" +
-        
-        // Introduce the data as local variables using with(){}
-        "with(obj){p.push('" +
-        
-        // Convert the template into pure JavaScript
-        str
-          .replace(/[\r\t\n]/g, " ")
-          .split("<%").join("\t")
-          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-          .replace(/\t=(.*?)%>/g, "',$1,'")
-          .split("\t").join("');")
-          .split("%>").join("p.push('")
-          .split("\r").join("\\'") + "');}return p.join('');");
-    
-    // Provide some basic currying to the user
-    return data ? fn( data ) : fn;
-  };
-  
-  return renderable;
-
-}( pulp, jQuery ));
 /*global iScroll */ // tell jslint/jshint to treat iScroll as a global
 
 /**
@@ -1050,7 +1052,7 @@ pulp.util.renderable = (function( pulp, $ ) {
  *
  */
 
-pulp.namespace("util");
+pulp.util.namespace("util");
 
 pulp.util.Scroll = (function( pulp, $ ) {
   "use strict";

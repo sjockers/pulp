@@ -1,13 +1,13 @@
 /**
- * pulp.util.Module
+ * pulp.core.Module
  *
  * class-like implementation of the module pattern
  * 
  */
 
-pulp.namespace("util.Module");
+pulp.util.namespace("core");
 
-pulp.util.Module = (function( pulp, $ ) {
+pulp.core.Module = (function( pulp, $ ) {
   "use strict";
 
   var closure = function(parent){

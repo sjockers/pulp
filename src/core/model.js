@@ -1,18 +1,18 @@
 /**
- * pulp.model
+ * pulp.core.model
  *
  * data model for the publication. Home of words.
  * 
  */
 
-pulp.namespace("model");
+pulp.util.namespace("core");
 
-pulp.model = (function( pulp, $ ) {
+pulp.core.model = (function( pulp, $ ) {
   "use strict";
     
-  var model = new pulp.util.Module();
-  model.extend(pulp.util.observable); 
-  model.articles = new pulp.util.Collection();
+  var model = new pulp.core.Module();
+  model.extend(pulp.mixin.observable); 
+  model.articles = new pulp.core.Collection();
   
   function fetchTocFromServer( url, successCallback, failureCallback ) {                        
     $.ajax({
@@ -50,11 +50,11 @@ pulp.model = (function( pulp, $ ) {
     function success (data) {
       var articleArray = parseArticleItems(data);
       model.articles.init(articleArray);
-      model.notify(pulp.events.TOC_LOADED);
+      model.notify(pulp.core.events.TOC_LOADED);
     }
     
     function failure (error) {
-      pulp.log("Table of contents could not be loaded!", error);
+      pulp.util.log("Table of contents could not be loaded!", error);
     }
     
     fetchTocFromServer( pathToToc, success, failure );

@@ -10,7 +10,7 @@ CACHE:
 ../src/model.js
 ../src/ui.carousel.js
 ../src/ui.navbar.js
-../src/util.collection.js
+../src/core.Collection.js
 ../src/util.log.js
 ../src/util.module.js
 ../src/util.observable.js

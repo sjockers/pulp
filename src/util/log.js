@@ -1,15 +1,13 @@
 /*jslint devel: true */ // ... allow for the console to be used
 
 /**
- * pulp.log
+ * pulp.util.log
  *
  * simple wrapper around console.log
  * 
  */
 
-pulp.namespace("log");
-
-pulp.log = (function(pulp) {
+pulp.util.log = (function(pulp) {
   "use strict";
   
   var log = function(){

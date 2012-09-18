@@ -1,14 +1,14 @@
 /**
- * pulp.util.Collection
+ * pulp.core.Collection
  *
  * basic implementation for a generic collection of data
- * used for storing articles in pulp.model
+ * used for storing articles in pulp.core.model
  * 
  */
 
-pulp.namespace("util.Collection");
+pulp.util.namespace("core");
 
-pulp.util.Collection = (function( pulp, $ ) {
+pulp.core.Collection = (function( pulp, $ ) {
   "use strict";
   
   var Collection = function() {

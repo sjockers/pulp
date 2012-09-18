@@ -1,5 +1,5 @@
 
-describe("util.collection", function() {
+describe("core.Collection", function() {
 
   var articles;
   var collection;
@@ -13,7 +13,7 @@ describe("util.collection", function() {
       new pulp.core.Article ({ title : "Article 3", url : "/path/to/article3" }),
     ];
     
-    collection = new pulp.util.Collection();
+    collection = new pulp.core.Collection();
   
   });
 

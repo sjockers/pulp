@@ -3,7 +3,7 @@ describe("pulp.app", function() {
   var server;
 
   beforeEach(function() {
-    sinon.stub(pulp.model, "getToc");
+    sinon.stub(pulp.core.model, "getToc");
     sinon.stub(pulp.util, "templating");    
     sinon.stub(pulp.util, "Scroll", function(){
       this.refresh = function(){};
@@ -19,7 +19,7 @@ describe("pulp.app", function() {
     server.restore();
     pulp.util.Scroll.restore();
     pulp.util.templating.restore();
-    pulp.model.getToc.restore();    
+    pulp.core.model.getToc.restore();    
   });
 
   it("should initialize the model with the table of content", function() {
@@ -27,7 +27,7 @@ describe("pulp.app", function() {
     var templateUrl = "../templates/ui.html";
     pulp.app.init( tocUrl, templateUrl );
     server.respond();
-    expect( pulp.model.getToc ).toHaveBeenCalledWith( tocUrl );
+    expect( pulp.core.model.getToc ).toHaveBeenCalledWith( tocUrl );
   });
 
   describe("when the TOC is loaded", function() {
@@ -38,7 +38,7 @@ describe("pulp.app", function() {
       var templateUrl = "../templates/ui.html";
       pulp.app.init( tocUrl, templateUrl );
       server.respond();
-      pulp.model.notify(pulp.events.TOC_LOADED);
+      pulp.core.model.notify(pulp.core.events.TOC_LOADED);
       expect( pulp.app.setup ).toHaveBeenCalled();
     });
 

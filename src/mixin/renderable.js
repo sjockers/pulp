@@ -1,13 +1,13 @@
 /**
- * pulp.util.renderable
+ * pulp.mixin.renderable
  *
  * implementing this mixin enables modules to render content to the DOM
  *
  */
 
-pulp.namespace("util");
+pulp.util.namespace("mixin");
 
-pulp.util.renderable = (function( pulp, $ ) {
+pulp.mixin.renderable = (function( pulp, $ ) {
   "use strict";
   
   var renderable = {

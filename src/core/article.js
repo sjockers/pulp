@@ -5,15 +5,15 @@
  *
  */
 
-pulp.namespace("core");
+pulp.util.namespace("core");
 
 pulp.core.Article = (function( pulp, $ ) {
   "use strict";
 
-  var Article = new pulp.util.Module();
+  var Article = new pulp.core.Module();
 
   // make instances observable:
-  Article.include(pulp.util.observable);
+  Article.include(pulp.mixin.observable);
 
   // public methods:
   Article.include({
@@ -64,14 +64,14 @@ pulp.core.Article = (function( pulp, $ ) {
       function onSuccess(data){
         article.content = Article.extractContent(data);
         article.save();
-        article.notify(pulp.events.CONTENT_LOADED);
+        article.notify(pulp.core.events.CONTENT_LOADED);
         if (typeof successCallback === "function") {
           successCallback();
         }
       }
 
       if (article.content) {
-        article.notify(pulp.events.CONTENT_LOADED);       
+        article.notify(pulp.core.events.CONTENT_LOADED);       
       }
       else {
         $.ajax({

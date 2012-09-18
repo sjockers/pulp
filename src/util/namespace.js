@@ -1,5 +1,5 @@
 /**
- * pulp.namepaces
+ * pulp.util.namespace
  *
  * Generic namespace implementation
  *
@@ -8,7 +8,7 @@
 (function( pulp, $) {
   "use strict";
 
-  pulp.namespace = function(namespaceString) {
+  var namespace = function(namespaceString) {
     var parts = namespaceString.split("."),
       parent = pulp,
       currentPart = "";    
@@ -21,5 +21,8 @@
 
     return parent;
   };
+  
+  namespace("util");
+  pulp.util.namespace = namespace;
 
 }( window.pulp = window.pulp || {}, jQuery ));

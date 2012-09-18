@@ -7,7 +7,7 @@
  *
  */
 
-pulp.namespace("util");
+pulp.util.namespace("util");
 
 pulp.util.Scroll = (function( pulp, $ ) {
   "use strict";

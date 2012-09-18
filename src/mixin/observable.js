@@ -1,13 +1,12 @@
 /**
- * pulp.util.observable
+ * pulp.mixin.observable
  *
  * basic pub/sub implementation
  * 
  */
+ pulp.util.namespace("mixin");
 
-pulp.namespace("util.observable");
-
-pulp.util.observable = (function( pulp, $ ) {
+ pulp.mixin.observable = (function( pulp, $ ) {
 
   function _observers(observable, event) {
     if (!observable.observers) {

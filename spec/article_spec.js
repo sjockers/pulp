@@ -56,7 +56,7 @@ describe("pulp.core.Article", function() {
   
     it("should notify observers once the content was downloaded", function() {  
       
-      article.observe( pulp.events.CONTENT_LOADED, successCallback );
+      article.observe( pulp.core.events.CONTENT_LOADED, successCallback );
       article.fetch();      
       server.respond();
 

@@ -3,7 +3,7 @@ describe("pulp.util.observer", function() {
     var observable;
 
     beforeEach(function () {
-      observable = Object.create(pulp.util.observable);
+      observable = Object.create(pulp.mixin.observable);
     });   
 
     describe("adding observers", function() {
@@ -151,7 +151,7 @@ describe("pulp.util.observer", function() {
     
       it("should throw TypeError when uncallable observer is added", function() {
         var invalidTestFn = function(test) {
-          Object.create(pulp.util.observable).observe("event", {});
+          Object.create(pulp.mixin.observable).observe("event", {});
         };
         
         expect(invalidTestFn).toThrow(new TypeError("not a function"));
@@ -159,7 +159,7 @@ describe("pulp.util.observer", function() {
           
       it("should throw TypeError when adding an invalid event identifier", function() {
         var invalidTestFn = function(test) {
-          Object.create(pulp.util.observable).observe(pulp.events.NOT_A_VALID_EVENT, function(){});
+          Object.create(pulp.mixin.observable).observe(pulp.core.events.NOT_A_VALID_EVENT, function(){});
         };
         
         expect(invalidTestFn).toThrow(new TypeError("not a valid event identifier"));
@@ -167,7 +167,7 @@ describe("pulp.util.observer", function() {
       
       it("should throw TypeError when notifying an invalid event identifier", function() {
         var invalidTestFn = function(test) {
-          Object.create(pulp.util.observable).notify(pulp.events.NOT_A_VALID_EVENT);
+          Object.create(pulp.mixin.observable).notify(pulp.core.events.NOT_A_VALID_EVENT);
         };
 
         expect(invalidTestFn).toThrow(new TypeError("not a valid event identifier"));

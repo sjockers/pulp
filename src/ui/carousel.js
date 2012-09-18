@@ -6,15 +6,15 @@
  * 
  */
 
-pulp.namespace("ui.carousel");
+pulp.util.namespace("ui.carousel");
 
 pulp.ui.carousel = (function( pulp, $ ) {
 
-  var carousel = new pulp.util.Module();  
-  carousel.extend( pulp.util.renderable );
-  carousel.extend( pulp.util.observable );
+  var carousel = new pulp.core.Module();  
+  carousel.extend( pulp.mixin.renderable );
+  carousel.extend( pulp.mixin.observable );
   
-  var articles = pulp.model.articles;
+  var articles = pulp.core.model.articles;
   
   var leftStepSkipped = false;
   var rightStepSkipped = false;

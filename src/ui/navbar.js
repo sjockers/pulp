@@ -5,13 +5,13 @@
  * 
  */
 
-pulp.namespace("ui.navbar");
+pulp.util.namespace("ui.navbar");
 
 pulp.ui.navbar = (function( pulp, $ ) {
   "use strict";
 
-  var navbar = new pulp.util.Module(); 
-  navbar.extend(pulp.util.renderable);
+  var navbar = new pulp.core.Module(); 
+  navbar.extend(pulp.mixin.renderable);
 
   function nextClicked(event){
     pulp.ui.carousel.forward();
